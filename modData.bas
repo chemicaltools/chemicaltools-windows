@@ -26,10 +26,10 @@ End Function
 
 Public Function dataBasepath() As String
     Dim spath As String
-    If Right$(App.path, 1) = "\" Then
+    If Right$(App.path, 1) = "\mdb\" Then
         spath = App.path
     Else
-        spath = App.path + "\"
+        spath = App.path + "\mdb\"
     End If
     dataBasepath = spath + "Data.mdb"
 End Function

@@ -40,7 +40,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Command1_Click()
-Label1 = calElementChoose(Text1)
+Label1 = Str(calAtom(Text1).AtomNumber(0)) & Str(calAtom(Text1).AtomNumber(1)) & Str(calAtom(Text1).AtomNumber(2)) & calMassStr(Text1)
 End Sub
 
 Private Sub Form_Load()
