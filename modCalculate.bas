@@ -1,6 +1,9 @@
 Attribute VB_Name = "modCalculate"
 Public Type MaterialAtom
     AtomNumber() As Integer
+    AtomMass() As Double
+    AtomMassPer() As Double
+    TotalMass As Double
 End Type
 
 Function calElementChoose(x As String) As Integer
@@ -33,9 +36,17 @@ Function calAsc(x As String) As Integer
             calAsc = 2
         Case Asc("0") To Asc("9")
             calAsc = 3
-        Case 40
+        Case 40         '英文括号
             calAsc = 4
         Case 41
+            calAsc = 5
+        Case 91         '英文方括号
+            calAsc = 4
+        Case 93
+            calAsc = 5
+        Case -23640     '中文括号
+            calAsc = 4
+        Case -23639
             calAsc = 5
         Case Else
             calAsc = 0
@@ -65,7 +76,7 @@ Function calAtom(x As String) As MaterialAtom
         s = s + MulIf(i)
     Wend
     If s <> 0 Then calAtom.AtomNumber(0) = 1
-    i = 0
+    i = 1
     n = 0
     While i < l And calAtom.AtomNumber(0) = 0
         If MulIf(i) = 1 Then
@@ -97,9 +108,10 @@ Function calAtom(x As String) As MaterialAtom
     While i < n And calAtom.AtomNumber(0) = 0
         i = i + 1
         For i2 = MulLeft(i) To MulRight(i)
-            MulNumber(i2) = MulNumber(i2) * MulNum(n)
+            MulNumber(i2) = MulNumber(i2) * MulNum(i)
         Next i2
     Wend
+    i = 0
     While i < l And calAtom.AtomNumber(0) = 0 And calAtom.AtomNumber(0) = 0
         i = i + 1
         y1 = Mid(x, i, 1)
@@ -140,7 +152,7 @@ Function calAtom(x As String) As MaterialAtom
                         i = i + 1
                     End If
                 End If
-            ElseIf calAsc(y2) = 1 Then
+            Else
                 n = calElementChoose(y1)
                 If n = 0 Then
                     calAtom.AtomNumber(0) = 1
@@ -149,7 +161,7 @@ Function calAtom(x As String) As MaterialAtom
                 End If
             End If
         ElseIf calAsc(y1) = 4 Then
-            i = i + 1
+            
         ElseIf calAsc(y1) = 5 Then
             If i >= l Then y2 = "a" Else y2 = Mid(x, i + 1, 1)
             If calAsc(y2) = 3 Then
@@ -165,23 +177,61 @@ Function calAtom(x As String) As MaterialAtom
     Wend
 End Function
 
-Function calMass(x As MaterialAtom) As Double
+Function calMass(x As MaterialAtom) As MaterialAtom
+    ReDim calMass.AtomMass(118) As Double
+    ReDim calMass.AtomNumber(118) As Integer
+    ReDim calMass.AtomMassPer(118) As Double
     Dim i As Integer, m As Double
-    m = 0
     If x.AtomNumber(0) = 1 Then
         m = -1
     Else
+        m = 0
         For i = 1 To 118
             m = m + x.AtomNumber(i) * ElementMass(i)
         Next i
+        If m > 0 Then
+            For i = 1 To 118
+                calMass.AtomNumber(i) = x.AtomNumber(i)
+                calMass.AtomMass(i) = x.AtomNumber(i) * ElementMass(i)
+                calMass.AtomMassPer(i) = calMass.AtomMass(i) / m
+            Next i
+        End If
     End If
-    calMass = m
+    calMass.TotalMass = m
 End Function
 
-Function calMassStr(x As String) As Double
+Function calTotalMassStr(x As String) As Double
+    calTotalMassStr = calMass(calAtom(x)).TotalMass
+End Function
+
+Function calMassStr(x As String) As MaterialAtom
     calMassStr = calMass(calAtom(x))
 End Function
 
-Function calGas()
-'待完成
+Function calMassPer(x As MaterialAtom) As String
+    Dim i As Integer
+    If x.TotalMass = -1 Then
+        calMassPer = "您的输入有误，请重新输入！"
+    Else
+        calMassPer = "分子量为" & x.TotalMass & "，其中：" & Chr(13) & Chr(10)
+        For i = 1 To 118
+            If x.AtomNumber(i) > 0 Then
+                calMassPer = calMassPer & ElementName(i) & "，符号：" & ElementAbbr(i) & "，" & x.AtomNumber(i) & "个，原子量为" & Format(ElementMass(i), "0.00") & "，质量分数为" & Format(x.AtomMassPer(i), "0.00%") & "；" & Chr(13) & Chr(10)
+            End If
+        Next i
+    End If
 End Function
+Function calMassPerStr(x As String) As String
+    calMassPerStr = calMassPer(calMass(calAtom(x)))
+End Function
+
+
+'Function calGas()
+'待完成
+'End Function
+
+'Function calEquation(x As String)
+'完成中
+   ' Dim l As Integer, i As Integer
+    
+'End Function
