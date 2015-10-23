@@ -1,37 +1,37 @@
 VERSION 5.00
 Begin VB.Form frmMain 
-   Caption         =   "Form1"
-   ClientHeight    =   4965
+   Caption         =   "化学小工具 Designed by 团队一号"
+   ClientHeight    =   4395
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   8445
+   ClientWidth     =   6360
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4965
-   ScaleWidth      =   8445
-   StartUpPosition =   3  '窗口缺省
-   Begin VB.TextBox Text1 
-      Height          =   495
-      Left            =   1440
-      TabIndex        =   1
-      Text            =   "Text1"
-      Top             =   480
-      Width           =   1695
-   End
-   Begin VB.CommandButton Command1 
-      Caption         =   "Command1"
+   ScaleHeight     =   4395
+   ScaleWidth      =   6360
+   StartUpPosition =   2  '屏幕中心
+   Begin VB.CommandButton cmdfrmExam 
+      Caption         =   "元素记忆测试"
       Height          =   615
-      Left            =   6360
-      TabIndex        =   0
-      Top             =   3240
+      Left            =   600
+      TabIndex        =   2
+      Top             =   2160
       Width           =   1095
    End
-   Begin VB.Label Label1 
-      Caption         =   "Label1"
-      Height          =   1695
-      Left            =   360
-      TabIndex        =   2
-      Top             =   1200
-      Width           =   7095
+   Begin VB.CommandButton cmdfrmElement 
+      Caption         =   "元素查询器"
+      Height          =   615
+      Left            =   600
+      TabIndex        =   1
+      Top             =   480
+      Width           =   1095
+   End
+   Begin VB.CommandButton cmdfrmMass 
+      Caption         =   "质量计算器"
+      Height          =   615
+      Left            =   600
+      TabIndex        =   0
+      Top             =   1320
+      Width           =   1095
    End
 End
 Attribute VB_Name = "frmMain"
@@ -39,11 +39,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub Command1_Click()
+
+Private Sub cmdfrmElement_Click()
+    Load frmElement
+    frmElement.Show
+End Sub
+
+Private Sub cmdfrmExam_Click()
+    Load frmExam
+    frmExam.Show
+End Sub
+
+Private Sub cmdfrmmass_Click()
     Load frmMass
     frmMass.Show
 End Sub
 
-Private Sub Form_Load()
-dataElement
-End Sub

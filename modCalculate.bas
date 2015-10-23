@@ -58,7 +58,7 @@ Function calAtom(x As String) As MaterialAtom
     Dim AtomNumber(118) As Integer
     Dim i As Integer, l As Integer, y1 As String, y2 As String, y3 As String, y4 As String, t As String, n As Integer, s As Integer, i2 As Integer
     l = Len(x)
-    calAtom.AtomNumber(0) = 0
+    If l = 0 Then calAtom.AtomNumber(0) = 1 Else calAtom.AtomNumber(0) = 0
     Dim MulNumber(50) As Integer, MulIf(50) As Integer, MulLeft(50) As Integer, MulRight(50) As Integer, MulNum(50) As Integer
     i = 0
     s = 0
@@ -211,7 +211,7 @@ End Function
 Function calMassPer(x As MaterialAtom) As String
     Dim i As Integer
     If x.TotalMass = -1 Then
-        calMassPer = "您的输入有误，请重新输入！"
+        calMassPer = "您的输入有误，请重新输入！" & Chr(13) & Chr(10) & "请检查：" & Chr(13) & Chr(10) & "1.元素符号是否正确（区分大小写）；" & Chr(13) & Chr(10) & "2.括号是否缺少。"
     Else
         calMassPer = "分子量为" & x.TotalMass & "，其中：" & Chr(13) & Chr(10)
         For i = 1 To 118
@@ -221,6 +221,15 @@ Function calMassPer(x As MaterialAtom) As String
         Next i
     End If
 End Function
+
+Function calElementStr(n As Integer) As String
+    If n > 0 Then
+        calElementStr = ElementName(n) & Chr(13) & Chr(10) & "原子序数：" & n & Chr(13) & Chr(10) & "元素符号：" & ElementAbbr(n) & Chr(13) & Chr(10) & "相对原子质量：" & ElementMass(n)
+    Else
+        calElementStr = "输入错误！" & Chr(13) & Chr(10) & "请检查您的输入是否有误！"
+    End If
+End Function
+
 Function calMassPerStr(x As String) As String
     calMassPerStr = calMassPer(calMass(calAtom(x)))
 End Function
