@@ -216,7 +216,7 @@ Function calMassPer(x As MaterialAtom) As String
         calMassPer = "分子量为" & x.TotalMass & "，其中：" & Chr(13) & Chr(10)
         For i = 1 To 118
             If x.AtomNumber(i) > 0 Then
-                calMassPer = calMassPer & ElementName(i) & "，符号：" & ElementAbbr(i) & "，" & x.AtomNumber(i) & "个，原子量为" & Format(ElementMass(i), "0.00") & "，质量分数为" & Format(x.AtomMassPer(i), "0.00%") & "；" & Chr(13) & Chr(10)
+                calMassPer = calMassPer & ElementName(i) & "（符号：" & ElementAbbr(i) & "），" & x.AtomNumber(i) & "个原子，原子量为" & Format(ElementMass(i), "0.00") & "，质量分数为" & Format(x.AtomMassPer(i), "0.00%") & "；" & Chr(13) & Chr(10)
             End If
         Next i
     End If

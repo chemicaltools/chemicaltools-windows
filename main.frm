@@ -40,7 +40,8 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Command1_Click()
-Label1 = calMassPerStr(Text1)
+    Load frmMass
+    frmMass.Show
 End Sub
 
 Private Sub Form_Load()
