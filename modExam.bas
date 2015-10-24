@@ -1,4 +1,10 @@
 Attribute VB_Name = "modExam"
+Public ExamScore As Double
+Public ExamNo As Integer
+Public ExamElementNumber As Integer
+Public ExamIf As Boolean
+Public ExamTime As Integer
+
 Function ExamAbbr(n As Integer, str As String) As Boolean
     '¶Ô·µ»Øtrue£¬´í·µ»Øfalse
     If UCase(str) = UCase(ElementAbbr(n)) Then

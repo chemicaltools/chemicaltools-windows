@@ -4,6 +4,7 @@ Public Type MaterialAtom
     AtomMass() As Double
     AtomMassPer() As Double
     TotalMass As Double
+    Material As String
 End Type
 
 Function calElementChoose(x As String) As Integer
@@ -57,6 +58,7 @@ Function calAtom(x As String) As MaterialAtom
     ReDim calAtom.AtomNumber(118) As Integer
     Dim AtomNumber(118) As Integer
     Dim i As Integer, l As Integer, y1 As String, y2 As String, y3 As String, y4 As String, t As String, n As Integer, s As Integer, i2 As Integer
+    calAtom.Material = x
     l = Len(x)
     If l = 0 Then calAtom.AtomNumber(0) = 1 Else calAtom.AtomNumber(0) = 0
     Dim MulNumber(50) As Integer, MulIf(50) As Integer, MulLeft(50) As Integer, MulRight(50) As Integer, MulNum(50) As Integer
@@ -181,6 +183,7 @@ Function calMass(x As MaterialAtom) As MaterialAtom
     ReDim calMass.AtomMass(118) As Double
     ReDim calMass.AtomNumber(118) As Integer
     ReDim calMass.AtomMassPer(118) As Double
+    calMass.Material = x.Material
     Dim i As Integer, m As Double
     If x.AtomNumber(0) = 1 Then
         m = -1
@@ -213,7 +216,7 @@ Function calMassPer(x As MaterialAtom) As String
     If x.TotalMass = -1 Then
         calMassPer = "您的输入有误，请重新输入！" & Chr(13) & Chr(10) & "请检查：" & Chr(13) & Chr(10) & "1.元素符号是否正确（区分大小写）；" & Chr(13) & Chr(10) & "2.括号是否缺少。"
     Else
-        calMassPer = "分子量为" & x.TotalMass & "，其中：" & Chr(13) & Chr(10)
+        calMassPer = x.Material & "的" & "分子量为" & x.TotalMass & "，其中：" & Chr(13) & Chr(10)
         For i = 1 To 118
             If x.AtomNumber(i) > 0 Then
                 calMassPer = calMassPer & ElementName(i) & "（符号：" & ElementAbbr(i) & "），" & x.AtomNumber(i) & "个原子，原子量为" & Format(ElementMass(i), "0.00") & "，质量分数为" & Format(x.AtomMassPer(i), "0.00%") & "；" & Chr(13) & Chr(10)

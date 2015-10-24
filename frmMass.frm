@@ -77,11 +77,14 @@ End Sub
 
 Private Sub cmdMass_Click()
     texMassOut = calMassPerStr(texMassIn.Text)
+    HisMass = texMassIn.Text
+    Call dataSettingWrite("History", "Mass", HisMass)
 End Sub
 
 Private Sub Form_Load()
     InTip = "请在此处输入物质化学式，例如：K4[Fe(CN)6]"
     texMassIn.Text = InTip
+    If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
 End Sub
 
 Private Sub texMassIn_Click()

@@ -165,13 +165,24 @@ Private Sub cmdElement_Click()
         lblElementName = ElementName(n)
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
+        HisElement = texElementIn.Text
+        Call dataSettingWrite("History", "Element", HisElement)
     End If
     texElementOut.Text = calElementStr(n)
 End Sub
 
 Private Sub Form_Load()
+    Dim n As Integer
     InTip = "请在此处输入元素序号/名称/符号"
     texElementIn.Text = InTip
+    If HisElement <> "" Then
+        n = calElementChoose(HisElement)
+        lblElementNumber = n
+        lblElementName = ElementName(n)
+        lblElementAbbr = ElementAbbr(n)
+        lblElementMass = ElementMass(n)
+        texElementOut.Text = calElementStr(n)
+    End If
 End Sub
 
 Private Sub texElementIn_Click()
