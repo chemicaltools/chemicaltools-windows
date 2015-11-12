@@ -173,6 +173,7 @@ End Function
 Function ExamEnd()
     ExamIf = False
     ExamNo = 0
+    tmrExam.Enabled = False
     MsgBox ("答题结束！你的分数为：" & Int(ExamScore))
     If ExamScore > ExamScoreMax Then
         ExamScoreName = InputBox("请输入你的姓名", "高分榜", ExamScoreName)
@@ -196,7 +197,7 @@ Function ExamScoreGet()
 End Function
 
 Private Sub cmdCopyScore_Click()
-    Call UICopy("Hello, 我于" & UITime(ExamScoreTime) & "进行了元素记忆测试，得到了" & ExamScoreMax & "分！你也来使用Chemical Tools试试吧！")
+    Call UICopy("Hello, 我于" & UITime(ExamScoreTime) & "进行了元素记忆测试，得到了" & ExamScoreMax & "分！你也来使用化学小工具试试吧！")
     MsgBox "您的最高战绩已经复制到剪切板！"
 End Sub
 
@@ -204,8 +205,10 @@ Private Sub cmdExam_Click()
     If ExamIf Then ExamNo = ExamNo + 1
     If ExamAbbr(ExamElementNumber, texExam.Text) Then
         lblCorrect.Caption = "恭喜你，答对了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
-        ExamScore = ExamScore + 100 / ExamNoMax
-        lblScore.Caption = "当前分数为：" & Chr(13) & Chr(10) & Int(ExamScore)
+        If ExamIf Then
+            ExamScore = ExamScore + 100 / ExamNoMax
+            lblScore.Caption = "当前分数为：" & Chr(13) & Chr(10) & Int(ExamScore)
+        End If
     Else
         lblCorrect.Caption = "很遗憾，答错了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
     End If
@@ -258,6 +261,5 @@ Private Sub tmrExam_Timer()
     lblTime = "还剩" & ExamTime & "秒"
     If ExamTime <= 0 Then
         ExamEnd
-        tmrExam.Enabled = False
     End If
 End Sub

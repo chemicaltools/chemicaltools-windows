@@ -9,6 +9,6 @@ Public Function UICopy(x As String)
 End Function
 
 Public Function UITime(x As String) As String
-    UITime = Year(x) & "年" & Month(x) & "月" & Day(x) & "日" & Hour(x) & ":" & Minute(x) & ":" & Second(x)
+    UITime = Format(x, "yyyy年mm月dd日hh:mm:ss")
 End Function
 

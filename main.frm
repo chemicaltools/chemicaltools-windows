@@ -23,7 +23,7 @@ Begin VB.Form frmMain
       Left            =   2280
       TabIndex        =   6
       Top             =   3000
-      Width           =   1215
+      Width           =   1335
    End
    Begin VB.CommandButton cmdfrmpH 
       Caption         =   "pH计算器"
@@ -31,7 +31,7 @@ Begin VB.Form frmMain
       Left            =   2280
       TabIndex        =   5
       Top             =   1320
-      Width           =   1215
+      Width           =   1335
    End
    Begin VB.CommandButton cmdfrmGas 
       Caption         =   "气体状态计算器"
@@ -39,7 +39,7 @@ Begin VB.Form frmMain
       Left            =   2280
       TabIndex        =   4
       Top             =   480
-      Width           =   1215
+      Width           =   1335
    End
    Begin VB.CommandButton cmdfrmEquation 
       Caption         =   "配平方程式"
