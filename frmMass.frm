@@ -1,10 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmMass 
+   BackColor       =   &H00FFFFFF&
    Caption         =   "质量计算器 Designed by 团队一号"
    ClientHeight    =   4695
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   7950
+   Icon            =   "frmMass.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   4695
    ScaleWidth      =   7950
@@ -33,7 +35,7 @@ Begin VB.Form frmMass
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   2
-      Text            =   "frmMass.frx":0000
+      Text            =   "frmMass.frx":1B692
       Top             =   840
       Width           =   7695
    End

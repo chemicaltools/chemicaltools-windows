@@ -1,10 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmElement 
+   BackColor       =   &H00FFFFFF&
    Caption         =   "元素查询器 Designed by 团队一号"
    ClientHeight    =   3330
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   5760
+   Icon            =   "frmElement.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   3330
    ScaleWidth      =   5760
@@ -32,7 +34,7 @@ Begin VB.Form frmElement
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       TabIndex        =   6
-      Text            =   "frmElement.frx":0000
+      Text            =   "frmElement.frx":1B692
       Top             =   720
       Width           =   3015
    End

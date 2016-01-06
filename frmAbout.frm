@@ -1,5 +1,6 @@
 VERSION 5.00
 Begin VB.Form frmAbout 
+   BackColor       =   &H00FFFFFF&
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "关于我的应用程序"
    ClientHeight    =   3555
@@ -7,6 +8,7 @@ Begin VB.Form frmAbout
    ClientTop       =   1935
    ClientWidth     =   5730
    ClipControls    =   0   'False
+   Icon            =   "frmAbout.frx":0000
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -19,7 +21,7 @@ Begin VB.Form frmAbout
       ClipControls    =   0   'False
       Height          =   540
       Left            =   240
-      Picture         =   "frmAbout.frx":0000
+      Picture         =   "frmAbout.frx":1B692
       ScaleHeight     =   337.12
       ScaleMode       =   0  'User
       ScaleWidth      =   337.12

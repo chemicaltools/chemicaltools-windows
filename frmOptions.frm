@@ -1,6 +1,7 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmOptions 
+   BackColor       =   &H00FFFFFF&
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "选项"
    ClientHeight    =   4920
@@ -77,6 +78,7 @@ Begin VB.Form frmOptions
       End
    End
    Begin VB.PictureBox picOptions 
+      BackColor       =   &H00FFFFFF&
       BorderStyle     =   0  'None
       Height          =   3780
       Index           =   0
@@ -88,6 +90,7 @@ Begin VB.Form frmOptions
       Top             =   480
       Width           =   5685
       Begin VB.Frame fraExamElement 
+         BackColor       =   &H00FFFFFF&
          Caption         =   "答题范围设置"
          Height          =   1455
          Left            =   120
@@ -129,6 +132,7 @@ Begin VB.Form frmOptions
             Width           =   1215
          End
          Begin VB.Label lblExamElement 
+            BackStyle       =   0  'Transparent
             Caption         =   "元素范围                     号元素                                                   答题数量                     题"
             BeginProperty Font 
                Name            =   "微软雅黑"
@@ -147,6 +151,7 @@ Begin VB.Form frmOptions
          End
       End
       Begin VB.Frame fraExamTime 
+         BackColor       =   &H00FFFFFF&
          Caption         =   "时间设置"
          Height          =   1545
          Left            =   120

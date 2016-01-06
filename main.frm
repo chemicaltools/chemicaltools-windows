@@ -1,77 +1,56 @@
 VERSION 5.00
 Begin VB.Form frmMain 
+   BackColor       =   &H00FFFFFF&
    Caption         =   "化学小工具 Designed by 团队一号"
-   ClientHeight    =   3915
+   ClientHeight    =   2295
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   4875
+   ClientWidth     =   4815
+   Icon            =   "main.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3915
-   ScaleWidth      =   4875
+   MaxButton       =   0   'False
+   ScaleHeight     =   2295
+   ScaleWidth      =   4815
    StartUpPosition =   2  '屏幕中心
-   Begin VB.CommandButton cmdfrmPhy 
-      Caption         =   "动力学、热力学计算器"
-      Height          =   615
-      Left            =   2280
-      TabIndex        =   7
-      Top             =   2160
-      Width           =   1335
-   End
    Begin VB.CommandButton cmdfrmAbout 
       Caption         =   "关于"
-      Height          =   495
-      Left            =   2280
-      TabIndex        =   6
-      Top             =   3000
-      Width           =   1335
-   End
-   Begin VB.CommandButton cmdfrmpH 
-      Caption         =   "pH计算器"
       Height          =   615
-      Left            =   2280
-      TabIndex        =   5
-      Top             =   1320
-      Width           =   1335
-   End
-   Begin VB.CommandButton cmdfrmGas 
-      Caption         =   "气体状态计算器"
-      Height          =   615
-      Left            =   2280
-      TabIndex        =   4
-      Top             =   480
-      Width           =   1335
-   End
-   Begin VB.CommandButton cmdfrmEquation 
-      Caption         =   "配平方程式"
-      Height          =   495
-      Left            =   600
+      Left            =   3120
       TabIndex        =   3
-      Top             =   3000
-      Width           =   1095
+      Top             =   1320
+      Width           =   1575
    End
    Begin VB.CommandButton cmdfrmExam 
-      Caption         =   "元素记忆测试"
+      Caption         =   "元素记忆"
       Height          =   615
-      Left            =   600
+      Left            =   1440
       TabIndex        =   2
-      Top             =   2160
-      Width           =   1095
+      Top             =   1320
+      Width           =   1335
    End
    Begin VB.CommandButton cmdfrmElement 
-      Caption         =   "元素查询器"
+      Caption         =   "元素查询"
       Height          =   615
-      Left            =   600
+      Left            =   1440
       TabIndex        =   1
-      Top             =   480
-      Width           =   1095
+      Top             =   360
+      Width           =   1335
    End
    Begin VB.CommandButton cmdfrmMass 
-      Caption         =   "质量计算器"
+      Caption         =   "质量计算"
       Height          =   615
-      Left            =   600
+      Left            =   3120
       TabIndex        =   0
-      Top             =   1320
-      Width           =   1095
+      Top             =   360
+      Width           =   1575
+   End
+   Begin VB.Image Image1 
+      Height          =   1560
+      Left            =   120
+      Picture         =   "main.frx":1B692
+      Stretch         =   -1  'True
+      Top             =   360
+      Width           =   1200
    End
 End
 Attribute VB_Name = "frmMain"

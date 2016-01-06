@@ -1,10 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmExam 
+   BackColor       =   &H00FFFFFF&
    Caption         =   "元素记忆测试 Designed by 团队一号"
    ClientHeight    =   3585
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   5790
+   Icon            =   "frmExam.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   3585
    ScaleWidth      =   5790
@@ -57,6 +59,7 @@ Begin VB.Form frmExam
       Width           =   1095
    End
    Begin VB.Label lblTime 
+      BackStyle       =   0  'Transparent
       Caption         =   "还剩10秒"
       BeginProperty Font 
          Name            =   "微软雅黑"
@@ -74,6 +77,7 @@ Begin VB.Form frmExam
       Width           =   1695
    End
    Begin VB.Label lblScoreMax 
+      BackStyle       =   0  'Transparent
       Caption         =   "最高分为：0 由ZJZ于2015年10月24日17:22创造"
       BeginProperty Font 
          Name            =   "微软雅黑"
@@ -91,6 +95,7 @@ Begin VB.Form frmExam
       Width           =   5295
    End
    Begin VB.Label lblScore 
+      BackStyle       =   0  'Transparent
       Caption         =   "练习模式中"
       BeginProperty Font 
          Name            =   "微软雅黑"
@@ -108,6 +113,7 @@ Begin VB.Form frmExam
       Width           =   1815
    End
    Begin VB.Label lblCorrect 
+      BackStyle       =   0  'Transparent
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   10.5
@@ -125,6 +131,7 @@ Begin VB.Form frmExam
    End
    Begin VB.Label lblExamElementName 
       Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "氢"
       BeginProperty Font 
          Name            =   "微软雅黑"
