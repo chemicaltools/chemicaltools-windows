@@ -1,22 +1,24 @@
 VERSION 5.00
 Begin VB.Form frmElement 
-   BackColor       =   &H00FFFFFF&
+   BackColor       =   &H00C0FFFF&
+   BorderStyle     =   0  'None
    Caption         =   "元素查询器 Designed by 团队一号"
-   ClientHeight    =   3330
-   ClientLeft      =   120
-   ClientTop       =   465
+   ClientHeight    =   5610
+   ClientLeft      =   0
+   ClientTop       =   0
    ClientWidth     =   5760
    Icon            =   "frmElement.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3330
+   ScaleHeight     =   5610
    ScaleWidth      =   5760
-   StartUpPosition =   2  '屏幕中心
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdCopy 
       Caption         =   "复制到剪切板"
       Height          =   495
-      Left            =   2520
+      Left            =   2400
       TabIndex        =   7
-      Top             =   2760
+      Top             =   4920
       Width           =   3015
    End
    Begin VB.TextBox texElementOut 
@@ -30,21 +32,21 @@ Begin VB.Form frmElement
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1935
-      Left            =   2520
+      Left            =   2400
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       TabIndex        =   6
       Text            =   "frmElement.frx":1B692
-      Top             =   720
+      Top             =   2880
       Width           =   3015
    End
    Begin VB.CommandButton cmdElement 
       Caption         =   "查询！"
       Default         =   -1  'True
       Height          =   495
-      Left            =   4680
+      Left            =   4560
       TabIndex        =   1
-      Top             =   120
+      Top             =   2280
       Width           =   855
    End
    Begin VB.TextBox texElementIn 
@@ -59,10 +61,27 @@ Begin VB.Form frmElement
       EndProperty
       ForeColor       =   &H00C0C0C0&
       Height          =   495
-      Left            =   120
+      Left            =   0
       TabIndex        =   0
-      Top             =   120
+      Top             =   2280
       Width           =   4455
+   End
+   Begin VB.Image imgClose 
+      Height          =   450
+      Left            =   5280
+      Picture         =   "frmElement.frx":1B6BF
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   450
+   End
+   Begin VB.Image imgTitle 
+      Appearance      =   0  'Flat
+      Height          =   2145
+      Left            =   -600
+      Picture         =   "frmElement.frx":1CBB3
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   7335
    End
    Begin VB.Label lblElementMass 
       BackStyle       =   0  'Transparent
@@ -77,9 +96,9 @@ Begin VB.Form frmElement
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   600
+      Left            =   480
       TabIndex        =   5
-      Top             =   2640
+      Top             =   4800
       Width           =   1215
    End
    Begin VB.Label lblElementAbbr 
@@ -96,9 +115,9 @@ Begin VB.Form frmElement
          Strikethrough   =   0   'False
       EndProperty
       Height          =   975
-      Left            =   240
+      Left            =   120
       TabIndex        =   4
-      Top             =   1440
+      Top             =   3600
       Width           =   1215
    End
    Begin VB.Label lblElementName 
@@ -114,10 +133,10 @@ Begin VB.Form frmElement
          Strikethrough   =   0   'False
       EndProperty
       Height          =   975
-      Left            =   1440
+      Left            =   1200
       TabIndex        =   3
-      Top             =   1680
-      Width           =   855
+      Top             =   3840
+      Width           =   975
    End
    Begin VB.Label lblElementNumber 
       BackStyle       =   0  'Transparent
@@ -132,10 +151,10 @@ Begin VB.Form frmElement
          Strikethrough   =   0   'False
       EndProperty
       Height          =   615
-      Left            =   240
+      Left            =   120
       TabIndex        =   2
-      Top             =   840
-      Width           =   615
+      Top             =   3000
+      Width           =   975
    End
    Begin VB.Shape Shape1 
       BackColor       =   &H00FFFF00&
@@ -143,8 +162,8 @@ Begin VB.Form frmElement
       BorderColor     =   &H00FF0000&
       FillColor       =   &H00FFFF80&
       Height          =   2535
-      Left            =   120
-      Top             =   720
+      Left            =   0
+      Top             =   2880
       Width           =   2295
    End
 End
@@ -168,7 +187,7 @@ Private Sub cmdElement_Click()
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
         HisElement = texElementIn.Text
-        Call dataSettingWrite("History", "Element", HisElement)
+        Call dataBaseWrite(DataUsername, "Element", HisElement)
     End If
     texElementOut.Text = calElementStr(n)
 End Sub
@@ -185,6 +204,20 @@ Private Sub Form_Load()
         lblElementMass = ElementMass(n)
         texElementOut.Text = calElementStr(n)
     End If
+End Sub
+
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+End Sub
+
+Private Sub imgClose_Click()
+    Unload Me
+End Sub
+
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
 Private Sub texElementIn_Click()

@@ -1,22 +1,21 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmOptions 
-   BackColor       =   &H00FFFFFF&
-   BorderStyle     =   3  'Fixed Dialog
+   BackColor       =   &H00C0FFFF&
+   BorderStyle     =   0  'None
    Caption         =   "选项"
-   ClientHeight    =   4920
-   ClientLeft      =   2565
-   ClientTop       =   1500
-   ClientWidth     =   6150
+   ClientHeight    =   7515
+   ClientLeft      =   2520
+   ClientTop       =   1110
+   ClientWidth     =   6090
    Icon            =   "frmOptions.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4920
-   ScaleWidth      =   6150
+   ScaleHeight     =   7515
+   ScaleWidth      =   6090
    ShowInTaskbar   =   0   'False
-   StartUpPosition =   2  '屏幕中心
+   StartUpPosition =   1  '所有者中心
    Begin VB.PictureBox picOptions 
       BorderStyle     =   0  'None
       Height          =   3780
@@ -78,19 +77,19 @@ Begin VB.Form frmOptions
       End
    End
    Begin VB.PictureBox picOptions 
-      BackColor       =   &H00FFFFFF&
+      BackColor       =   &H00C0FFFF&
       BorderStyle     =   0  'None
       Height          =   3780
       Index           =   0
       Left            =   240
       ScaleHeight     =   3780
-      ScaleWidth      =   5685
+      ScaleWidth      =   5445
       TabIndex        =   4
       TabStop         =   0   'False
-      Top             =   480
-      Width           =   5685
+      Top             =   2640
+      Width           =   5445
       Begin VB.Frame fraExamElement 
-         BackColor       =   &H00FFFFFF&
+         BackColor       =   &H00C0FFFF&
          Caption         =   "答题范围设置"
          Height          =   1455
          Left            =   120
@@ -151,7 +150,7 @@ Begin VB.Form frmOptions
          End
       End
       Begin VB.Frame fraExamTime 
-         BackColor       =   &H00FFFFFF&
+         BackColor       =   &H00C0FFFF&
          Caption         =   "时间设置"
          Height          =   1545
          Left            =   120
@@ -176,6 +175,7 @@ Begin VB.Form frmOptions
             Width           =   1335
          End
          Begin VB.CheckBox chkTimeIf 
+            BackColor       =   &H00C0FFFF&
             Caption         =   "限时测试"
             BeginProperty Font 
                Name            =   "微软雅黑"
@@ -194,6 +194,7 @@ Begin VB.Form frmOptions
             Width           =   1455
          End
          Begin VB.Label lblTimeIf 
+            BackColor       =   &H00C0FFFF&
             Caption         =   "限时                           秒"
             BeginProperty Font 
                Name            =   "微软雅黑"
@@ -218,7 +219,7 @@ Begin VB.Form frmOptions
       Height          =   375
       Left            =   4920
       TabIndex        =   3
-      Top             =   4440
+      Top             =   6840
       Width           =   1095
    End
    Begin VB.CommandButton cmdCancel 
@@ -227,37 +228,21 @@ Begin VB.Form frmOptions
       Height          =   375
       Left            =   3720
       TabIndex        =   2
-      Top             =   4455
+      Top             =   6840
       Width           =   1095
    End
    Begin VB.CommandButton cmdOK 
       Caption         =   "确定"
       Default         =   -1  'True
       Height          =   375
-      Left            =   2490
+      Left            =   2520
       TabIndex        =   1
-      Top             =   4440
+      Top             =   6840
       Width           =   1095
    End
-   Begin MSComctlLib.TabStrip tbsOptions 
-      Height          =   4245
-      Left            =   105
-      TabIndex        =   0
-      Top             =   120
-      Width           =   5895
-      _ExtentX        =   10398
-      _ExtentY        =   7488
-      _Version        =   393216
-      BeginProperty Tabs {1EFB6598-857C-11D1-B16A-00C0F0283628} 
-         NumTabs         =   1
-         BeginProperty Tab1 {1EFB659A-857C-11D1-B16A-00C0F0283628} 
-            Caption         =   "元素记忆"
-            Key             =   "grpExam"
-            Object.ToolTipText     =   "为元素记忆测试设置选项"
-            ImageVarType    =   2
-         EndProperty
-      EndProperty
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+   Begin VB.PictureBox tbsOptions 
+      BackColor       =   &H00C0FFFF&
+      BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   9
          Charset         =   134
@@ -266,6 +251,30 @@ Begin VB.Form frmOptions
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      Height          =   4245
+      Left            =   120
+      ScaleHeight     =   4185
+      ScaleWidth      =   5835
+      TabIndex        =   0
+      Top             =   2400
+      Width           =   5895
+   End
+   Begin VB.Image imgClose 
+      Height          =   450
+      Left            =   5640
+      Picture         =   "frmOptions.frx":1B692
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   450
+   End
+   Begin VB.Image imgTitle 
+      Appearance      =   0  'Flat
+      Height          =   2145
+      Left            =   -600
+      Picture         =   "frmOptions.frx":1CB86
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   7575
    End
 End
 Attribute VB_Name = "frmOptions"
@@ -278,7 +287,7 @@ Private Function ReadOptions()
     texNumber.Text = Trim(str(ExamNumberMax))
     texNo.Text = Trim(str(ExamNoMax))
     texTime.Text = Trim(str(ExamTimeMax))
-    If ExamTimeIf = True Then chkTimeIf.Value = 1 Else chkTimeIf.Value = 0
+    If ExamTimeIf = True Then chkTimeIf.value = 1 Else chkTimeIf.value = 0
     CheckTimeIf
     cmdApply.Enabled = False
 End Function
@@ -305,15 +314,15 @@ Private Function WriteOptions() As Boolean
         ExamNumberMax = NumMax
         ExamNoMax = NoMax
         ExamTimeMax = TimeMax
-        If chkTimeIf.Value = 1 Then ExamTimeIf = True Else ExamTimeIf = False
-        Call dataSettingSave
+        If chkTimeIf.value = 1 Then ExamTimeIf = True Else ExamTimeIf = False
+        Call dataSettingSave(DataUsername)
     Else
         MsgBox ErrorInfo
     End If
 End Function
 
 Private Function CheckTimeIf()
-    If chkTimeIf.Value = 0 Then
+    If chkTimeIf.value = 0 Then
         texTime.Enabled = False
     Else
         texTime.Enabled = True
@@ -337,39 +346,24 @@ Private Sub cmdOK_Click()
     If Not WriteOptions Then Unload Me
 End Sub
 
-Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-    Dim i As Integer
-    '处理 ctrl+tab 键来移动到下一个选项
-    If Shift = vbCtrlMask And KeyCode = vbKeyTab Then
-        i = tbsOptions.SelectedItem.Index
-        If i = tbsOptions.Tabs.Count Then
-            '已到达最后的选项,转回到选项 1
-            Set tbsOptions.SelectedItem = tbsOptions.Tabs(1)
-        Else
-            '递增选项
-            Set tbsOptions.SelectedItem = tbsOptions.Tabs(i + 1)
-        End If
-    End If
-End Sub
-
 Private Sub Form_Load()
     Me.Move (Screen.Width - Me.Width) / 2, (Screen.Height - Me.Height) / 2
     ReadOptions
 End Sub
 
-Private Sub tbsOptions_Click()
-    Dim i As Integer
-    '显示并使选项的控件可用
-    '并且隐藏使其他被禁用
-    For i = 0 To tbsOptions.Tabs.Count - 1
-        If i = tbsOptions.SelectedItem.Index - 1 Then
-            picOptions(i).Left = 210
-            picOptions(i).Enabled = True
-        Else
-            picOptions(i).Left = -20000
-            picOptions(i).Enabled = False
-        End If
-    Next
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+End Sub
+
+Private Sub imgClose_Click()
+    Me.Hide
+    Unload Me
+End Sub
+
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
 Private Sub texNo_KeyPress(KeyAscii As Integer)

@@ -1,30 +1,32 @@
 VERSION 5.00
 Begin VB.Form frmExam 
-   BackColor       =   &H00FFFFFF&
+   BackColor       =   &H00C0FFFF&
+   BorderStyle     =   0  'None
    Caption         =   "元素记忆测试 Designed by 团队一号"
-   ClientHeight    =   3585
-   ClientLeft      =   120
-   ClientTop       =   465
-   ClientWidth     =   5790
+   ClientHeight    =   5970
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   6165
    Icon            =   "frmExam.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3585
-   ScaleWidth      =   5790
-   StartUpPosition =   2  '屏幕中心
+   ScaleHeight     =   5970
+   ScaleWidth      =   6165
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdCopyScore 
       Caption         =   "分享战绩"
       Height          =   495
-      Left            =   3240
+      Left            =   3360
       TabIndex        =   9
-      Top             =   2160
+      Top             =   4320
       Width           =   1095
    End
    Begin VB.CommandButton cmdSetting 
       Caption         =   "设置"
       Height          =   495
-      Left            =   4560
+      Left            =   4680
       TabIndex        =   7
-      Top             =   2160
+      Top             =   4320
       Width           =   1095
    End
    Begin VB.Timer tmrExam 
@@ -37,26 +39,34 @@ Begin VB.Form frmExam
       Caption         =   "提交"
       Default         =   -1  'True
       Height          =   495
-      Left            =   3240
+      Left            =   3360
       TabIndex        =   3
-      Top             =   1560
+      Top             =   3720
       Width           =   1095
    End
    Begin VB.TextBox texExam 
       ForeColor       =   &H00C0C0C0&
       Height          =   495
-      Left            =   360
+      Left            =   480
       TabIndex        =   2
-      Top             =   1560
+      Top             =   3600
       Width           =   2655
    End
    Begin VB.CommandButton cmdStart 
       Caption         =   "开始测试"
       Height          =   495
-      Left            =   4560
+      Left            =   4680
       TabIndex        =   1
-      Top             =   1560
+      Top             =   3720
       Width           =   1095
+   End
+   Begin VB.Image imgClose 
+      Height          =   450
+      Left            =   5760
+      Picture         =   "frmExam.frx":1B692
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   450
    End
    Begin VB.Label lblTime 
       BackStyle       =   0  'Transparent
@@ -71,9 +81,9 @@ Begin VB.Form frmExam
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   3120
+      Left            =   3240
       TabIndex        =   8
-      Top             =   1080
+      Top             =   3240
       Width           =   1695
    End
    Begin VB.Label lblScoreMax 
@@ -88,11 +98,11 @@ Begin VB.Form frmExam
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   615
-      Left            =   240
+      Height          =   975
+      Left            =   0
       TabIndex        =   6
-      Top             =   2760
-      Width           =   5295
+      Top             =   4920
+      Width           =   6135
    End
    Begin VB.Label lblScore 
       BackStyle       =   0  'Transparent
@@ -107,9 +117,9 @@ Begin VB.Form frmExam
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   3120
+      Left            =   3240
       TabIndex        =   5
-      Top             =   120
+      Top             =   2280
       Width           =   1815
    End
    Begin VB.Label lblCorrect 
@@ -126,7 +136,7 @@ Begin VB.Form frmExam
       Height          =   615
       Left            =   360
       TabIndex        =   4
-      Top             =   2160
+      Top             =   4200
       Width           =   2775
    End
    Begin VB.Label lblExamElementName 
@@ -143,10 +153,19 @@ Begin VB.Form frmExam
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1335
-      Left            =   360
+      Left            =   480
       TabIndex        =   0
-      Top             =   120
+      Top             =   2040
       Width           =   2655
+   End
+   Begin VB.Image imgTitle 
+      Appearance      =   0  'Flat
+      Height          =   2145
+      Left            =   -600
+      Picture         =   "frmExam.frx":1CB86
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   7575
    End
 End
 Attribute VB_Name = "frmExam"
@@ -183,10 +202,9 @@ Function ExamEnd()
     tmrExam.Enabled = False
     MsgBox ("答题结束！你的分数为：" & Int(ExamScore))
     If ExamScore > ExamScoreMax Then
-        ExamScoreName = InputBox("请输入你的姓名", "高分榜", ExamScoreName)
         ExamScoreTime = Now()
         ExamScoreMax = ExamScore
-        dataScoreSave
+        dataScoreSave (DataUsername)
         ExamScoreGet
     End If
     lblScore.Caption = "练习模式中" & Chr(13) & Chr(10) & "上次分数：" & Int(ExamScore)
@@ -197,7 +215,7 @@ End Function
 
 Function ExamScoreGet()
     If ExamScoreMax > 0 Then
-        lblScoreMax = "最高分为：" & ExamScoreMax & Chr(13) & Chr(10) & "由" & ExamScoreName & "于" & UITime(ExamScoreTime) & "创造"
+        lblScoreMax = "您的最高分为：" & ExamScoreMax & "，于" & UITime(ExamScoreTime) & "创造；" & Chr(13) & Chr(10) & "所有用户的最高分为：" & ExamScoreMaxAll & "，" & Chr(13) & Chr(10) & "由" & ExamScoreNameAll & "于" & UITime(ExamScoreTimeAll) & "创造。"
     Else
         lblScoreMax = ""
     End If
@@ -247,6 +265,19 @@ Private Sub Form_Load()
     ExamScore = 0
     Call ExamNew
     ExamScoreGet
+End Sub
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+End Sub
+
+Private Sub imgClose_Click()
+    Unload Me
+End Sub
+
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
 Private Sub texExam_Click()

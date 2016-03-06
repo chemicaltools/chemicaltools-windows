@@ -1,23 +1,25 @@
 VERSION 5.00
 Begin VB.Form frmMass 
-   BackColor       =   &H00FFFFFF&
+   BackColor       =   &H00C0FFFF&
+   BorderStyle     =   0  'None
    Caption         =   "质量计算器 Designed by 团队一号"
-   ClientHeight    =   4695
-   ClientLeft      =   120
-   ClientTop       =   465
-   ClientWidth     =   7950
+   ClientHeight    =   6240
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7785
    Icon            =   "frmMass.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4695
-   ScaleWidth      =   7950
-   StartUpPosition =   2  '屏幕中心
+   ScaleHeight     =   6240
+   ScaleWidth      =   7785
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdCopy 
       Caption         =   "复制到剪切板"
       Height          =   495
-      Left            =   120
+      Left            =   6360
       TabIndex        =   3
-      Top             =   4080
-      Width           =   1455
+      Top             =   2400
+      Width           =   1335
    End
    Begin VB.TextBox texMassOut 
       BeginProperty Font 
@@ -30,22 +32,22 @@ Begin VB.Form frmMass
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3135
-      Left            =   120
+      Left            =   0
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   2
       Text            =   "frmMass.frx":1B692
-      Top             =   840
+      Top             =   3000
       Width           =   7695
    End
    Begin VB.CommandButton cmdMass 
       Caption         =   "计算！"
       Default         =   -1  'True
       Height          =   495
-      Left            =   6960
+      Left            =   5400
       TabIndex        =   1
-      Top             =   240
+      Top             =   2400
       Width           =   855
    End
    Begin VB.TextBox texMassIn 
@@ -60,10 +62,27 @@ Begin VB.Form frmMass
       EndProperty
       ForeColor       =   &H00C0C0C0&
       Height          =   495
-      Left            =   120
+      Left            =   0
       TabIndex        =   0
-      Top             =   240
-      Width           =   6735
+      Top             =   2400
+      Width           =   5295
+   End
+   Begin VB.Image imgClose 
+      Height          =   450
+      Left            =   7320
+      Picture         =   "frmMass.frx":1B6BF
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   450
+   End
+   Begin VB.Image imgTitle 
+      Appearance      =   0  'Flat
+      Height          =   2145
+      Left            =   0
+      Picture         =   "frmMass.frx":1CBB3
+      Stretch         =   -1  'True
+      Top             =   0
+      Width           =   7815
    End
 End
 Attribute VB_Name = "frmMass"
@@ -80,7 +99,7 @@ End Sub
 Private Sub cmdMass_Click()
     texMassOut = calMassPerStr(texMassIn.Text)
     HisMass = texMassIn.Text
-    Call dataSettingWrite("History", "Mass", HisMass)
+    Call dataBaseWrite(DataUsername, "Mass", HisMass)
 End Sub
 
 Private Sub Form_Load()
@@ -88,6 +107,21 @@ Private Sub Form_Load()
     texMassIn.Text = InTip
     If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
 End Sub
+
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+End Sub
+
+Private Sub imgClose_Click()
+    Unload Me
+End Sub
+
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+    ReleaseCapture
+    SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
+End Sub
+
 
 Private Sub texMassIn_Click()
     If texMassIn.Text = InTip Then

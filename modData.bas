@@ -5,27 +5,32 @@ Public Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePri
 '数据库
 Public DataAdodbConn As ADODB.Connection
 Public DataAdodbRs As ADODB.Recordset
-'内存
+'用户
+Public DataUsername As String
+Public DataUseNumber As Integer
 '配置
 Public ExamTimeMax As Integer
 Public ExamNumberMax As Integer
 Public ExamNoMax As Integer
 Public ExamScoreMax As Integer
-Public ExamScoreName As String
+Public ExamScoreMaxAll As Integer
+Public ExamScoreNameAll As String
 Public ExamTimeIf As Boolean
 Public ExamScoreTime As String
+Public ExamScoreTimeAll As String
 '历史记录
 Public HisElement As String
 Public HisMass As String
+Public HisUsername As String
 '元素
 Public ElementName(118) As String
 Public ElementAbbr(118) As String
 Public ElementMass(118) As Double
 
-Public Function dataOpen()
+Public Function dataOpen(x As Integer)
     Dim path As String
     Set DataAdodbConn = New ADODB.Connection
-    path = dataBasePath
+    path = dataBasePath(x)
     DataAdodbConn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & path & ";Persist Security Info=False"
     DataAdodbConn.Open
     Set DataAdodbRs = New ADODB.Recordset
@@ -40,14 +45,14 @@ Public Function dataClose()
    Set DataAdodbConn = Nothing
 End Function
 
-Public Function dataBasePath() As String
+Public Function dataBasePath(x As Integer) As String
     Dim spath As String
     If Right$(App.path, 1) = "\" Then
         spath = App.path + "mdb\"
     Else
         spath = App.path + "\mdb\"
     End If
-    dataBasePath = spath + "Data.mdb"
+    If x = 1 Then dataBasePath = spath + "Data.mdb" Else dataBasePath = spath + "User.mdb"
 End Function
 
 Public Function dataSettingPath() As String
@@ -63,7 +68,7 @@ End Function
 Public Function dataElement()
     Dim i As Integer, n As Integer
     i = 0
-    Call dataOpen
+    Call dataOpen(1)
     DataAdodbRs.Open "select * from Element"
     While Not DataAdodbRs.EOF
         i = i + 1
@@ -83,14 +88,22 @@ Public Function dataElement()
     Wend
 End Function
 
-Public Function dataSettingWrite(x As String, y As String, z As String)
-    Call WritePrivateProfileString(x, y, z, dataSettingPath)
+Public Function dataSettingWrite(x As String, Y As String, z As String)
+    Call WritePrivateProfileString(x, Y, z, dataSettingPath)
 End Function
 
-Public Function dataSettingRead(x As String, y As String) As String
+Public Function dataBaseWrite(Username As String, name As String, value As String)
+        Call dataOpen(2)
+        DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
+           DataAdodbRs(name) = value
+        DataAdodbRs.Update
+        Call dataClose
+End Function
+
+Public Function dataSettingRead(x As String, Y As String) As String
     Dim z As String, p As Long, i As Integer
     z = String(255, vbNullChar)
-    p = GetPrivateProfileString(x, y, "", z, 255, dataSettingPath)
+    p = GetPrivateProfileString(x, Y, "", z, 255, dataSettingPath)
     i = 1
     While Mid(z, i, 1) <> vbNullChar
         i = i + 1
@@ -108,47 +121,127 @@ Public Function dataDir(x As String) As Boolean
 End Function
 
 Public Function dataBaseDir()
-    If dataDir(dataBasePath) = False Then MsgBox "数据库文件缺失，请联系团队一号！"
+    If dataDir(dataBasePath(1)) = False Or dataDir(dataBasePath(2)) = False Then
+        MsgBox "数据库文件缺失，请联系团队一号！"
+        End
+    End If
 End Function
 
 Public Function dataSettingDir()
     If dataDir(dataSettingPath) = False Then
-        Call dataSettingWrite("Exam", "TimeMax", "60")
-        Call dataSettingWrite("Exam", "NumberMax", "100")
-        Call dataSettingWrite("Exam", "NoMax", "20")
         Call dataSettingWrite("Exam", "ScoreMax", "0")
         Call dataSettingWrite("Exam", "ScoreName", "N/A")
         Call dataSettingWrite("Exam", "ScoreTime", "N/A")
-        Call dataSettingWrite("Exam", "TimeIf", "True")
     End If
 End Function
 
 Public Function dataSettingLoad()
     If dataDir(dataSettingPath) = True Then
-        ExamTimeMax = Int(Val(dataSettingRead("Exam", "TimeMax")))
-        ExamNumberMax = Int(Val(dataSettingRead("Exam", "NumberMax")))
-        ExamNoMax = Int(Val(dataSettingRead("Exam", "NoMax")))
-        ExamScoreMax = Int(Val(dataSettingRead("Exam", "ScoreMax")))
-        ExamScoreName = dataSettingRead("Exam", "ScoreName")
-        ExamScoreTime = dataSettingRead("Exam", "ScoreTime")
-        If dataSettingRead("Exam", "TimeIf") = "True" Then ExamTimeIf = True Else ExamTimeIf = False
+        ExamScoreMaxAll = Int(Val(dataSettingRead("Exam", "ScoreMax")))
+        ExamScoreNameAll = dataSettingRead("Exam", "ScoreName")
+        ExamScoreTimeAll = dataSettingRead("Exam", "ScoreTime")
     End If
 End Function
 
-Public Function dataSettingSave()
-    Call dataSettingWrite("Exam", "TimeMax", Trim(str(ExamTimeMax)))
-    Call dataSettingWrite("Exam", "NumberMax", Trim(str(ExamNumberMax)))
-    Call dataSettingWrite("Exam", "NoMax", Trim(str(ExamNoMax)))
-    If ExamTimeIf = True Then Call dataSettingWrite("Exam", "TimeIf", "True") Else Call dataSettingWrite("Exam", "TimeIf", "False")
+Public Function dataSettingSave(Username As String)
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
+    DataAdodbRs("TimeMax") = ExamTimeMax
+    DataAdodbRs("NumberMax") = ExamNumberMax
+    DataAdodbRs("NoMax") = ExamNoMax
+    If ExamTimeIf = True Then DataAdodbRs("TimeIf") = "True" Else DataAdodbRs("TimeIf") = "False"
+    DataAdodbRs.Update
+    Call dataClose
 End Function
 
-Public Function dataScoreSave()
-    Call dataSettingWrite("Exam", "ScoreMax", Trim(str(ExamScoreMax)))
-    Call dataSettingWrite("Exam", "ScoreName", ExamScoreName)
-    Call dataSettingWrite("Exam", "ScoreTime", ExamScoreTime)
+Public Function dataScoreSave(Username As String)
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
+    DataAdodbRs("ScoreMax") = ExamScoreMax
+    DataAdodbRs("ScoreTime") = ExamScoreTime
+    If ExamTimeIf = True Then DataAdodbRs("TimeIf") = "True" Else DataAdodbRs("TimeIf") = "False"
+    DataAdodbRs.Update
+    Call dataClose
+    If ExamScoreMax > ExamScoreMaxAll Then
+        ExamScoreMaxAll = ExamScoreMax
+        ExamScoreNameAll = Username
+        ExamScoreTimeAll = ExamScoreTime
+        Call dataSettingWrite("Exam", "ScoreMax", Trim(str(ExamScoreMaxAll)))
+        Call dataSettingWrite("Exam", "ScoreName", ExamScoreNameAll)
+        Call dataSettingWrite("Exam", "ScoreTime", ExamScoreTimeAll)
+    End If
 End Function
 
 Public Function dataHistoryRead()
-    HisElement = dataSettingRead("History", "Element")
-    HisMass = dataSettingRead("History", "Mass")
+    HisUsername = dataSettingRead("History", "Username")
+End Function
+
+Public Function dataLogin(Username As String, Password As String) As Boolean
+    dataLogin = False
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User]"
+    While Not DataAdodbRs.EOF And dataLogin = False
+        If Not IsNull(DataAdodbRs!Username) Then
+            If Username = CStr(DataAdodbRs!Username) Then
+                If dataPasswordLock(Password) = CStr(DataAdodbRs!Password) Then
+                    dataLogin = True
+                    DataUseNumber = CStr(DataAdodbRs!UseNumber)
+                    DataUseNumber = DataUseNumber + 1
+                    DataAdodbRs("UseNumber") = DataUseNumber
+                    DataUsername = Username
+                    Call dataSettingWrite("History", "Username", Username)
+                    ExamTimeMax = CStr(DataAdodbRs!TimeMax)
+                    ExamNumberMax = CStr(DataAdodbRs!NumberMax)
+                    ExamNoMax = CStr(DataAdodbRs!NoMax)
+                    ExamScoreMax = CStr(DataAdodbRs!ScoreMax)
+                    ExamScoreTime = CStr(DataAdodbRs!ScoreTime)
+                    HisElement = CStr(DataAdodbRs!Element)
+                    HisMass = CStr(DataAdodbRs!Mass)
+                    If CStr(DataAdodbRs!TimeIf) = "True" Then ExamTimeIf = True Else ExamTimeIf = False
+                    DataAdodbRs.Update
+                End If
+            End If
+            DataAdodbRs.MoveNext
+        End If
+    Wend
+    Call dataClose
+End Function
+
+Public Function dataSignUp(Username As String, Password As String) As Boolean
+    dataSignUp = True
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User]"
+    While Not DataAdodbRs.EOF And dataSignUp = True
+        If Not IsNull(DataAdodbRs!Username) Then
+            If Username = CStr(DataAdodbRs!Username) Then
+                dataSignUp = False
+            End If
+            DataAdodbRs.MoveNext
+        End If
+    Wend
+    DataAdodbRs.AddNew
+    DataAdodbRs("Username") = Username
+    DataAdodbRs("Password") = dataPasswordLock(Password)
+    DataAdodbRs("UseNumber") = 0
+    DataAdodbRs("TimeMax") = 60
+    DataAdodbRs("NumberMax") = 100
+    DataAdodbRs("NoMax") = 20
+    DataAdodbRs("ScoreMax") = 0
+    DataAdodbRs("ScoreTime") = "N/A"
+    DataAdodbRs("TimeIf") = "True"
+    DataAdodbRs("Element") = ""
+    DataAdodbRs("Mass") = ""
+    DataAdodbRs.Update
+    Call dataClose
+End Function
+
+
+Public Function dataPasswordLock(x As String) As String
+    Dim i As Integer, l As Integer
+        i = 1
+        l = Len(x)
+        While i < l
+            dataPasswordLock = dataPasswordLock & Chr(Asc(Mid(x, i, 1)) * 3 - 5)
+            i = i + 1
+        Wend
 End Function
