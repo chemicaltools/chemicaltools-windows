@@ -2,7 +2,6 @@ Attribute VB_Name = "modMain"
 Sub Main()
     Call dataBaseDir
     Call dataSettingDir
-    Call dataSettingLoad
     Call dataHistoryRead
     Load frmLogin
     frmLogin.Show

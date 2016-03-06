@@ -132,14 +132,7 @@ Public Function dataSettingDir()
         Call dataSettingWrite("Exam", "ScoreMax", "0")
         Call dataSettingWrite("Exam", "ScoreName", "N/A")
         Call dataSettingWrite("Exam", "ScoreTime", "N/A")
-    End If
-End Function
-
-Public Function dataSettingLoad()
-    If dataDir(dataSettingPath) = True Then
-        ExamScoreMaxAll = Int(Val(dataSettingRead("Exam", "ScoreMax")))
-        ExamScoreNameAll = dataSettingRead("Exam", "ScoreName")
-        ExamScoreTimeAll = dataSettingRead("Exam", "ScoreTime")
+        Call dataSettingWrite("History", "HisUsername", "")
     End If
 End Function
 
@@ -173,7 +166,12 @@ Public Function dataScoreSave(Username As String)
 End Function
 
 Public Function dataHistoryRead()
-    HisUsername = dataSettingRead("History", "Username")
+    If dataDir(dataSettingPath) = True Then
+        ExamScoreMaxAll = Int(Val(dataSettingRead("Exam", "ScoreMax")))
+        ExamScoreNameAll = dataSettingRead("Exam", "ScoreName")
+        ExamScoreTimeAll = dataSettingRead("Exam", "ScoreTime")
+        HisUsername = dataSettingRead("History", "Username")
+    End If
 End Function
 
 Public Function dataLogin(Username As String, Password As String) As Boolean

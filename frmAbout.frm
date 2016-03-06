@@ -20,15 +20,15 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox picIcon 
       AutoSize        =   -1  'True
       ClipControls    =   0   'False
-      Height          =   540
+      Height          =   780
       Left            =   240
       Picture         =   "frmAbout.frx":1B692
-      ScaleHeight     =   337.12
+      ScaleHeight     =   505.68
       ScaleMode       =   0  'User
-      ScaleWidth      =   337.12
+      ScaleWidth      =   505.68
       TabIndex        =   1
-      Top             =   2160
-      Width           =   540
+      Top             =   2040
+      Width           =   780
    End
    Begin VB.CommandButton cmdOK 
       Cancel          =   -1  'True
@@ -43,7 +43,7 @@ Begin VB.Form frmAbout
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5280
-      Picture         =   "frmAbout.frx":1B99C
+      Picture         =   "frmAbout.frx":36D24
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -52,7 +52,7 @@ Begin VB.Form frmAbout
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -720
-      Picture         =   "frmAbout.frx":1CE90
+      Picture         =   "frmAbout.frx":38218
       Stretch         =   -1  'True
       Top             =   -240
       Width           =   7575
@@ -68,7 +68,7 @@ Begin VB.Form frmAbout
    End
    Begin VB.Label lblDescription 
       BackStyle       =   0  'Transparent
-      Caption         =   "本作品为华东师范大学本科生计算机应用能力大赛参赛作品，由团队一号设计。"
+      Caption         =   $"frmAbout.frx":439B2
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   9
@@ -79,10 +79,10 @@ Begin VB.Form frmAbout
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00000000&
-      Height          =   810
-      Left            =   960
+      Height          =   1170
+      Left            =   1200
       TabIndex        =   2
-      Top             =   3360
+      Top             =   2880
       Width           =   3885
    End
    Begin VB.Label lblTitle 
@@ -99,9 +99,9 @@ Begin VB.Form frmAbout
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   480
-      Left            =   960
+      Left            =   1200
       TabIndex        =   4
-      Top             =   2160
+      Top             =   2040
       Width           =   3885
    End
    Begin VB.Label lblVersion 
@@ -117,9 +117,9 @@ Begin VB.Form frmAbout
          Strikethrough   =   0   'False
       EndProperty
       Height          =   345
-      Left            =   960
+      Left            =   1200
       TabIndex        =   5
-      Top             =   2760
+      Top             =   2520
       Width           =   3885
    End
    Begin VB.Label lblDisclaimer 
@@ -170,4 +170,3 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
-
