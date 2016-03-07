@@ -7,10 +7,10 @@ Begin VB.Form FrmChangePassword
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   4560
+   Icon            =   "FrmChangePassword.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   5175
    ScaleWidth      =   4560
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdPasswordChange 
       Caption         =   "修改密码"
@@ -108,7 +108,7 @@ Begin VB.Form FrmChangePassword
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   4080
-      Picture         =   "FrmChangePassword.frx":0000
+      Picture         =   "FrmChangePassword.frx":1B692
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -117,7 +117,7 @@ Begin VB.Form FrmChangePassword
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -1440
-      Picture         =   "FrmChangePassword.frx":14F4
+      Picture         =   "FrmChangePassword.frx":1CB86
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335

@@ -11,7 +11,6 @@ Begin VB.Form frmElement
    LinkTopic       =   "Form1"
    ScaleHeight     =   5610
    ScaleWidth      =   5760
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdCopy 
       Caption         =   "复制到剪切板"

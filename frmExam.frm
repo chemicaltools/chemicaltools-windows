@@ -11,7 +11,6 @@ Begin VB.Form frmExam
    LinkTopic       =   "Form1"
    ScaleHeight     =   5970
    ScaleWidth      =   6165
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdCopyScore 
       Caption         =   "分享战绩"

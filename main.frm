@@ -12,7 +12,6 @@ Begin VB.Form frmMain
    MaxButton       =   0   'False
    ScaleHeight     =   4680
    ScaleWidth      =   7425
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdNewPassword 
       Caption         =   "修改密码"
@@ -47,6 +46,7 @@ Begin VB.Form frmMain
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmElement 
+      BackColor       =   &H00C0FFFF&
       Caption         =   "元素查询"
       Height          =   615
       Left            =   600
@@ -139,9 +139,11 @@ End Sub
 
 Private Sub Form_Load()
     lblWelcome = "欢迎" & DataUsername & "！这是您第" & str(DataUseNumber) & "次使用化学小工具！"
+    '托盘
+    Call UIAddIcon
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
@@ -150,7 +152,7 @@ Private Sub imgClose_Click()
     End
 End Sub
 
-Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub

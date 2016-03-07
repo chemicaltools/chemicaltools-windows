@@ -9,10 +9,10 @@ Begin VB.Form frmSignUp
    ClientWidth     =   4875
    FillColor       =   &H00C0FFFF&
    ForeColor       =   &H00C0FFFF&
+   Icon            =   "frmSignUp.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   5400
    ScaleWidth      =   4875
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.CommandButton cmdSignUp 
       Caption         =   "注册！"
@@ -73,7 +73,7 @@ Begin VB.Form frmSignUp
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   4440
-      Picture         =   "frmSignUp.frx":0000
+      Picture         =   "frmSignUp.frx":1B692
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -136,7 +136,7 @@ Begin VB.Form frmSignUp
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -1320
-      Picture         =   "frmSignUp.frx":14F4
+      Picture         =   "frmSignUp.frx":1CB86
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335

@@ -14,7 +14,6 @@ Begin VB.Form frmOptions
    MinButton       =   0   'False
    ScaleHeight     =   7515
    ScaleWidth      =   6090
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.PictureBox picOptions 
       BorderStyle     =   0  'None

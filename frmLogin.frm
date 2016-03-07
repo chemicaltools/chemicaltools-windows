@@ -8,10 +8,10 @@ Begin VB.Form frmLogin
    ClientTop       =   0
    ClientWidth     =   7335
    ForeColor       =   &H00FFFFFF&
+   Icon            =   "frmLogin.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   4995
    ScaleWidth      =   7335
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   2  '屏幕中心
    Begin VB.CheckBox chkAutoLogin 
       BackColor       =   &H00C0FFFF&
@@ -106,7 +106,7 @@ Begin VB.Form frmLogin
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   6840
-      Picture         =   "frmLogin.frx":0000
+      Picture         =   "frmLogin.frx":1B692
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -115,7 +115,7 @@ Begin VB.Form frmLogin
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "frmLogin.frx":14F4
+      Picture         =   "frmLogin.frx":1CB86
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
@@ -134,7 +134,7 @@ Private Sub cmdLogin_Click()
     If dataLogin(texUsername, texPassword, chkPassword.value, chkAutoLogin.value) = True Then
         Me.Hide
         frmMain.Show
-        If UIFormLoad(Me) Then Unload Me
+        If UIFormLoad(Me) Then Me.Hide
     Else
         MsgBox "用户名或密码错误！", vbOKOnly, "登陆失败"
     End If

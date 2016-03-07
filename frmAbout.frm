@@ -15,7 +15,6 @@ Begin VB.Form frmAbout
    ScaleHeight     =   3530.464
    ScaleMode       =   0  'User
    ScaleWidth      =   5380.766
-   ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Begin VB.PictureBox picIcon 
       AutoSize        =   -1  'True
