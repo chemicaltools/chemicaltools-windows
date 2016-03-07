@@ -3,45 +3,61 @@ Begin VB.Form frmMain
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
    Caption         =   "化学小工具 Designed by 团队一号"
-   ClientHeight    =   3930
+   ClientHeight    =   4680
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   7425
    Icon            =   "main.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   3930
+   ScaleHeight     =   4680
    ScaleWidth      =   7425
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
+   Begin VB.CommandButton cmdNewPassword 
+      Caption         =   "修改密码"
+      Height          =   615
+      Left            =   600
+      TabIndex        =   6
+      Top             =   3840
+      Width           =   1575
+   End
+   Begin VB.CommandButton cmdSignOut 
+      Caption         =   "注销"
+      Height          =   615
+      Left            =   2880
+      TabIndex        =   5
+      Top             =   3840
+      Width           =   1455
+   End
    Begin VB.CommandButton cmdfrmAbout 
       Caption         =   "关于"
       Height          =   615
-      Left            =   5520
+      Left            =   5040
       TabIndex        =   4
-      Top             =   2880
+      Top             =   3840
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmExam 
       Caption         =   "元素记忆"
       Height          =   615
-      Left            =   3840
+      Left            =   5040
       TabIndex        =   3
       Top             =   2880
-      Width           =   1335
+      Width           =   1455
    End
    Begin VB.CommandButton cmdfrmElement 
       Caption         =   "元素查询"
       Height          =   615
-      Left            =   240
+      Left            =   600
       TabIndex        =   1
       Top             =   2880
-      Width           =   1335
+      Width           =   1575
    End
    Begin VB.CommandButton cmdfrmMass 
       Caption         =   "质量计算"
       Height          =   615
-      Left            =   1920
+      Left            =   2880
       TabIndex        =   2
       Top             =   2880
       Width           =   1455
@@ -90,7 +106,7 @@ Attribute VB_Exposed = False
 
 Private Sub cmdfrmAbout_Click()
     Load frmAbout
-    frmAbout.Show
+    frmAbout.Show 1, Me
 End Sub
 
 Private Sub cmdfrmElement_Click()
@@ -105,7 +121,20 @@ End Sub
 
 Private Sub cmdfrmmass_Click()
     Load frmMass
-    frmMass.Show 1, Me
+    frmMass.Show
+End Sub
+
+Private Sub cmdNewPassword_Click()
+    FrmChangePassword.Show 1
+End Sub
+
+Private Sub cmdSignOut_Click()
+    dataSignOut
+    If UIFormLoad(frmLogin) Then Unload frmLogin
+    Load frmLogin
+    Me.Hide
+    frmLogin.Show
+    Unload Me
 End Sub
 
 Private Sub Form_Load()

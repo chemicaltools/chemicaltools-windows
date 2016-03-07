@@ -22,6 +22,8 @@ Public ExamScoreTimeAll As String
 Public HisElement As String
 Public HisMass As String
 Public HisUsername As String
+Public HisPassword As String
+Public HisAutoLogin As String
 'ÔªËØ
 Public ElementName(118) As String
 Public ElementAbbr(118) As String
@@ -132,7 +134,8 @@ Public Function dataSettingDir()
         Call dataSettingWrite("Exam", "ScoreMax", "0")
         Call dataSettingWrite("Exam", "ScoreName", "N/A")
         Call dataSettingWrite("Exam", "ScoreTime", "N/A")
-        Call dataSettingWrite("History", "HisUsername", "")
+        Call dataSettingWrite("History", "Username", "")
+        Call dataSettingWrite("History", "Password", "")
     End If
 End Function
 
@@ -171,10 +174,12 @@ Public Function dataHistoryRead()
         ExamScoreNameAll = dataSettingRead("Exam", "ScoreName")
         ExamScoreTimeAll = dataSettingRead("Exam", "ScoreTime")
         HisUsername = dataSettingRead("History", "Username")
+        HisPassword = dataSettingRead("History", "Password")
+        HisAutoLogin = dataSettingRead("History", "AutoLogin")
     End If
 End Function
 
-Public Function dataLogin(Username As String, Password As String) As Boolean
+Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As Boolean
     dataLogin = False
     Call dataOpen(2)
     DataAdodbRs.Open "select * from [User]"
@@ -187,7 +192,22 @@ Public Function dataLogin(Username As String, Password As String) As Boolean
                     DataUseNumber = DataUseNumber + 1
                     DataAdodbRs("UseNumber") = DataUseNumber
                     DataUsername = Username
+                    HisUsername = Username
                     Call dataSettingWrite("History", "Username", Username)
+                    If SavingPassword = 1 Then
+                        HisPassword = Password
+                        Call dataSettingWrite("History", "Password", Password)
+                    Else
+                        HisPassword = ""
+                        Call dataSettingWrite("History", "Password", "")
+                    End If
+                    If AutoLogin = 1 Then
+                        HisAutoLogin = "True"
+                        Call dataSettingWrite("History", "AutoLogin", "True")
+                    Else
+                        HisAutoLogin = "False"
+                        Call dataSettingWrite("History", "AutoLogin", "False")
+                    End If
                     ExamTimeMax = CStr(DataAdodbRs!TimeMax)
                     ExamNumberMax = CStr(DataAdodbRs!NumberMax)
                     ExamNoMax = CStr(DataAdodbRs!NoMax)
@@ -233,7 +253,6 @@ Public Function dataSignUp(Username As String, Password As String) As Boolean
     Call dataClose
 End Function
 
-
 Public Function dataPasswordLock(x As String) As String
     Dim i As Integer, l As Integer
         i = 1
@@ -243,3 +262,26 @@ Public Function dataPasswordLock(x As String) As String
             i = i + 1
         Wend
 End Function
+
+Public Function dataSignOut()
+    HisAutoLogin = "False"
+    Call dataSettingWrite("History", "AutoLogin", "False")
+End Function
+
+Public Function dataChangePassword(Username As String, Password As String, NewPassword As String) As Boolean
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
+    If CStr(DataAdodbRs!Password) = dataPasswordLock(Password) Then
+        dataChangePassword = True
+        DataAdodbRs("Password") = dataPasswordLock(NewPassword)
+        DataAdodbRs.Update
+        HisPassword = ""
+        Call dataSettingWrite("History", "Password", "")
+        HisAutoLogin = "False"
+        Call dataSettingWrite("History", "AutoLogin", "False")
+    Else
+        dataChangePassword = False
+    End If
+    Call dataClose
+End Function
+

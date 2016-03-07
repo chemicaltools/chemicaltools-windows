@@ -4,6 +4,5 @@ Sub Main()
     Call dataSettingDir
     Call dataHistoryRead
     Load frmLogin
-    frmLogin.Show
     Call dataElement
 End Sub

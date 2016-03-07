@@ -3,22 +3,41 @@ Begin VB.Form frmLogin
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
    Caption         =   "µÇÂ½"
-   ClientHeight    =   4725
+   ClientHeight    =   4995
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   7335
    ForeColor       =   &H00FFFFFF&
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4725
+   ScaleHeight     =   4995
    ScaleWidth      =   7335
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'ÆÁÄ»ÖÐÐÄ
+   Begin VB.CheckBox chkAutoLogin 
+      BackColor       =   &H00C0FFFF&
+      Caption         =   "×Ô¶¯µÇÂ½"
+      Height          =   375
+      Left            =   3360
+      TabIndex        =   7
+      Top             =   3840
+      Width           =   1095
+   End
+   Begin VB.CheckBox chkPassword 
+      BackColor       =   &H00C0FFFF&
+      Caption         =   "¼Ç×¡ÃÜÂë"
+      ForeColor       =   &H00000000&
+      Height          =   375
+      Left            =   1080
+      TabIndex        =   6
+      Top             =   3840
+      Width           =   1095
+   End
    Begin VB.CommandButton cmdSignUp 
       Caption         =   "×¢²á"
       Height          =   615
       Left            =   4080
       TabIndex        =   5
-      Top             =   3960
+      Top             =   4320
       Width           =   1215
    End
    Begin VB.CommandButton cmdLogin 
@@ -27,7 +46,7 @@ Begin VB.Form frmLogin
       Height          =   615
       Left            =   1440
       TabIndex        =   4
-      Top             =   3960
+      Top             =   4320
       Width           =   1215
    End
    Begin VB.TextBox texPassword 
@@ -107,11 +126,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub chkAutoLogin_Click()
+    If chkAutoLogin.value = 1 And chkPassword.value <> 1 Then chkPassword.value = 1
+End Sub
+
 Private Sub cmdLogin_Click()
-    If dataLogin(texUsername, texPassword) = True Then
+    If dataLogin(texUsername, texPassword, chkPassword.value, chkAutoLogin.value) = True Then
         Me.Hide
         frmMain.Show
-        Unload Me
+        If UIFormLoad(Me) Then Unload Me
     Else
         MsgBox "ÓÃ»§Ãû»òÃÜÂë´íÎó£¡", vbOKOnly, "µÇÂ½Ê§°Ü"
     End If
@@ -124,8 +147,16 @@ End Sub
 Private Sub Form_Load()
     If HisUsername <> "" Then
         texUsername = HisUsername
+        If HisPassword <> "" Then
+            texPassword = HisPassword
+            chkPassword.value = 1
+        End If
+        If HisAutoLogin = "True" Then
+            chkAutoLogin.value = 1
+        End If
         Me.Show
         texPassword.SetFocus
+        If HisAutoLogin = "True" Then cmdLogin_Click
     End If
 End Sub
 

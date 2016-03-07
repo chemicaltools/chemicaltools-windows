@@ -13,3 +13,12 @@ Public Function UITime(x As String) As String
     UITime = Format(x, "yyyyƒÍmm‘¬dd»’hh:mm:ss")
 End Function
 
+Public Function UIFormLoad(ByRef frmIn As Form) As Boolean
+    Dim frm As Form
+    For Each frm In Forms
+        If frmIn Is frm Then
+            UIFormLoad = True
+            Exit For
+        End If
+    Next
+End Function
