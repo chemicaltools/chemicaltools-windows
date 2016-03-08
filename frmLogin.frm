@@ -157,6 +157,8 @@ Private Sub Form_Load()
         Me.Show
         texPassword.SetFocus
         If HisAutoLogin = "True" Then cmdLogin_Click
+    Else
+        Me.Show
     End If
 End Sub
 

@@ -136,6 +136,7 @@ Public Function dataSettingDir()
         Call dataSettingWrite("Exam", "ScoreTime", "N/A")
         Call dataSettingWrite("History", "Username", "")
         Call dataSettingWrite("History", "Password", "")
+        Call dataSettingWrite("History", "AutoLogin", "False")
     End If
 End Function
 
