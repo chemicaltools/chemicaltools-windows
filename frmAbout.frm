@@ -78,10 +78,10 @@ Begin VB.Form frmAbout
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00000000&
-      Height          =   1170
+      Height          =   1290
       Left            =   1200
       TabIndex        =   2
-      Top             =   2880
+      Top             =   2640
       Width           =   3885
    End
    Begin VB.Label lblTitle 
@@ -118,7 +118,7 @@ Begin VB.Form frmAbout
       Height          =   345
       Left            =   1200
       TabIndex        =   5
-      Top             =   2520
+      Top             =   2400
       Width           =   3885
    End
    Begin VB.Label lblDisclaimer 
@@ -169,3 +169,4 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
+
