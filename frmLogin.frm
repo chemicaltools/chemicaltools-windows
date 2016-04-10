@@ -20,7 +20,7 @@ Begin VB.Form frmLogin
       Left            =   3360
       TabIndex        =   7
       Top             =   3840
-      Width           =   1095
+      Width           =   2055
    End
    Begin VB.CheckBox chkPassword 
       BackColor       =   &H00C0FFFF&
@@ -30,7 +30,7 @@ Begin VB.Form frmLogin
       Left            =   1080
       TabIndex        =   6
       Top             =   3840
-      Width           =   1095
+      Width           =   1575
    End
    Begin VB.CommandButton cmdSignUp 
       Caption         =   "зЂВс"
