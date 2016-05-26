@@ -237,6 +237,94 @@ Function calMassPerStr(x As String) As String
     calMassPerStr = calMassPer(calMass(calAtom(x)))
 End Function
 
+Function calpH(pKa() As Double, c As Double, pKw As Double) As Double
+    Dim cH As Double, Ka As Double, Kw As Double
+    Ka1 = 10 ^ (-pKa(0))
+    Kw = 10 ^ (-pKw)
+    cH = (Sqr(Ka1 ^ 2 + 4 * Ka1 * c + Kw) - Ka1) * 0.5
+    If cH > 0 Then calpH = -Log(cH) / Log(10) Else calpH = 1024
+End Function
+
+Function calpHtoc(pKa() As Double, c As Double, pH As Double) As Double()
+    ReDim calpHtoc(UBound(pKa) + 1)
+    Dim D As Double, E As Double, F As Double, G() As Double, H As Double, Ka() As Double, pHtoc() As Double
+    ReDim Ka(UBound(pKa) + 1)
+    ReDim G(UBound(pKa) + 1)
+    ReDim pHtoc(UBound(pKa) + 1)
+    D = 0
+    E = 1
+    H = 10 ^ (-pH)
+    F = H ^ n
+    For i = LBound(pKa) To UBound(pKa)
+        Ka(i) = 10 ^ (-pKa(i))
+    Next i
+    For i = LBound(pKa) To UBound(pKa) + 1
+        G(i) = F * E
+        D = D + G(i)
+        F = F / H
+        E = E * Ka(i)
+    Next i
+    For i = LBound(pKa) To UBound(pKa) + 1
+        pHtoc(i) = c * G(i) / D
+    Next i
+    calpHtoc = pHtoc
+End Function
+
+Function calpHOut(pKa As String, c As String, pKw As String, AorB As Boolean) As String
+    Dim strpKa() As String
+    Dim valpKa() As Double
+    Dim cAB() As Double
+    Dim i As Integer, j As Integer
+    Dim error As Boolean
+    Dim n As Integer
+    error = False
+    If Val(c) = 0 Or Not IsNumeric(pKw) Then error = True
+    calpHOut = "c=" & c & ", "
+    If pKa = "" Then pKa = "error"
+    strpKa() = Split(pKa)
+    ReDim valpKa(UBound(strpKa))
+    For i = LBound(strpKa) To UBound(strpKa)
+        If Not IsNumeric(strpKa(i)) Then error = True
+        valpKa(i) = Val(strpKa(i))
+        If AorB Then calpHOut = calpHOut & "pKa" Else calpHOut = calpHOut & "pKb"
+        calpHOut = calpHOut & i + 1 & "=" & strpKa(i) & ", "
+    Next i
+    calpHOut = calpHOut & Chr(13) & Chr(10)
+    pH = calpH(valpKa(), Val(c), Val(pKw))
+    cAB = calpHtoc(valpKa(), Val(c), Val(pH))
+    If Not AorB Then pH = pKw - pH
+    H = 10 ^ (-pH)
+    calpHOut = calpHOut & "溶液的pH为" & Format(pH, "0.00") & Chr(13) & Chr(10) & "c(H+)=" & Format(H, "Scientific") & Chr(13) & Chr(10)
+    For i = LBound(cAB) To UBound(cAB)
+        calpHOut = calpHOut & "c("
+        If AorB Then
+            If i < UBound(cAB) Then
+                calpHOut = calpHOut & "H"
+                If UBound(cAB) - i > 1 Then calpHOut = calpHOut & UBound(cAB) - i
+            End If
+            calpHOut = calpHOut & "A"
+            If i > 0 Then
+                If i > 1 Then calpHOut = calpHOut & i
+                calpHOut = calpHOut & "-"
+            End If
+        Else
+            calpHOut = calpHOut & "B"
+            If UBound(cAB) - i > 1 Then
+                calpHOut = calpHOut & "(OH)" & UBound(cAB) - i
+            ElseIf UBound(cAB) - i = 1 Then
+                calpHOut = calpHOut & "OH"
+            End If
+            If i > 0 Then
+                If i > 1 Then calpHOut = calpHOut & i
+                calpHOut = calpHOut & "+"
+            End If
+        End If
+        calpHOut = calpHOut & ")=" & Format(cAB(i), "Scientific") & Chr(13) & Chr(10)
+    Next i
+    If error = True Then calpHOut = "输入错误，请重新输入！"
+End Function
+
+
 
 'Function calGas()
 '待完成

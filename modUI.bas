@@ -47,8 +47,8 @@ Public Function UIAddIcon()
     With sampleTray           '* 设置托盘属性
        .cbSize = Len(sampleTray)
        .cbSize = Len(sampleTray)
-       .hwnd = frmMain.hwnd ''
-       .uId = vbNull ''
+       .hwnd = frmMain.hwnd
+       .uId = vbNull
        .uFlags = NIF_INFO Or NIF_ICON Or NIF_TIP Or NIF_MESSAGE
        .hIcon = frmMain.Icon
        .szInfoTitle = "化学小工具" & vbNullChar
@@ -62,3 +62,8 @@ Public Function UIAddIcon()
     End With
     Call Shell_NotifyIcon(NIM_ADD, sampleTray)
 End Function
+
+Public Sub UIDelIcon() '将图标从系统托盘区中删除
+    sampleTray.uFlags = 0
+    Shell_NotifyIcon NIM_DELETE, sampleTray
+End Sub

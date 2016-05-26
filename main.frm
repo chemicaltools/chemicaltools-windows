@@ -3,56 +3,65 @@ Begin VB.Form frmMain
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
    Caption         =   "化学小工具 Designed by 团队一号"
-   ClientHeight    =   4680
+   ClientHeight    =   5535
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   7425
    Icon            =   "main.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   4680
+   ScaleHeight     =   5535
    ScaleWidth      =   7425
    StartUpPosition =   1  '所有者中心
+   Begin VB.CommandButton cmdpH 
+      BackColor       =   &H00C0FFFF&
+      Caption         =   "酸碱计算"
+      Height          =   615
+      Left            =   5040
+      TabIndex        =   7
+      Top             =   2880
+      Width           =   1455
+   End
    Begin VB.CommandButton cmdNewPassword 
       Caption         =   "修改密码"
       Height          =   615
-      Left            =   600
+      Left            =   2880
       TabIndex        =   6
-      Top             =   3840
-      Width           =   1575
+      Top             =   3720
+      Width           =   1455
    End
    Begin VB.CommandButton cmdSignOut 
       Caption         =   "注销"
       Height          =   615
-      Left            =   2880
+      Left            =   5040
       TabIndex        =   5
-      Top             =   3840
+      Top             =   3720
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmAbout 
       Caption         =   "关于"
       Height          =   615
-      Left            =   5040
+      Left            =   2880
       TabIndex        =   4
-      Top             =   3840
+      Top             =   4560
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmExam 
       Caption         =   "元素记忆"
       Height          =   615
-      Left            =   5040
+      Left            =   720
       TabIndex        =   3
-      Top             =   2880
+      Top             =   3720
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmElement 
       BackColor       =   &H00C0FFFF&
       Caption         =   "元素查询"
       Height          =   615
-      Left            =   600
+      Left            =   720
       TabIndex        =   1
       Top             =   2880
-      Width           =   1575
+      Width           =   1455
    End
    Begin VB.CommandButton cmdfrmMass 
       Caption         =   "质量计算"
@@ -128,6 +137,11 @@ Private Sub cmdNewPassword_Click()
     FrmChangePassword.Show 1
 End Sub
 
+Private Sub cmdpH_Click()
+    Load frmpH
+    frmpH.Show
+End Sub
+
 Private Sub cmdSignOut_Click()
     dataSignOut
     If UIFormLoad(frmLogin) Then Unload frmLogin
@@ -143,16 +157,17 @@ Private Sub Form_Load()
     Call UIAddIcon
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
 Private Sub imgClose_Click()
+    Call UIDelIcon
     End
 End Sub
 
-Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub

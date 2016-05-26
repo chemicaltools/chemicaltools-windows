@@ -5,4 +5,5 @@ Sub Main()
     Call dataHistoryRead
     Load frmLogin
     Call dataElement
+    pKw = 14
 End Sub

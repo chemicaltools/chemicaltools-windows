@@ -24,6 +24,10 @@ Public HisMass As String
 Public HisUsername As String
 Public HisPassword As String
 Public HisAutoLogin As String
+Public Hisc As String
+Public HispKa As String
+Public HispKw As String
+Public HisAB As Boolean
 'ÔªËØ
 Public ElementName(118) As String
 Public ElementAbbr(118) As String
@@ -216,6 +220,10 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
                     ExamScoreTime = CStr(DataAdodbRs!ScoreTime)
                     HisElement = CStr(DataAdodbRs!Element)
                     HisMass = CStr(DataAdodbRs!Mass)
+                    Hisc = CStr(DataAdodbRs!c)
+                    HispKw = CStr(DataAdodbRs!pKw)
+                    HispKa = CStr(DataAdodbRs!pKa)
+                    If CStr(DataAdodbRs!AB) = "A" Then HisAB = True Else HisAB = False
                     If CStr(DataAdodbRs!TimeIf) = "True" Then ExamTimeIf = True Else ExamTimeIf = False
                     DataAdodbRs.Update
                 End If
@@ -250,6 +258,10 @@ Public Function dataSignUp(Username As String, Password As String) As Boolean
     DataAdodbRs("TimeIf") = "True"
     DataAdodbRs("Element") = ""
     DataAdodbRs("Mass") = ""
+    DataAdodbRs("c") = ""
+    DataAdodbRs("pKw") = "14"
+    DataAdodbRs("pKa") = ""
+    DataAdodbRs("AB") = "A"
     DataAdodbRs.Update
     Call dataClose
 End Function
