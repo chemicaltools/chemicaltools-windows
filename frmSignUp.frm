@@ -26,7 +26,7 @@ Begin VB.Form frmSignUp
    End
    Begin VB.CheckBox chkAgree 
       BackColor       =   &H00C0FFFF&
-      Caption         =   "我同意遵守《用户使用条款》。"
+      Caption         =   "我同意遵守国家有关法律法规。"
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   12

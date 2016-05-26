@@ -1,37 +1,51 @@
 VERSION 5.00
-Begin VB.Form frmpH 
+Begin VB.Form frmGas 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "酸碱计算器 Designed by 团队一号"
-   ClientHeight    =   6060
+   Caption         =   "气体计算器 Designed by 团队一号"
+   ClientHeight    =   5505
    ClientLeft      =   0
    ClientTop       =   0
    ClientWidth     =   5760
-   Icon            =   "frmpH.frx":0000
+   Icon            =   "frmGas.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6060
+   ScaleHeight     =   5505
    ScaleWidth      =   5760
    StartUpPosition =   1  '所有者中心
-   Begin VB.ComboBox comboAB 
-      BeginProperty Font 
-         Name            =   "微软雅黑"
-         Size            =   12
-         Charset         =   134
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   435
-      ItemData        =   "frmpH.frx":1B692
+   Begin VB.OptionButton opnT 
+      BackColor       =   &H00C0FFFF&
+      Height          =   375
       Left            =   120
-      List            =   "frmpH.frx":1B69C
-      Style           =   2  'Dropdown List
-      TabIndex        =   3
-      Top             =   2880
-      Width           =   855
+      TabIndex        =   7
+      Top             =   4080
+      Width           =   375
    End
-   Begin VB.TextBox texpKw 
+   Begin VB.OptionButton opnn 
+      BackColor       =   &H00C0FFFF&
+      Height          =   375
+      Left            =   120
+      TabIndex        =   6
+      Top             =   3480
+      Width           =   375
+   End
+   Begin VB.OptionButton opnV 
+      BackColor       =   &H00C0FFFF&
+      Height          =   375
+      Left            =   120
+      TabIndex        =   5
+      Top             =   2880
+      Width           =   375
+   End
+   Begin VB.OptionButton opnp 
+      BackColor       =   &H00C0FFFF&
+      Height          =   375
+      Left            =   120
+      TabIndex        =   4
+      Top             =   2280
+      Value           =   -1  'True
+      Width           =   375
+   End
+   Begin VB.TextBox texT 
       BeginProperty Font 
          Name            =   "宋体"
          Size            =   12
@@ -43,13 +57,12 @@ Begin VB.Form frmpH
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   495
-      Left            =   3840
-      TabIndex        =   1
-      Text            =   "14"
-      Top             =   2280
-      Width           =   1575
+      Left            =   1920
+      TabIndex        =   3
+      Top             =   4080
+      Width           =   3495
    End
-   Begin VB.TextBox texc 
+   Begin VB.TextBox texn 
       BeginProperty Font 
          Name            =   "宋体"
          Size            =   12
@@ -59,51 +72,40 @@ Begin VB.Form frmpH
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00C0C0C0&
+      ForeColor       =   &H00000000&
       Height          =   495
-      Left            =   1200
+      Left            =   1920
+      TabIndex        =   2
+      Top             =   3480
+      Width           =   3495
+   End
+   Begin VB.TextBox texp 
+      BeginProperty Font 
+         Name            =   "宋体"
+         Size            =   12
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   495
+      Left            =   1920
       TabIndex        =   0
       Top             =   2280
-      Width           =   1815
-   End
-   Begin VB.CommandButton cmdCopy 
-      Caption         =   "复制到剪切板"
-      Height          =   495
-      Left            =   0
-      TabIndex        =   6
-      Top             =   5520
-      Width           =   5415
-   End
-   Begin VB.TextBox texpHOut 
-      BeginProperty Font 
-         Name            =   "微软雅黑"
-         Size            =   12
-         Charset         =   134
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   1935
-      Left            =   0
-      Locked          =   -1  'True
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   5
-      Text            =   "frmpH.frx":1B6A8
-      Top             =   3480
-      Width           =   5415
+      Width           =   3495
    End
    Begin VB.CommandButton cmdpH 
-      Caption         =   "计算！"
+      Caption         =   "勾选需要计算的量，并点击计算！"
       Default         =   -1  'True
       Height          =   495
-      Left            =   4560
-      TabIndex        =   4
-      Top             =   2880
-      Width           =   855
+      Left            =   240
+      TabIndex        =   8
+      Top             =   4800
+      Width           =   5055
    End
-   Begin VB.TextBox texpKa 
+   Begin VB.TextBox texV 
       BeginProperty Font 
          Name            =   "宋体"
          Size            =   12
@@ -113,16 +115,16 @@ Begin VB.Form frmpH
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00C0C0C0&
+      ForeColor       =   &H00000000&
       Height          =   495
-      Left            =   1680
-      TabIndex        =   2
+      Left            =   1920
+      TabIndex        =   1
       Top             =   2880
-      Width           =   2775
+      Width           =   3495
    End
-   Begin VB.Label lblpKa 
+   Begin VB.Label lblT 
       BackStyle       =   0  'Transparent
-      Caption         =   "pKa"
+      Caption         =   "温度T"
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   15
@@ -133,32 +135,14 @@ Begin VB.Form frmpH
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   1080
-      TabIndex        =   9
-      Top             =   2880
-      Width           =   615
-   End
-   Begin VB.Label lblc 
-      BackStyle       =   0  'Transparent
-      Caption         =   "分析浓度"
-      BeginProperty Font 
-         Name            =   "微软雅黑"
-         Size            =   15
-         Charset         =   134
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   495
-      Left            =   0
-      TabIndex        =   8
-      Top             =   2280
+      Left            =   480
+      TabIndex        =   12
+      Top             =   4080
       Width           =   1215
    End
-   Begin VB.Label lblpKw 
+   Begin VB.Label lbln 
       BackStyle       =   0  'Transparent
-      Caption         =   "pKw"
+      Caption         =   "物质的量n"
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   15
@@ -169,15 +153,51 @@ Begin VB.Form frmpH
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   3120
-      TabIndex        =   7
+      Left            =   480
+      TabIndex        =   11
+      Top             =   3480
+      Width           =   1455
+   End
+   Begin VB.Label lblp 
+      BackStyle       =   0  'Transparent
+      Caption         =   "压强p"
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   15
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   480
+      TabIndex        =   10
       Top             =   2280
-      Width           =   615
+      Width           =   855
+   End
+   Begin VB.Label lblV 
+      BackStyle       =   0  'Transparent
+      Caption         =   "体积V"
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   15
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   480
+      TabIndex        =   9
+      Top             =   2880
+      Width           =   855
    End
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5280
-      Picture         =   "frmpH.frx":1B6D5
+      Picture         =   "frmGas.frx":1B692
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -186,59 +206,35 @@ Begin VB.Form frmpH
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmpH.frx":1CBC9
+      Picture         =   "frmGas.frx":1CB86
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
    End
 End
-Attribute VB_Name = "frmpH"
+Attribute VB_Name = "frmGas"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private InTip As String
-Private InTipb As String
-
 Private Sub cmdCopy_Click()
     UICopy (texpHOut)
 End Sub
 
 Private Sub cmdpH_Click()
-    Dim AorB As Boolean
-    If comboAB = "酸" Then AorB = True Else AorB = False
-    texpHOut = calpHOut(texpKa, texc, texpKw, AorB)
-    Hisc = texc
-    HispKa = texpKa
-    HispKw = texpKw
-    HisAB = AorB
-    Call dataBaseWrite(DataUsername, "c", Hisc)
-    Call dataBaseWrite(DataUsername, "pKa", HispKa)
-    Call dataBaseWrite(DataUsername, "pKw", HispKw)
-    If HisAB Then Call dataBaseWrite(DataUsername, "AB", "A") Else Call dataBaseWrite(DataUsername, "AB", "B")
-End Sub
-
-Private Sub comboAB_click()
-    If comboAB = "酸" Then
-        lblpKa = "pKa"
-        InTip = "请输入pKa，以空格间隔"
-        texpKa.Text = InTip
+    Dim p As Double, v As Double, n As Double, T As Double
+    p = Val(texp)
+    v = Val(texV)
+    n = Val(texn)
+    T = Val(texT)
+    If opnp Then
+        texp = calGasp(v, n, T)
+    ElseIf opnV Then
+        texV = calGasV(p, n, T)
+    ElseIf opnn Then
+        texn = calGasn(p, v, T)
     Else
-        lblpKa = "pKb"
-        InTip = "请输入pKb，以空格间隔"
-        texpKa.Text = InTip
-    End If
-End Sub
-
-Private Sub Form_Load()
-    Dim n As Integer
-    InTip = "请输入pKa，以空格间隔"
-    InTipb = "请输入分析浓度"
-    texpKa.Text = InTip
-    texc.Text = InTipb
-    comboAB.ListIndex = 0
-    If Hisc <> "" And HispKa <> "" Then
-        texpHOut = calpHOut(HispKa, Hisc, HispKw, HisAB)
+        texT = calGasT(p, v, n)
     End If
 End Sub
 
@@ -254,32 +250,4 @@ End Sub
 Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
-End Sub
-
-Private Sub texpKa_Click()
-    If texpKa.Text = InTip Then
-        texpKa.Text = ""
-        texpKa.ForeColor = RGB(0, 0, 0)
-    End If
-End Sub
-
-Private Sub texpKa_KeyPress(KeyAscii As Integer)
-    If texpKa.Text = InTip Then
-        texpKa.Text = ""
-        texpKa.ForeColor = RGB(0, 0, 0)
-    End If
-End Sub
-
-Private Sub texc_Click()
-    If texc.Text = InTipb Then
-        texc.Text = ""
-        texc.ForeColor = RGB(0, 0, 0)
-    End If
-End Sub
-
-Private Sub texc_KeyPress(KeyAscii As Integer)
-    If texc.Text = InTipb Then
-        texc.Text = ""
-        texc.ForeColor = RGB(0, 0, 0)
-    End If
 End Sub

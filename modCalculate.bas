@@ -8,22 +8,22 @@ Public Type MaterialAtom
 End Type
 
 Function calElementChoose(x As String) As Integer
-    Dim i As Integer, t As Boolean
+    Dim i As Integer, T As Boolean
     i = 0
-    t = False
-    While i < 118 And t = False
+    T = False
+    While i < 118 And T = False
         i = i + 1
         If i = Int(Val(x)) Then
             calElementChoose = i
-            t = True
+            T = True
         ElseIf ElementName(i) = x Then
             calElementChoose = i
-            t = True
+            T = True
         ElseIf UCase(ElementAbbr(i)) = UCase(x) Then
             calElementChoose = i
-            t = True
+            T = True
         Else
-            t = False
+            T = False
         End If
     Wend
     If IsNull(calElementChoose) = True Then calElementChoose = 0
@@ -57,7 +57,7 @@ End Function
 Function calAtom(x As String) As MaterialAtom
     ReDim calAtom.AtomNumber(118) As Integer
     Dim AtomNumber(118) As Integer
-    Dim i As Integer, l As Integer, y1 As String, y2 As String, y3 As String, y4 As String, t As String, n As Integer, s As Integer, i2 As Integer
+    Dim i As Integer, l As Integer, y1 As String, y2 As String, y3 As String, y4 As String, T As String, n As Integer, s As Integer, i2 As Integer
     calAtom.Material = x
     l = Len(x)
     If l = 0 Then calAtom.AtomNumber(0) = 1 Else calAtom.AtomNumber(0) = 0
@@ -120,8 +120,8 @@ Function calAtom(x As String) As MaterialAtom
         If calAsc(y1) = 1 Then '首位为大写字母
             If i >= l Then y2 = "1" Else y2 = Mid(x, i + 1, 1)
             If calAsc(y2) = 2 Then '第2位为小写
-                t = y1 & y2
-                n = calElementChoose(t)
+                T = y1 & y2
+                n = calElementChoose(T)
                 If n = 0 Then
                     calAtom.AtomNumber(0) = 1
                 Else
@@ -324,14 +324,74 @@ Function calpHOut(pKa As String, c As String, pKw As String, AorB As Boolean) As
     If error = True Then calpHOut = "输入错误，请重新输入！"
 End Function
 
+Function calRelixue(H1 As String, H2 As String, S1 As String, S2 As String) As String
+    Dim strH1() As String, strH2() As String, strS1() As String, strS2() As String
+    Dim sumH1 As Double, sumH2 As Double, sumS1 As Double, sumS2 As Double
+    Dim s As Double
+    Dim detH As Double, detS As Double, detG As Double, T As Double, K As Double
+    If H1 = "" Then H1 = "0"
+    If H2 = "" Then H2 = "0"
+    If S1 = "" Then S1 = "0"
+    If S2 = "" Then S2 = "0"
+    strH1() = Split(H1)
+    strH2() = Split(H2)
+    strS1() = Split(S1)
+    strS2() = Split(S2)
+    s = 0
+    For i = LBound(strH1) To UBound(strH1)
+        s = s + Val(strH1(i))
+    Next i
+    sumH1 = s
+    s = 0
+    For i = LBound(strH2) To UBound(strH2)
+        s = s + Val(strH2(i))
+    Next i
+    sumH2 = s
+    s = 0
+    For i = LBound(strS1) To UBound(strS1)
+        s = s + Val(strS1(i))
+    Next i
+    sumS1 = s
+    s = 0
+    For i = LBound(strS2) To UBound(strS2)
+        s = s + Val(strS2(i))
+    Next i
+    sumS2 = s
+    calRelixue = "反应物的总生成焓为" & Format(sumH1, "0.0") & "kJ/mol，生成物的总生成焓为" & Format(sumH2, "0.0") & "kJ/mol，反应物的总标准熵为" & Format(sumS1, "0.0") & "J/mol，生成物的总标准熵为" & Format(sumS2, "0.0") & "J/mol。" & Chr(13) & Chr(10)
+    detH = sumH2 - sumH1
+    detS = sumS2 - sumS1
+    detG = detH - 298.15 * detS / 1000
+    K = Exp(-detG * 1000 / R / 298.15)
+    calRelixue = calRelixue & "反应的标准摩尔焓变为" & Format(detH, "0.0") & "kJ/mol，" & "标准摩尔熵变为" & Format(detS, "0.0") & "J/mol" & "，标准摩尔吉布斯自由能为" & Format(detG, "0.0") & "kJ/mol，标准平衡常数为" & Format(K, "Scientific") & "。" & Chr(13) & Chr(10)
+    If detH >= 0 Then
+        If detS >= 0 Then
+            T = detH / detS * 1000
+            calRelixue = calRelixue & "温度T<" & Format(T, "0.0") & "K时，该反应能自发进行，" & "温度T>" & Format(T, "0.0") & "K时，该反应不能自发进行。"
+        Else
+            calRelixue = calRelixue & "在任何温度下，该反应均不能自发进行。"
+        End If
+    Else
+        If detS >= 0 Then
+            calRelixue = calRelixue & "在任何温度下，该反应均能自发进行。"
+        Else
+            T = detH / detS * 1000
+            calRelixue = calRelixue & "温度T>" & Format(T, "0.0") & "K时，该反应能自发进行，" & "温度T<" & Format(T, "0.0") & "K时，该反应不能自发进行。"
+        End If
+    End If
+End Function
 
+Function calGasp(V As Double, n As Double, T As Double)
+    calGasp = n * R * T / V
+End Function
 
-'Function calGas()
-'待完成
-'End Function
+Function calGasV(p As Double, n As Double, T As Double)
+    calGasV = n * R * T / p
+End Function
 
-'Function calEquation(x As String)
-'完成中
-   ' Dim l As Integer, i As Integer
-    
-'End Function
+Function calGasn(p As Double, V As Double, T As Double)
+    calGasn = p * V / R / T
+End Function
+
+Function calGasT(p As Double, V As Double, n As Double)
+    calGasT = p * V / n / R
+End Function

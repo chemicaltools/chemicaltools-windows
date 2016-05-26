@@ -199,3 +199,4 @@ FakesAssemblies/
 *.ini
 *.exe
 *.scc
+*.log

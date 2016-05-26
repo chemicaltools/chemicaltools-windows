@@ -13,6 +13,22 @@ Begin VB.Form frmMain
    ScaleHeight     =   5535
    ScaleWidth      =   7425
    StartUpPosition =   1  '所有者中心
+   Begin VB.CommandButton cmdGas 
+      Caption         =   "气体计算"
+      Height          =   615
+      Left            =   2880
+      TabIndex        =   9
+      Top             =   3720
+      Width           =   1455
+   End
+   Begin VB.CommandButton cmdRelixue 
+      Caption         =   "热力学计算"
+      Height          =   615
+      Left            =   720
+      TabIndex        =   8
+      Top             =   3720
+      Width           =   1455
+   End
    Begin VB.CommandButton cmdpH 
       BackColor       =   &H00C0FFFF&
       Caption         =   "酸碱计算"
@@ -25,23 +41,23 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdNewPassword 
       Caption         =   "修改密码"
       Height          =   615
-      Left            =   2880
+      Left            =   720
       TabIndex        =   6
-      Top             =   3720
+      Top             =   4560
       Width           =   1455
    End
    Begin VB.CommandButton cmdSignOut 
       Caption         =   "注销"
       Height          =   615
-      Left            =   5040
+      Left            =   2880
       TabIndex        =   5
-      Top             =   3720
+      Top             =   4560
       Width           =   1455
    End
    Begin VB.CommandButton cmdfrmAbout 
       Caption         =   "关于"
       Height          =   615
-      Left            =   2880
+      Left            =   5040
       TabIndex        =   4
       Top             =   4560
       Width           =   1455
@@ -49,7 +65,7 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdfrmExam 
       Caption         =   "元素记忆"
       Height          =   615
-      Left            =   720
+      Left            =   5040
       TabIndex        =   3
       Top             =   3720
       Width           =   1455
@@ -133,6 +149,11 @@ Private Sub cmdfrmmass_Click()
     frmMass.Show
 End Sub
 
+Private Sub cmdGas_Click()
+    Load frmGas
+    frmGas.Show
+End Sub
+
 Private Sub cmdNewPassword_Click()
     FrmChangePassword.Show 1
 End Sub
@@ -140,6 +161,11 @@ End Sub
 Private Sub cmdpH_Click()
     Load frmpH
     frmpH.Show
+End Sub
+
+Private Sub cmdRelixue_Click()
+    Load frmThermodynamics
+    frmThermodynamics.Show
 End Sub
 
 Private Sub cmdSignOut_Click()
