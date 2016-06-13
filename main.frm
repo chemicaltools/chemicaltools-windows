@@ -155,7 +155,11 @@ Private Sub cmdGas_Click()
 End Sub
 
 Private Sub cmdNewPassword_Click()
-    FrmChangePassword.Show 1
+    If DataUsername = "·Ã¿Í" Then
+        MsgBox "·Ã¿Í½ûÖ¹ĞŞ¸ÄÃÜÂë£¡", vbOKOnly, "´íÎó"
+    Else
+        FrmChangePassword.Show 1
+    End If
 End Sub
 
 Private Sub cmdpH_Click()

@@ -298,3 +298,33 @@ Public Function dataChangePassword(Username As String, Password As String, NewPa
     Call dataClose
 End Function
 
+Public Function dataRenew() As Boolean
+    dataRenew = True
+    Call dataOpen(2)
+    DataAdodbRs.Open "select * from [User]"
+    While Not DataAdodbRs.EOF And dataRenew = True
+        If Not IsNull(DataAdodbRs!Username) Then
+            If CStr(DataAdodbRs!Username) = "·Ã¿Í" Then
+                dataRenew = False
+            Else
+                DataAdodbRs.MoveNext
+            End If
+        End If
+    Wend
+    DataAdodbRs("Password") = dataPasswordLock("user")
+    DataAdodbRs("UseNumber") = 0
+    DataAdodbRs("TimeMax") = 60
+    DataAdodbRs("NumberMax") = 100
+    DataAdodbRs("NoMax") = 20
+    DataAdodbRs("ScoreMax") = 0
+    DataAdodbRs("ScoreTime") = "N/A"
+    DataAdodbRs("TimeIf") = "True"
+    DataAdodbRs("Element") = ""
+    DataAdodbRs("Mass") = ""
+    DataAdodbRs("c") = ""
+    DataAdodbRs("pKw") = "14"
+    DataAdodbRs("pKa") = ""
+    DataAdodbRs("AB") = "A"
+    DataAdodbRs.Update
+    Call dataClose
+End Function

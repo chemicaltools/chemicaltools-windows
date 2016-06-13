@@ -158,6 +158,8 @@ End Sub
 Private Sub cmdSignUp_Click()
     If texUsername = "" Then
         MsgBox "请输入用户名！", vbOKOnly, "错误"
+    ElseIf texusename = "访客" Then
+        MsgBox "禁止使用该用户名！", vbOKOnly, "错误"
     ElseIf texPassword = "" Then
         MsgBox "请输入密码！", vbOKOnly, "错误"
     ElseIf texPassword <> texAgain Then

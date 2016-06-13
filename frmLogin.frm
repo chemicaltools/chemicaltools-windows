@@ -13,6 +13,14 @@ Begin VB.Form frmLogin
    ScaleHeight     =   4995
    ScaleWidth      =   7335
    StartUpPosition =   2  '屏幕中心
+   Begin VB.CommandButton Command1 
+      Caption         =   "访客模式"
+      Height          =   615
+      Left            =   4800
+      TabIndex        =   8
+      Top             =   4320
+      Width           =   1215
+   End
    Begin VB.CheckBox chkAutoLogin 
       BackColor       =   &H00C0FFFF&
       Caption         =   "自动登陆"
@@ -35,7 +43,7 @@ Begin VB.Form frmLogin
    Begin VB.CommandButton cmdSignUp 
       Caption         =   "注册"
       Height          =   615
-      Left            =   4080
+      Left            =   3120
       TabIndex        =   5
       Top             =   4320
       Width           =   1215
@@ -144,8 +152,17 @@ Private Sub cmdSignUp_Click()
     frmSignUp.Show 1
 End Sub
 
+Private Sub Command1_Click()
+    If Not dataSignUp("访客", "user") Then dataRenew
+    texUsername = "访客"
+    texPassword = "user"
+    chkPassword.value = False
+    chkAutoLogin.value = False
+    Call cmdLogin_Click
+End Sub
+
 Private Sub Form_Load()
-    If HisUsername <> "" Then
+    If HisUsername <> "" And HisUsername <> "访客" Then
         texUsername = HisUsername
         If HisPassword <> "" Then
             texPassword = HisPassword
