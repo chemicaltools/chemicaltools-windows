@@ -200,3 +200,4 @@ FakesAssemblies/
 *.exe
 *.scc
 *.log
+mdb/User.mdb
