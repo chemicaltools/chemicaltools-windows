@@ -77,7 +77,7 @@ Begin VB.Form frmElement
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmElement.frx":1CBB3
+      Picture         =   "frmElement.frx":1CFB7
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
@@ -179,29 +179,29 @@ End Sub
 
 Private Sub cmdElement_Click()
     Dim n As Integer
-    n = calElementChoose(texElementIn.Text)
+    n = calElementChoose(texElementIn.texT)
     If n > 0 Then
         lblElementNumber = n
         lblElementName = ElementName(n)
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
-        HisElement = texElementIn.Text
+        HisElement = texElementIn.texT
         Call dataBaseWrite(DataUsername, "Element", HisElement)
     End If
-    texElementOut.Text = calElementStr(n)
+    texElementOut.texT = calElementStr(n)
 End Sub
 
 Private Sub Form_Load()
     Dim n As Integer
     InTip = "请在此处输入元素序号/名称/符号"
-    texElementIn.Text = InTip
+    texElementIn.texT = InTip
     If HisElement <> "" Then
         n = calElementChoose(HisElement)
         lblElementNumber = n
         lblElementName = ElementName(n)
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
-        texElementOut.Text = calElementStr(n)
+        texElementOut.texT = calElementStr(n)
     End If
 End Sub
 
@@ -220,15 +220,15 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texElementIn_Click()
-    If texElementIn.Text = InTip Then
-        texElementIn.Text = ""
+    If texElementIn.texT = InTip Then
+        texElementIn.texT = ""
         texElementIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texElementIn_KeyPress(KeyAscii As Integer)
-    If texElementIn.Text = InTip Then
-        texElementIn.Text = ""
+    If texElementIn.texT = InTip Then
+        texElementIn.texT = ""
         texElementIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

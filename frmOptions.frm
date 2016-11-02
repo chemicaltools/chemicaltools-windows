@@ -270,7 +270,7 @@ Begin VB.Form frmOptions
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmOptions.frx":1CB86
+      Picture         =   "frmOptions.frx":1CF8A
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7575
@@ -283,9 +283,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Private Function ReadOptions()
-    texNumber.Text = Trim(str(ExamNumberMax))
-    texNo.Text = Trim(str(ExamNoMax))
-    texTime.Text = Trim(str(ExamTimeMax))
+    texNumber.texT = Trim(str(ExamNumberMax))
+    texNo.texT = Trim(str(ExamNoMax))
+    texTime.texT = Trim(str(ExamTimeMax))
     If ExamTimeIf = True Then chkTimeIf.value = 1 Else chkTimeIf.value = 0
     CheckTimeIf
     cmdApply.Enabled = False
@@ -294,9 +294,9 @@ End Function
 Private Function WriteOptions() As Boolean
     Dim NumMax As Integer, NoMax As Integer, TimeMax As Integer, ErrorInfo As String
     WriteOptions = False
-    NumMax = Int(Val(texNumber.Text))
-    NoMax = Int(Val(texNo.Text))
-    TimeMax = Int(Val(texTime.Text))
+    NumMax = Int(Val(texNumber.texT))
+    NoMax = Int(Val(texNo.texT))
+    TimeMax = Int(Val(texTime.texT))
     If Not (NumMax < 119 And NumMax > 0) Then
         WriteOptions = True
         ErrorInfo = "‘™Àÿ∑∂Œß ‰»Î¥ÌŒÛ£°"

@@ -114,7 +114,7 @@ Begin VB.Form frmLogin
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   6840
-      Picture         =   "frmLogin.frx":1B692
+      Picture         =   "frmLogin.frx":048A
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -123,7 +123,7 @@ Begin VB.Form frmLogin
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "frmLogin.frx":1CB86
+      Picture         =   "frmLogin.frx":1D82
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
@@ -135,11 +135,11 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub chkAutoLogin_Click()
-    If chkAutoLogin.value = 1 And chkPassword.value <> 1 Then chkPassword.value = 1
+    If chkAutoLogin.Value = 1 And chkPassword.Value <> 1 Then chkPassword.Value = 1
 End Sub
 
 Private Sub cmdLogin_Click()
-    If dataLogin(texUsername, texPassword, chkPassword.value, chkAutoLogin.value) = True Then
+    If dataLogin(texUsername, texPassword, chkPassword.Value, chkAutoLogin.Value) = True Then
         Me.Hide
         frmMain.Show
         If UIFormLoad(Me) Then Me.Hide
@@ -156,8 +156,8 @@ Private Sub Command1_Click()
     If Not dataSignUp("련와", "user") Then dataRenew
     texUsername = "련와"
     texPassword = "user"
-    chkPassword.value = False
-    chkAutoLogin.value = False
+    chkPassword.Value = False
+    chkAutoLogin.Value = False
     Call cmdLogin_Click
 End Sub
 
@@ -166,10 +166,10 @@ Private Sub Form_Load()
         texUsername = HisUsername
         If HisPassword <> "" Then
             texPassword = HisPassword
-            chkPassword.value = 1
+            chkPassword.Value = 1
         End If
         If HisAutoLogin = "True" Then
-            chkAutoLogin.value = 1
+            chkAutoLogin.Value = 1
         End If
         Me.Show
         texPassword.SetFocus

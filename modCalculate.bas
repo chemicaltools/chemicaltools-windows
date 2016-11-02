@@ -114,7 +114,7 @@ Function calAtom(x As String) As MaterialAtom
         Next i2
     Wend
     i = 0
-    While i < l And calAtom.AtomNumber(0) = 0 And calAtom.AtomNumber(0) = 0
+    While i < l And calAtom.AtomNumber(0) = 0
         i = i + 1
         y1 = Mid(x, i, 1)
         If calAsc(y1) = 1 Then '首位为大写字母
@@ -238,7 +238,7 @@ Function calMassPerStr(x As String) As String
 End Function
 
 Function calpH(pKa() As Double, c As Double, pKw As Double) As Double
-    Dim cH As Double, Ka As Double, Kw As Double
+    Dim cH As Double, Ka1 As Double, Kw As Double
     Ka1 = 10 ^ (-pKa(0))
     Kw = 10 ^ (-pKw)
     cH = (Sqr(Ka1 ^ 2 + 4 * Ka1 * c + Kw) - Ka1) * 0.5
@@ -251,6 +251,7 @@ Function calpHtoc(pKa() As Double, c As Double, pH As Double) As Double()
     ReDim Ka(UBound(pKa) + 1)
     ReDim G(UBound(pKa) + 1)
     ReDim pHtoc(UBound(pKa) + 1)
+    n = UBound(pKa) + 1
     D = 0
     E = 1
     H = 10 ^ (-pH)
@@ -380,18 +381,18 @@ Function calRelixue(H1 As String, H2 As String, S1 As String, S2 As String) As S
     End If
 End Function
 
-Function calGasp(V As Double, n As Double, T As Double)
-    calGasp = n * R * T / V
+Function calGasp(v As Double, n As Double, T As Double)
+    calGasp = n * R * T / v
 End Function
 
 Function calGasV(p As Double, n As Double, T As Double)
     calGasV = n * R * T / p
 End Function
 
-Function calGasn(p As Double, V As Double, T As Double)
-    calGasn = p * V / R / T
+Function calGasn(p As Double, v As Double, T As Double)
+    calGasn = p * v / R / T
 End Function
 
-Function calGasT(p As Double, V As Double, n As Double)
-    calGasT = p * V / n / R
+Function calGasT(p As Double, v As Double, n As Double)
+    calGasT = p * v / n / R
 End Function

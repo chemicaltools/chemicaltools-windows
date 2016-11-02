@@ -201,7 +201,7 @@ Begin VB.Form frmThermodynamics
       Appearance      =   0  'Flat
       Height          =   2385
       Left            =   -360
-      Picture         =   "frmThermodynamics.frx":1CBB5
+      Picture         =   "frmThermodynamics.frx":1CFB9
       Stretch         =   -1  'True
       Top             =   -120
       Width           =   9735
@@ -231,10 +231,10 @@ Private Sub Form_Load()
     InTip2 = "生成物的焓，以空格间隔"
     InTip3 = "反应物的熵，以空格间隔"
     InTip4 = "生成物的熵，以空格间隔"
-    texH1.Text = InTip1
-    texH2.Text = InTip2
-    texS1.Text = InTip3
-    texS2.Text = InTip4
+    texH1.texT = InTip1
+    texH2.texT = InTip2
+    texS1.texT = InTip3
+    texS2.texT = InTip4
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -252,55 +252,55 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texH1_Click()
-    If texH1.Text = InTip1 Then
-        texH1.Text = ""
+    If texH1.texT = InTip1 Then
+        texH1.texT = ""
         texH1.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texH1_KeyPress(KeyAscii As Integer)
-    If texH1.Text = InTip1 Then
-        texH1.Text = ""
+    If texH1.texT = InTip1 Then
+        texH1.texT = ""
         texH1.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texH2_Click()
-    If texH2.Text = InTip2 Then
-        texH2.Text = ""
+    If texH2.texT = InTip2 Then
+        texH2.texT = ""
         texH2.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texH2_KeyPress(KeyAscii As Integer)
-    If texH2.Text = InTip2 Then
-        texH2.Text = ""
+    If texH2.texT = InTip2 Then
+        texH2.texT = ""
         texH2.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texS1_Click()
-    If texS1.Text = InTip3 Then
-        texS1.Text = ""
+    If texS1.texT = InTip3 Then
+        texS1.texT = ""
         texS1.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 Private Sub texS1_KeyPress(KeyAscii As Integer)
-    If texS1.Text = InTip3 Then
-        texS1.Text = ""
+    If texS1.texT = InTip3 Then
+        texS1.texT = ""
         texS1.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texS2_Click()
-    If texS2.Text = InTip4 Then
-        texS2.Text = ""
+    If texS2.texT = InTip4 Then
+        texS2.texT = ""
         texS2.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 Private Sub texS2_KeyPress(KeyAscii As Integer)
-    If texS2.Text = InTip4 Then
-        texS2.Text = ""
+    If texS2.texT = InTip4 Then
+        texS2.texT = ""
         texS2.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

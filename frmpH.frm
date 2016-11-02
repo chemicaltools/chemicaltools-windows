@@ -186,7 +186,7 @@ Begin VB.Form frmpH
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmpH.frx":1CBC9
+      Picture         =   "frmpH.frx":1CFCD
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
@@ -222,11 +222,11 @@ Private Sub comboAB_click()
     If comboAB = "酸" Then
         lblpKa = "pKa"
         InTip = "请输入pKa，以空格间隔"
-        texpKa.Text = InTip
+        texpKa.texT = InTip
     Else
         lblpKa = "pKb"
         InTip = "请输入pKb，以空格间隔"
-        texpKa.Text = InTip
+        texpKa.texT = InTip
     End If
 End Sub
 
@@ -234,8 +234,8 @@ Private Sub Form_Load()
     Dim n As Integer
     InTip = "请输入pKa，以空格间隔"
     InTipb = "请输入分析浓度"
-    texpKa.Text = InTip
-    texc.Text = InTipb
+    texpKa.texT = InTip
+    texc.texT = InTipb
     comboAB.ListIndex = 0
     If Hisc <> "" And HispKa <> "" Then
         texpHOut = calpHOut(HispKa, Hisc, HispKw, HisAB)
@@ -257,29 +257,29 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texpKa_Click()
-    If texpKa.Text = InTip Then
-        texpKa.Text = ""
+    If texpKa.texT = InTip Then
+        texpKa.texT = ""
         texpKa.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texpKa_KeyPress(KeyAscii As Integer)
-    If texpKa.Text = InTip Then
-        texpKa.Text = ""
+    If texpKa.texT = InTip Then
+        texpKa.texT = ""
         texpKa.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texc_Click()
-    If texc.Text = InTipb Then
-        texc.Text = ""
+    If texc.texT = InTipb Then
+        texc.texT = ""
         texc.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texc_KeyPress(KeyAscii As Integer)
-    If texc.Text = InTipb Then
-        texc.Text = ""
+    If texc.texT = InTipb Then
+        texc.texT = ""
         texc.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

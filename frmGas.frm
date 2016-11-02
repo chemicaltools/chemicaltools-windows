@@ -206,7 +206,7 @@ Begin VB.Form frmGas
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmGas.frx":1CB86
+      Picture         =   "frmGas.frx":1CF8A
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335

@@ -136,7 +136,7 @@ Begin VB.Form frmSignUp
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -1320
-      Picture         =   "frmSignUp.frx":1CB86
+      Picture         =   "frmSignUp.frx":1CF8A
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335

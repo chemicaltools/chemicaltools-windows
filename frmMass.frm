@@ -78,7 +78,7 @@ Begin VB.Form frmMass
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "frmMass.frx":1CBB3
+      Picture         =   "frmMass.frx":1CFB7
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7815
@@ -92,18 +92,18 @@ Attribute VB_Exposed = False
 Private InTip As String
 
 Private Sub cmdCopy_Click()
-    UICopy (texMassOut.Text)
+    UICopy (texMassOut.texT)
 End Sub
 
 Private Sub cmdMass_Click()
-    texMassOut = calMassPerStr(texMassIn.Text)
-    HisMass = texMassIn.Text
+    texMassOut = calMassPerStr(texMassIn.texT)
+    HisMass = texMassIn.texT
     Call dataBaseWrite(DataUsername, "Mass", HisMass)
 End Sub
 
 Private Sub Form_Load()
     InTip = "请在此处输入物质化学式，例如：K4[Fe(CN)6]"
-    texMassIn.Text = InTip
+    texMassIn.texT = InTip
     If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
 End Sub
 
@@ -123,15 +123,15 @@ End Sub
 
 
 Private Sub texMassIn_Click()
-    If texMassIn.Text = InTip Then
-        texMassIn.Text = ""
+    If texMassIn.texT = InTip Then
+        texMassIn.texT = ""
         texMassIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texMassIn_KeyPress(KeyAscii As Integer)
-    If texMassIn.Text = InTip Then
-        texMassIn.Text = ""
+    If texMassIn.texT = InTip Then
+        texMassIn.texT = ""
         texMassIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

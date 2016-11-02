@@ -8,6 +8,7 @@ Public DataAdodbRs As ADODB.Recordset
 '用户
 Public DataUsername As String
 Public DataUseNumber As Integer
+Public DataQQname As String
 '配置
 Public ExamTimeMax As Integer
 Public ExamNumberMax As Integer
@@ -98,10 +99,10 @@ Public Function dataSettingWrite(x As String, Y As String, z As String)
     Call WritePrivateProfileString(x, Y, z, dataSettingPath)
 End Function
 
-Public Function dataBaseWrite(Username As String, name As String, value As String)
+Public Function dataBaseWrite(Username As String, name As String, Value As String)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
-           DataAdodbRs(name) = value
+           DataAdodbRs(name) = Value
         DataAdodbRs.Update
         Call dataClose
 End Function
@@ -186,84 +187,108 @@ End Function
 
 Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As Boolean
     dataLogin = False
-    Call dataOpen(2)
-    DataAdodbRs.Open "select * from [User]"
-    While Not DataAdodbRs.EOF And dataLogin = False
-        If Not IsNull(DataAdodbRs!Username) Then
-            If Username = CStr(DataAdodbRs!Username) Then
-                If dataPasswordLock(Password) = CStr(DataAdodbRs!Password) Then
+    Dim json As String
+    If Username = "访客" Then
+        json = "{'errorcode':'0'}"
+    Else
+        json = dataHtmlLogin(Username, Password)
+    End If
+    If JSONParse("errorcode", json) = "0" Then
+        Call dataOpen(2)
+        DataAdodbRs.Open "select * from [User]"
+        While Not DataAdodbRs.EOF And dataLogin = False
+            If Not IsNull(DataAdodbRs!Username) Then
+                If Username = CStr(DataAdodbRs!Username) Then
                     dataLogin = True
-                    DataUseNumber = CStr(DataAdodbRs!UseNumber)
-                    DataUseNumber = DataUseNumber + 1
-                    DataAdodbRs("UseNumber") = DataUseNumber
-                    DataUsername = Username
-                    HisUsername = Username
-                    Call dataSettingWrite("History", "Username", Username)
-                    If SavingPassword = 1 Then
-                        HisPassword = Password
-                        Call dataSettingWrite("History", "Password", Password)
-                    Else
-                        HisPassword = ""
-                        Call dataSettingWrite("History", "Password", "")
-                    End If
-                    If AutoLogin = 1 Then
-                        HisAutoLogin = "True"
-                        Call dataSettingWrite("History", "AutoLogin", "True")
-                    Else
-                        HisAutoLogin = "False"
-                        Call dataSettingWrite("History", "AutoLogin", "False")
-                    End If
-                    ExamTimeMax = CStr(DataAdodbRs!TimeMax)
-                    ExamNumberMax = CStr(DataAdodbRs!NumberMax)
-                    ExamNoMax = CStr(DataAdodbRs!NoMax)
-                    ExamScoreMax = CStr(DataAdodbRs!ScoreMax)
-                    ExamScoreTime = CStr(DataAdodbRs!ScoreTime)
-                    HisElement = CStr(DataAdodbRs!Element)
-                    HisMass = CStr(DataAdodbRs!Mass)
-                    Hisc = CStr(DataAdodbRs!c)
-                    HispKw = CStr(DataAdodbRs!pKw)
-                    HispKa = CStr(DataAdodbRs!pKa)
-                    If CStr(DataAdodbRs!AB) = "A" Then HisAB = True Else HisAB = False
-                    If CStr(DataAdodbRs!TimeIf) = "True" Then ExamTimeIf = True Else ExamTimeIf = False
-                    DataAdodbRs.Update
+                Else
+                    DataAdodbRs.MoveNext
                 End If
             End If
-            DataAdodbRs.MoveNext
+        Wend
+        If dataLogin = False Then
+            DataAdodbRs.AddNew
+            DataAdodbRs("Username") = Username
+            DataAdodbRs("UseNumber") = 0
+            DataAdodbRs("TimeMax") = 60
+            DataAdodbRs("NumberMax") = 100
+            DataAdodbRs("NoMax") = 20
+            DataAdodbRs("ScoreMax") = 0
+            DataAdodbRs("ScoreTime") = "N/A"
+            DataAdodbRs("TimeIf") = "True"
+            DataAdodbRs("Element") = ""
+            DataAdodbRs("Mass") = ""
+            DataAdodbRs("c") = ""
+            DataAdodbRs("pKw") = "14"
+            DataAdodbRs("pKa") = ""
+            DataAdodbRs("AB") = "A"
+            DataAdodbRs("qqname") = ""
+            dataLogin = True
         End If
-    Wend
-    Call dataClose
+        If Not (JSONParse("elementnumber_limit", json) = "") Then
+            DataAdodbRs("NumberMax") = Val(JSONParse("elementnumber_limit", json))
+        End If
+        If Not (JSONParse("historyElementNumber", json) = "") Then
+            DataAdodbRs("Element") = Val(JSONParse("historyElement", json))
+        End If
+        If Not ((JSONParse("historyMass", json) = "")) Then
+            DataAdodbRs("Mass") = JSONParse("historyMass", json)
+        End If
+        If Not ((JSONParse("pKw", json) = "")) Then
+            DataAdodbRs("pKw") = Val(JSONParse("pKw", json))
+        End If
+        If Not ((JSONParse("qqname", json) = "")) Then
+            DataAdodbRs("qqname") = JSONParse("qqname", json)
+        End If
+        DataAdodbRs.Update
+        DataUseNumber = CStr(DataAdodbRs!UseNumber)
+        DataUseNumber = DataUseNumber + 1
+        DataAdodbRs("UseNumber") = DataUseNumber
+        DataUsername = Username
+        HisUsername = Username
+        Call dataSettingWrite("History", "Username", Username)
+        If SavingPassword = 1 Then
+            HisPassword = Password
+            Call dataSettingWrite("History", "Password", Password)
+        Else
+            HisPassword = ""
+            Call dataSettingWrite("History", "Password", "")
+        End If
+        If AutoLogin = 1 Then
+            HisAutoLogin = "True"
+            Call dataSettingWrite("History", "AutoLogin", "True")
+        Else
+            HisAutoLogin = "False"
+            Call dataSettingWrite("History", "AutoLogin", "False")
+        End If
+        ExamTimeMax = CStr(DataAdodbRs!TimeMax)
+        ExamNumberMax = CStr(DataAdodbRs!NumberMax)
+        ExamNoMax = CStr(DataAdodbRs!NoMax)
+        ExamScoreMax = CStr(DataAdodbRs!ScoreMax)
+        ExamScoreTime = CStr(DataAdodbRs!ScoreTime)
+        HisElement = CStr(DataAdodbRs!Element)
+        HisMass = CStr(DataAdodbRs!Mass)
+        Hisc = CStr(DataAdodbRs!c)
+        HispKw = CStr(DataAdodbRs!pKw)
+        HispKa = CStr(DataAdodbRs!pKa)
+        DataQQname = CStr(DataAdodbRs!qqname)
+        If CStr(DataAdodbRs!AB) = "A" Then HisAB = True Else HisAB = False
+        If CStr(DataAdodbRs!TimeIf) = "True" Then ExamTimeIf = True Else ExamTimeIf = False
+        Call dataClose
+    End If
 End Function
 
 Public Function dataSignUp(Username As String, Password As String) As Boolean
-    dataSignUp = True
-    Call dataOpen(2)
-    DataAdodbRs.Open "select * from [User]"
-    While Not DataAdodbRs.EOF And dataSignUp = True
-        If Not IsNull(DataAdodbRs!Username) Then
-            If Username = CStr(DataAdodbRs!Username) Then
-                dataSignUp = False
-            End If
-            DataAdodbRs.MoveNext
-        End If
-    Wend
-    DataAdodbRs.AddNew
-    DataAdodbRs("Username") = Username
-    DataAdodbRs("Password") = dataPasswordLock(Password)
-    DataAdodbRs("UseNumber") = 0
-    DataAdodbRs("TimeMax") = 60
-    DataAdodbRs("NumberMax") = 100
-    DataAdodbRs("NoMax") = 20
-    DataAdodbRs("ScoreMax") = 0
-    DataAdodbRs("ScoreTime") = "N/A"
-    DataAdodbRs("TimeIf") = "True"
-    DataAdodbRs("Element") = ""
-    DataAdodbRs("Mass") = ""
-    DataAdodbRs("c") = ""
-    DataAdodbRs("pKw") = "14"
-    DataAdodbRs("pKa") = ""
-    DataAdodbRs("AB") = "A"
-    DataAdodbRs.Update
-    Call dataClose
+    Dim json As String
+    If Username = "访客" Then
+        json = "{'errorcode':'0'}"
+    Else
+        json = dataHtmlLogin(Username, Password)
+    End If
+    If JSONParse("errorcode", json) = "0" Then
+        dataSignUp = True
+    Else
+        dataSignUp = False
+    End If
 End Function
 
 Public Function dataPasswordLock(x As String) As String
@@ -327,4 +352,42 @@ Public Function dataRenew() As Boolean
     DataAdodbRs("AB") = "A"
     DataAdodbRs.Update
     Call dataClose
+End Function
+
+Public Function getHtmlStr(strUrl As String) As String
+    Dim XmlHttp As Object
+    Set XmlHttp = CreateObject("Msxml2.ServerXMLHTTP.3.0")
+    XmlHttp.Open "GET", strUrl, False
+    XmlHttp.send
+    getHtmlStr = StrConv(XmlHttp.ResponseBody, vbUnicode)
+    Set XmlHttp = Nothing
+End Function
+
+Public Function dataHtmlLogin(Username As String, Password As String) As String
+ strData = getHtmlStr("http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password)
+ dataHtmlLogin = strData
+End Function
+
+Public Function JSONParse(ByVal JSONPath As String, ByVal JSONString As String) As Variant
+    Dim json As Object
+    Set json = CreateObject("MSScriptControl.ScriptControl")
+    json.Language = "JScript"
+    JSONParse = json.Eval("JSON=" & JSONString & ";JSON." & JSONPath & ";")
+    Set json = Nothing
+End Function
+
+Public Function getNickname() As String
+    If DataUsername = "访客" Then
+        getNickname = "访客"
+    ElseIf DataQQname <> "" Then
+        getNickname = CStr(DataQQname)
+    Else
+        getNickname = Mid(DataUsername, 1, InStr(DataUsername, "@") - 1)
+    End If
+End Function
+
+
+Public Function dataHtmlSignUp(Username As String, Password As String) As String
+ strData = getHtmlStr("http://chemapp.njzjz.win/winsignup.php?username=" & Username & "&password=" & Password)
+ dataHtmlSignUp = strData
 End Function

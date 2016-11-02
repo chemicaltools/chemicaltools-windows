@@ -161,7 +161,7 @@ Begin VB.Form frmExam
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmExam.frx":1CB86
+      Picture         =   "frmExam.frx":1CF8A
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7575
@@ -182,7 +182,7 @@ End Function
 Function ExamStart()
     ExamIf = True
     texExam.SetFocus
-    texExam.Text = InTip
+    texExam.texT = InTip
     texExam.ForeColor = RGB(128, 128, 128)
     lblScore.Caption = "当前分数为：" & Chr(13) & Chr(10) & Int(ExamScore)
     If ExamTimeIf = True Then
@@ -227,7 +227,7 @@ End Sub
 
 Private Sub cmdExam_Click()
     If ExamIf Then ExamNo = ExamNo + 1
-    If ExamAbbr(ExamElementNumber, texExam.Text) Then
+    If ExamAbbr(ExamElementNumber, texExam.texT) Then
         lblCorrect.Caption = "恭喜你，答对了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
         If ExamIf Then
             ExamScore = ExamScore + 100 / ExamNoMax
@@ -237,7 +237,7 @@ Private Sub cmdExam_Click()
         lblCorrect.Caption = "很遗憾，答错了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
     End If
     texExam.SetFocus
-    texExam.Text = InTip
+    texExam.texT = InTip
     texExam.ForeColor = RGB(128, 128, 128)
     If ExamNo >= ExamNoMax Then ExamEnd
     Call ExamNew
@@ -257,7 +257,7 @@ End Sub
 
 Private Sub Form_Load()
     InTip = "请输入所给元素的符号～"
-    texExam.Text = InTip
+    texExam.texT = InTip
     lblTime.Caption = ""
     ExamIf = False
     ExamNo = 0
@@ -279,16 +279,18 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
+
+
 Private Sub texExam_Click()
-    If texExam.Text = InTip Then
-        texExam.Text = ""
+    If texExam.texT = InTip Then
+        texExam.texT = ""
         texExam.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texExam_KeyPress(KeyAscii As Integer)
-    If texExam.Text = InTip Then
-        texExam.Text = ""
+    If texExam.texT = InTip Then
+        texExam.texT = ""
         texExam.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
