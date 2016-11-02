@@ -5,6 +5,9 @@ Public ExamElementNumber As Integer
 Public ExamIf As Boolean
 Public ExamTime As Integer
 
+Public examCorrectNumber As Integer
+Public examIncorrectNumber As Integer
+
 Function ExamAbbr(n As Integer, str As String) As Boolean
     '¶Ô·µ»Øtrue£¬´í·µ»Øfalse
     If UCase(str) = UCase(ElementAbbr(n)) Then

@@ -139,11 +139,12 @@ Private Sub chkAutoLogin_Click()
 End Sub
 
 Private Sub cmdLogin_Click()
+    Me.Hide
     If dataLogin(texUsername, texPassword, chkPassword.Value, chkAutoLogin.Value) = True Then
-        Me.Hide
         frmMain.Show
         If UIFormLoad(Me) Then Me.Hide
     Else
+        Me.Show
         MsgBox "用户名或密码错误！", vbOKOnly, "登陆失败"
     End If
 End Sub
@@ -153,7 +154,6 @@ Private Sub cmdSignUp_Click()
 End Sub
 
 Private Sub Command1_Click()
-    If Not dataSignUp("访客", "user") Then dataRenew
     texUsername = "访客"
     texPassword = "user"
     chkPassword.Value = False

@@ -59,6 +59,24 @@ Begin VB.Form frmExam
       Top             =   3720
       Width           =   1095
    End
+   Begin VB.Label lblScoreAll 
+      BackStyle       =   0  'Transparent
+      Caption         =   "练习模式中"
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   14.25
+         Charset         =   134
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   3240
+      TabIndex        =   10
+      Top             =   2280
+      Width           =   2655
+   End
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5760
@@ -118,8 +136,8 @@ Begin VB.Form frmExam
       Height          =   855
       Left            =   3240
       TabIndex        =   5
-      Top             =   2280
-      Width           =   1815
+      Top             =   2760
+      Width           =   2655
    End
    Begin VB.Label lblCorrect 
       BackStyle       =   0  'Transparent
@@ -184,7 +202,7 @@ Function ExamStart()
     texExam.SetFocus
     texExam.texT = InTip
     texExam.ForeColor = RGB(128, 128, 128)
-    lblScore.Caption = "当前分数为：" & Chr(13) & Chr(10) & Int(ExamScore)
+    lblScore.Caption = "当前分数为：" & Int(ExamScore)
     If ExamTimeIf = True Then
         tmrExam.Enabled = True
         ExamTime = ExamTimeMax
@@ -203,7 +221,7 @@ Function ExamEnd()
     If ExamScore > ExamScoreMax Then
         ExamScoreTime = Now()
         ExamScoreMax = ExamScore
-        dataScoreSave (DataUsername)
+        dataScoreSave (getNickname)
         ExamScoreGet
     End If
     lblScore.Caption = "练习模式中" & Chr(13) & Chr(10) & "上次分数：" & Int(ExamScore)
@@ -229,13 +247,16 @@ Private Sub cmdExam_Click()
     If ExamIf Then ExamNo = ExamNo + 1
     If ExamAbbr(ExamElementNumber, texExam.texT) Then
         lblCorrect.Caption = "恭喜你，答对了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
+        examCorrectNumber = examCorrectNumber + 1
         If ExamIf Then
             ExamScore = ExamScore + 100 / ExamNoMax
-            lblScore.Caption = "当前分数为：" & Chr(13) & Chr(10) & Int(ExamScore)
+            lblScore.Caption = "当前分数为：" & Int(ExamScore)
         End If
     Else
         lblCorrect.Caption = "很遗憾，答错了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
+        examIncorrectNumber = examIncorrectNumber + 1
     End If
+    lblScoreAll = "总战绩：" & examCorrectNumber & "对" & examIncorrectNumber & "错"
     texExam.SetFocus
     texExam.texT = InTip
     texExam.ForeColor = RGB(128, 128, 128)
@@ -258,6 +279,8 @@ End Sub
 Private Sub Form_Load()
     InTip = "请输入所给元素的符号～"
     texExam.texT = InTip
+    lblScoreAll = "总战绩：" & examCorrectNumber & "对" & examIncorrectNumber & "错"
+    lblScore.Caption = "练习模式中"
     lblTime.Caption = ""
     ExamIf = False
     ExamNo = 0
@@ -278,8 +301,6 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
-
-
 
 Private Sub texExam_Click()
     If texExam.texT = InTip Then

@@ -9,6 +9,7 @@ Public DataAdodbRs As ADODB.Recordset
 Public DataUsername As String
 Public DataUseNumber As Integer
 Public DataQQname As String
+Public token As String
 '토零
 Public ExamTimeMax As Integer
 Public ExamNumberMax As Integer
@@ -99,10 +100,10 @@ Public Function dataSettingWrite(x As String, Y As String, z As String)
     Call WritePrivateProfileString(x, Y, z, dataSettingPath)
 End Function
 
-Public Function dataBaseWrite(Username As String, name As String, Value As String)
+Public Function dataBaseWrite(Username As String, Name As String, Value As String)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User] where Username='" & Username & "'"
-           DataAdodbRs(name) = Value
+           DataAdodbRs(Name) = Value
         DataAdodbRs.Update
         Call dataClose
 End Function
@@ -190,10 +191,12 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
     Dim json As String
     If Username = "련와" Then
         json = "{'errorcode':'0'}"
+        dataRenew
     Else
         json = dataHtmlLogin(Username, Password)
     End If
     If JSONParse("errorcode", json) = "0" Then
+        token = JSONParse("token", json)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User]"
         While Not DataAdodbRs.EOF And dataLogin = False
@@ -222,12 +225,14 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
             DataAdodbRs("pKa") = ""
             DataAdodbRs("AB") = "A"
             DataAdodbRs("qqname") = ""
+            DataAdodbRs("CorrectNumber") = 0
+            DataAdodbRs("IncorrectNumber") = 0
             dataLogin = True
         End If
         If Not (JSONParse("elementnumber_limit", json) = "") Then
             DataAdodbRs("NumberMax") = Val(JSONParse("elementnumber_limit", json))
         End If
-        If Not (JSONParse("historyElementNumber", json) = "") Then
+        If Not (JSONParse("historyElement", json) = "") Then
             DataAdodbRs("Element") = Val(JSONParse("historyElement", json))
         End If
         If Not ((JSONParse("historyMass", json) = "")) Then
@@ -239,10 +244,16 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
         If Not ((JSONParse("qqname", json) = "")) Then
             DataAdodbRs("qqname") = JSONParse("qqname", json)
         End If
-        DataAdodbRs.Update
+        If Not ((JSONParse("examCorrectNumber", json) = "")) Then
+            DataAdodbRs("CorrectNumber") = Val(JSONParse("examCorrectNumber", json))
+        End If
+        If Not ((JSONParse("examIncorrectnumber", json) = "")) Then
+            DataAdodbRs("Incorrectnumber") = Val(JSONParse("examIncorrectnumber", json))
+        End If
         DataUseNumber = CStr(DataAdodbRs!UseNumber)
         DataUseNumber = DataUseNumber + 1
         DataAdodbRs("UseNumber") = DataUseNumber
+        DataAdodbRs.Update
         DataUsername = Username
         HisUsername = Username
         Call dataSettingWrite("History", "Username", Username)
@@ -265,6 +276,8 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
         ExamNoMax = CStr(DataAdodbRs!NoMax)
         ExamScoreMax = CStr(DataAdodbRs!ScoreMax)
         ExamScoreTime = CStr(DataAdodbRs!ScoreTime)
+        examCorrectNumber = CStr(DataAdodbRs!CorrectNumber)
+        examIncorrectNumber = CStr(DataAdodbRs!IncorrectNumber)
         HisElement = CStr(DataAdodbRs!Element)
         HisMass = CStr(DataAdodbRs!Mass)
         Hisc = CStr(DataAdodbRs!c)
@@ -336,6 +349,9 @@ Public Function dataRenew() As Boolean
             End If
         End If
     Wend
+    If dataRenew = True Then
+        DataAdodbRs.AddNew
+    End If
     DataAdodbRs("Password") = dataPasswordLock("user")
     DataAdodbRs("UseNumber") = 0
     DataAdodbRs("TimeMax") = 60
@@ -350,6 +366,9 @@ Public Function dataRenew() As Boolean
     DataAdodbRs("pKw") = "14"
     DataAdodbRs("pKa") = ""
     DataAdodbRs("AB") = "A"
+    DataAdodbRs("qqname") = "련와"
+    DataAdodbRs("CorrectNumber") = 0
+    DataAdodbRs("IncorrectNumber") = 0
     DataAdodbRs.Update
     Call dataClose
 End Function
@@ -386,8 +405,8 @@ Public Function getNickname() As String
     End If
 End Function
 
-
-Public Function dataHtmlSignUp(Username As String, Password As String) As String
- strData = getHtmlStr("http://chemapp.njzjz.win/winsignup.php?username=" & Username & "&password=" & Password)
- dataHtmlSignUp = strData
+Public Function dataHtmlChange(Name As String, Value As String) As Double
+ strData = getHtmlStr("http://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value)
+ If JSONParse("errorcode", strData) = "0" Then dataHtmlChange = True Else dataHtmlChange = False
 End Function
+

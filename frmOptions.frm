@@ -95,6 +95,25 @@ Begin VB.Form frmOptions
          TabIndex        =   15
          Top             =   120
          Width           =   4095
+         Begin VB.ComboBox cboNumber 
+            BeginProperty Font 
+               Name            =   "Î¢ÈíÑÅºÚ"
+               Size            =   12
+               Charset         =   134
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   435
+            ItemData        =   "frmOptions.frx":1B692
+            Left            =   1320
+            List            =   "frmOptions.frx":1B6AB
+            TabIndex        =   18
+            Text            =   "86"
+            Top             =   240
+            Width           =   1215
+         End
          Begin VB.TextBox texNo 
             BeginProperty Font 
                Name            =   "Î¢ÈíÑÅºÚ"
@@ -107,26 +126,9 @@ Begin VB.Form frmOptions
             EndProperty
             Height          =   375
             Left            =   1320
-            TabIndex        =   17
+            TabIndex        =   16
             Text            =   "20"
             Top             =   840
-            Width           =   1215
-         End
-         Begin VB.TextBox texNumber 
-            BeginProperty Font 
-               Name            =   "Î¢ÈíÑÅºÚ"
-               Size            =   12
-               Charset         =   134
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   375
-            Left            =   1320
-            TabIndex        =   16
-            Text            =   "100"
-            Top             =   240
             Width           =   1215
          End
          Begin VB.Label lblExamElement 
@@ -143,7 +145,7 @@ Begin VB.Form frmOptions
             EndProperty
             Height          =   975
             Left            =   120
-            TabIndex        =   18
+            TabIndex        =   17
             Top             =   240
             Width           =   3495
          End
@@ -261,7 +263,7 @@ Begin VB.Form frmOptions
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5640
-      Picture         =   "frmOptions.frx":1B692
+      Picture         =   "frmOptions.frx":1B6C4
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -270,7 +272,7 @@ Begin VB.Form frmOptions
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmOptions.frx":1CF8A
+      Picture         =   "frmOptions.frx":1CFBC
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7575
@@ -283,10 +285,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Private Function ReadOptions()
-    texNumber.texT = Trim(str(ExamNumberMax))
+    cboNumber.texT = Trim(str(ExamNumberMax))
     texNo.texT = Trim(str(ExamNoMax))
     texTime.texT = Trim(str(ExamTimeMax))
-    If ExamTimeIf = True Then chkTimeIf.value = 1 Else chkTimeIf.value = 0
+    If ExamTimeIf = True Then chkTimeIf.Value = 1 Else chkTimeIf.Value = 0
     CheckTimeIf
     cmdApply.Enabled = False
 End Function
@@ -294,7 +296,7 @@ End Function
 Private Function WriteOptions() As Boolean
     Dim NumMax As Integer, NoMax As Integer, TimeMax As Integer, ErrorInfo As String
     WriteOptions = False
-    NumMax = Int(Val(texNumber.texT))
+    NumMax = Int(Val(cboNumber.texT))
     NoMax = Int(Val(texNo.texT))
     TimeMax = Int(Val(texTime.texT))
     If Not (NumMax < 119 And NumMax > 0) Then
@@ -313,7 +315,7 @@ Private Function WriteOptions() As Boolean
         ExamNumberMax = NumMax
         ExamNoMax = NoMax
         ExamTimeMax = TimeMax
-        If chkTimeIf.value = 1 Then ExamTimeIf = True Else ExamTimeIf = False
+        If chkTimeIf.Value = 1 Then ExamTimeIf = True Else ExamTimeIf = False
         Call dataSettingSave(DataUsername)
     Else
         MsgBox ErrorInfo
@@ -321,7 +323,7 @@ Private Function WriteOptions() As Boolean
 End Function
 
 Private Function CheckTimeIf()
-    If chkTimeIf.value = 0 Then
+    If chkTimeIf.Value = 0 Then
         texTime.Enabled = False
     Else
         texTime.Enabled = True
@@ -364,6 +366,7 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
+
 
 Private Sub texNo_KeyPress(KeyAscii As Integer)
     cmdApply.Enabled = True

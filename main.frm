@@ -75,6 +75,7 @@ Begin VB.Form frmMain
       Caption         =   "元素查询"
       Height          =   615
       Left            =   720
+      Picture         =   "main.frx":048A
       TabIndex        =   1
       Top             =   2880
       Width           =   1455
@@ -108,7 +109,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   6960
-      Picture         =   "main.frx":048A
+      Picture         =   "main.frx":1BB1C
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -117,7 +118,7 @@ Begin VB.Form frmMain
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "main.frx":1D82
+      Picture         =   "main.frx":1D414
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7575
@@ -182,7 +183,7 @@ Private Sub cmdSignOut_Click()
 End Sub
 
 Private Sub Form_Load()
-    lblWelcome = "欢迎" & getNickname() & "！这是您第" & str(DataUseNumber) & "次使用化学小工具！"
+    lblWelcome = "欢迎" & getNickname() & "第" & str(DataUseNumber) & "次使用化学e+！"
     '托盘
     'Call UIAddIcon
 End Sub
@@ -192,8 +193,13 @@ Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y A
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
+Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    SaveToCloud
+End Sub
+
 Private Sub imgClose_Click()
-    Call UIDelIcon
+    SaveToCloud
+    'Call UIDelIcon
     End
 End Sub
 
@@ -201,3 +207,21 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
+
+Private Function SaveToCloud()
+    Dim frm As Form
+    For Each frm In Forms
+        frm.Hide
+    Next
+    If Not DataUsername = "访客" Then
+        Call dataHtmlChange("examIncorrectnumber", CStr(examIncorrectNumber))
+        Call dataHtmlChange("examCorrectNumber", CStr(examCorrectNumber))
+        Call dataHtmlChange("elementnumber_limit", CStr(ExamNumberMax))
+        Call dataHtmlChange("pKw", CStr(HispKw))
+        Call dataHtmlChange("historyElement", CStr(HisElement))
+        Call dataHtmlChange("historyMass", CStr(HisMass))
+    End If
+End Function
+
+
+

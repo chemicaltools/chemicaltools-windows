@@ -98,7 +98,7 @@ Begin VB.Form frmSignUp
    End
    Begin VB.Label lblUsername 
       BackStyle       =   0  'Transparent
-      Caption         =   "”√ªß√˚"
+      Caption         =   "”    œ‰"
       BeginProperty Font 
          Name            =   "Œ¢»Ì—≈∫⁄"
          Size            =   12
@@ -148,7 +148,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub chkAgree_Click()
-    If chkAgree.value = 0 Then
+    If chkAgree.Value = 0 Then
         cmdSignUp.Enabled = False
     Else
         cmdSignUp.Enabled = True
