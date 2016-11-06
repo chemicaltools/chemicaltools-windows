@@ -248,6 +248,9 @@ Private Sub cmdExam_Click()
     If ExamAbbr(ExamElementNumber, texExam.texT) Then
         lblCorrect.Caption = "恭喜你，答对了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
         examCorrectNumber = examCorrectNumber + 1
+        If Not DataUsername = "访客" Then
+            Call dataHtmlChange("examCorrectNumber", CStr(examCorrectNumber))
+        End If
         If ExamIf Then
             ExamScore = ExamScore + 100 / ExamNoMax
             lblScore.Caption = "当前分数为：" & Int(ExamScore)
@@ -255,6 +258,9 @@ Private Sub cmdExam_Click()
     Else
         lblCorrect.Caption = "很遗憾，答错了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
         examIncorrectNumber = examIncorrectNumber + 1
+        If Not DataUsername = "访客" Then
+            Call dataHtmlChange("examIncorrectnumber", CStr(examIncorrectNumber))
+        End If
     End If
     lblScoreAll = "总战绩：" & examCorrectNumber & "对" & examIncorrectNumber & "错"
     texExam.SetFocus
@@ -302,6 +308,8 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
+
+
 Private Sub texExam_Click()
     If texExam.texT = InTip Then
         texExam.texT = ""
@@ -323,3 +331,4 @@ Private Sub tmrExam_Timer()
         ExamEnd
     End If
 End Sub
+

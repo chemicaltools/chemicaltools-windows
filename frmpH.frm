@@ -216,6 +216,9 @@ Private Sub cmdpH_Click()
     Call dataBaseWrite(DataUsername, "pKa", HispKa)
     Call dataBaseWrite(DataUsername, "pKw", HispKw)
     If HisAB Then Call dataBaseWrite(DataUsername, "AB", "A") Else Call dataBaseWrite(DataUsername, "AB", "B")
+    If Not DataUsername = "·Ã¿Í" Then
+        Call dataHtmlChange("pKw", CStr(HispKw))
+    End If
 End Sub
 
 Private Sub comboAB_click()

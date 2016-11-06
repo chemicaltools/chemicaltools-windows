@@ -35,6 +35,9 @@ Public ElementName(118) As String
 Public ElementAbbr(118) As String
 Public ElementMass(118) As Double
 
+Public xmlhttp As Object
+Public htmlStr As String
+
 Public Function dataOpen(x As Integer)
     Dim path As String
     Set DataAdodbConn = New ADODB.Connection
@@ -188,13 +191,7 @@ End Function
 
 Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As Boolean
     dataLogin = False
-    Dim json As String
-    If Username = "访客" Then
-        json = "{'errorcode':'0'}"
-        dataRenew
-    Else
-        json = dataHtmlLogin(Username, Password)
-    End If
+    json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
     If JSONParse("errorcode", json) = "0" Then
         token = JSONParse("token", json)
         Call dataOpen(2)
@@ -255,21 +252,23 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
         DataAdodbRs("UseNumber") = DataUseNumber
         DataAdodbRs.Update
         DataUsername = Username
-        HisUsername = Username
-        Call dataSettingWrite("History", "Username", Username)
-        If SavingPassword = 1 Then
-            HisPassword = Password
-            Call dataSettingWrite("History", "Password", Password)
-        Else
-            HisPassword = ""
-            Call dataSettingWrite("History", "Password", "")
-        End If
-        If AutoLogin = 1 Then
-            HisAutoLogin = "True"
-            Call dataSettingWrite("History", "AutoLogin", "True")
-        Else
-            HisAutoLogin = "False"
-            Call dataSettingWrite("History", "AutoLogin", "False")
+        If Username <> "访客" Then
+            HisUsername = Username
+            Call dataSettingWrite("History", "Username", Username)
+            If SavingPassword = 1 Then
+                HisPassword = Password
+                Call dataSettingWrite("History", "Password", Password)
+            Else
+                HisPassword = ""
+                Call dataSettingWrite("History", "Password", "")
+            End If
+            If AutoLogin = 1 Then
+                HisAutoLogin = "True"
+                Call dataSettingWrite("History", "AutoLogin", "True")
+            Else
+                HisAutoLogin = "False"
+                Call dataSettingWrite("History", "AutoLogin", "False")
+            End If
         End If
         ExamTimeMax = CStr(DataAdodbRs!TimeMax)
         ExamNumberMax = CStr(DataAdodbRs!NumberMax)
@@ -295,7 +294,17 @@ Public Function dataSignUp(Username As String, Password As String) As Boolean
     If Username = "访客" Then
         json = "{'errorcode':'0'}"
     Else
-        json = dataHtmlLogin(Username, Password)
+        Randomize
+        strUrl = "http://chemapp.njzjz.win/winsignup.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
+        Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
+        xmlhttp.Open "GET", strUrl, False
+        xmlhttp.send
+        If xmlhttp.ReadyState = 4 Then
+            strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
+        Else
+            strData = "{'errorcode':'-1'}"
+        End If
+        json = strData
     End If
     If JSONParse("errorcode", json) = "0" Then
         dataSignUp = True
@@ -373,20 +382,31 @@ Public Function dataRenew() As Boolean
     Call dataClose
 End Function
 
-Public Function getHtmlStr(strUrl As String) As String
-    Dim XmlHttp As Object
-    Set XmlHttp = CreateObject("Msxml2.ServerXMLHTTP.3.0")
-    XmlHttp.Open "GET", strUrl, False
-    XmlHttp.send
-    getHtmlStr = StrConv(XmlHttp.ResponseBody, vbUnicode)
-    Set XmlHttp = Nothing
-End Function
+'Public Function getHtmlStr(strUrl As String) As String
+   ' Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
+   ' xmlhttp.Open "GET", strUrl, False
+   ' xmlhttp.send
+    
+'End Function
 
-Public Function dataHtmlLogin(Username As String, Password As String) As String
- strData = getHtmlStr("http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password)
- dataHtmlLogin = strData
+Public Function dataHtmlLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As String
+    If Username = "访客" Then
+        dataHtmlLogin = "{'errorcode':'0'}"
+        dataRenew
+    Else
+        Randomize
+        strUrl = "http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
+        Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
+        xmlhttp.Open "GET", strUrl, False
+        xmlhttp.send
+        If xmlhttp.ReadyState = 4 Then
+            strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
+            dataHtmlLogin = strData
+        Else
+            dataHtmlLogin = "{'errorcode':'-1'}"
+        End If
+    End If
 End Function
-
 Public Function JSONParse(ByVal JSONPath As String, ByVal JSONString As String) As Variant
     Dim json As Object
     Set json = CreateObject("MSScriptControl.ScriptControl")
@@ -405,8 +425,12 @@ Public Function getNickname() As String
     End If
 End Function
 
-Public Function dataHtmlChange(Name As String, Value As String) As Double
- strData = getHtmlStr("http://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value)
- If JSONParse("errorcode", strData) = "0" Then dataHtmlChange = True Else dataHtmlChange = False
+Public Function dataHtmlChange(Name As String, Value As String)
+    Randomize
+    strUrl = "http://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value & "&t=" & Rnd
+    Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
+ 'If JSONParse("errorcode", strData) = "0" Then dataHtmlChange = True Else dataHtmlChange = False
+    xmlhttp.Open "GET", strUrl, True
+    xmlhttp.send
 End Function
 

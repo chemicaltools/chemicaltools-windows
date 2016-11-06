@@ -75,6 +75,25 @@ Begin VB.Form frmLogin
       Top             =   2640
       Width           =   4575
    End
+   Begin VB.Label lbllogin 
+      BackStyle       =   0  'Transparent
+      Caption         =   "µÇÂ½ÖÐ¡­¡­"
+      BeginProperty Font 
+         Name            =   "Î¢ÈíÑÅºÚ"
+         Size            =   24
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   975
+      Left            =   1440
+      TabIndex        =   9
+      Top             =   2880
+      Visible         =   0   'False
+      Width           =   4575
+   End
    Begin VB.Label lblPassword 
       BackStyle       =   0  'Transparent
       Caption         =   "ÃÜ   Âë"
@@ -134,19 +153,52 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+
 Private Sub chkAutoLogin_Click()
     If chkAutoLogin.Value = 1 And chkPassword.Value <> 1 Then chkPassword.Value = 1
 End Sub
 
 Private Sub cmdLogin_Click()
-    Me.Hide
+    texUsername.Visible = False
+    texPassword.Visible = False
+    lblUsername.Visible = False
+    lblPassword.Visible = False
+    chkPassword.Visible = False
+    chkAutoLogin.Visible = False
+    cmdLogin.Visible = False
+    cmdSignUp.Visible = False
+    Command1.Visible = False
+    lbllogin.Visible = True
     If dataLogin(texUsername, texPassword, chkPassword.Value, chkAutoLogin.Value) = True Then
         frmMain.Show
         If UIFormLoad(Me) Then Me.Hide
+        If First Then
+            Fangke = False
+            First = False
+        Else
+            Dim frm As Form
+            For Each frm In Forms
+                If Not frm Is frmLogin Then
+                    Unload frm
+                    Load frm
+                    frm.Show
+                End If
+            Next
+        End If
     Else
-        Me.Show
         MsgBox "ÓÃ»§Ãû»òÃÜÂë´íÎó£¡", vbOKOnly, "µÇÂ½Ê§°Ü"
     End If
+    texUsername.Visible = True
+    texPassword.Visible = True
+    lblUsername.Visible = True
+    lblPassword.Visible = True
+    chkPassword.Visible = True
+    chkAutoLogin.Visible = True
+    cmdLogin.Visible = True
+    cmdSignUp.Visible = True
+    Command1.Visible = True
+    lbllogin.Visible = False
 End Sub
 
 Private Sub cmdSignUp_Click()
@@ -171,11 +223,16 @@ Private Sub Form_Load()
         If HisAutoLogin = "True" Then
             chkAutoLogin.Value = 1
         End If
-        Me.Show
-        texPassword.SetFocus
-        If HisAutoLogin = "True" Then cmdLogin_Click
-    Else
-        Me.Show
+        If Not First Then
+            Me.Show
+            texPassword.SetFocus
+        End If
+        If First And HisAutoLogin = "True" Then cmdLogin_Click
+    End If
+    If Fangke Then
+        texUsername = "·Ã¿Í"
+        texPassword = "user"
+        Call cmdLogin_Click
     End If
 End Sub
 
@@ -185,7 +242,7 @@ Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y A
 End Sub
 
 Private Sub imgClose_Click()
-    End
+    Unload Me
 End Sub
 
 Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)

@@ -99,6 +99,9 @@ Private Sub cmdMass_Click()
     texMassOut = calMassPerStr(texMassIn.texT)
     HisMass = texMassIn.texT
     Call dataBaseWrite(DataUsername, "Mass", HisMass)
+    If Not DataUsername = "·Ã¿Í" Then
+        Call dataHtmlChange("historyMass", CStr(HisMass))
+    End If
 End Sub
 
 Private Sub Form_Load()

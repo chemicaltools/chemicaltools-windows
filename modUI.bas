@@ -67,3 +67,10 @@ Public Sub UIDelIcon() '将图标从系统托盘区中删除
     sampleTray.uFlags = 0
     Shell_NotifyIcon NIM_DELETE, sampleTray
 End Sub
+
+Public Function RefreshAll(ByRef formp As Form) As Boolean
+     Dim obj As Object
+    For Each obj In formp
+        obj.Refresh
+    Next
+End Function

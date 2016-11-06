@@ -40,6 +40,7 @@ Begin VB.Form frmMain
    End
    Begin VB.CommandButton cmdNewPassword 
       Caption         =   "修改密码"
+      Enabled         =   0   'False
       Height          =   615
       Left            =   720
       TabIndex        =   6
@@ -47,7 +48,7 @@ Begin VB.Form frmMain
       Width           =   1455
    End
    Begin VB.CommandButton cmdSignOut 
-      Caption         =   "注销"
+      Caption         =   "切换用户"
       Height          =   615
       Left            =   2880
       TabIndex        =   5
@@ -174,16 +175,15 @@ Private Sub cmdRelixue_Click()
 End Sub
 
 Private Sub cmdSignOut_Click()
-    dataSignOut
+    'dataSignOut
     If UIFormLoad(frmLogin) Then Unload frmLogin
     Load frmLogin
-    Me.Hide
     frmLogin.Show
-    Unload Me
 End Sub
 
 Private Sub Form_Load()
     lblWelcome = "欢迎" & getNickname() & "第" & str(DataUseNumber) & "次使用化学e+！"
+    If DataUsername = "访客" Then cmdSignOut.Caption = "登陆"
     '托盘
     'Call UIAddIcon
 End Sub
@@ -213,15 +213,15 @@ Private Function SaveToCloud()
     For Each frm In Forms
         frm.Hide
     Next
-    If Not DataUsername = "访客" Then
-        Call dataHtmlChange("examIncorrectnumber", CStr(examIncorrectNumber))
-        Call dataHtmlChange("examCorrectNumber", CStr(examCorrectNumber))
-        Call dataHtmlChange("elementnumber_limit", CStr(ExamNumberMax))
-        Call dataHtmlChange("pKw", CStr(HispKw))
-        Call dataHtmlChange("historyElement", CStr(HisElement))
-        Call dataHtmlChange("historyMass", CStr(HisMass))
-    End If
+
+    'If Not DataUsername = "访客" Then
+    '    Call dataHtmlChange("examIncorrectnumber", CStr(examIncorrectNumber))
+    '    Call dataHtmlChange("examCorrectNumber", CStr(examCorrectNumber))
+    '    Call dataHtmlChange("elementnumber_limit", CStr(ExamNumberMax))
+    '    Call dataHtmlChange("pKw", CStr(HispKw))
+    '    Call dataHtmlChange("historyElement", CStr(HisElement))
+    '    Call dataHtmlChange("historyMass", CStr(HisMass))
+    'End If
+    
 End Function
-
-
 

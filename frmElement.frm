@@ -189,6 +189,9 @@ Private Sub cmdElement_Click()
         Call dataBaseWrite(DataUsername, "Element", HisElement)
     End If
     texElementOut.texT = calElementStr(n)
+    If Not DataUsername = "·Ã¿Í" Then
+        Call dataHtmlChange("historyElement", CStr(HisElement))
+    End If
 End Sub
 
 Private Sub Form_Load()
