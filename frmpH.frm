@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmpH 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "酸碱计算器 Designed by 团队一号"
+   Caption         =   "酸碱计算"
    ClientHeight    =   6060
    ClientLeft      =   0
    ClientTop       =   0
@@ -177,7 +177,7 @@ Begin VB.Form frmpH
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5280
-      Picture         =   "frmpH.frx":1B6D5
+      Picture         =   "frmpH.frx":1B6BF
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -186,7 +186,7 @@ Begin VB.Form frmpH
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmpH.frx":1CFCD
+      Picture         =   "frmpH.frx":1CFB7
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335

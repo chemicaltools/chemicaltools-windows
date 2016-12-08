@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmGas 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "气体计算器 Designed by 团队一号"
+   Caption         =   "气体计算器"
    ClientHeight    =   5505
    ClientLeft      =   0
    ClientTop       =   0

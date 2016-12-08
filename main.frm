@@ -17,7 +17,7 @@ Begin VB.Form frmMain
       Caption         =   "气体计算"
       Height          =   615
       Left            =   2880
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   3720
       Width           =   1455
    End
@@ -25,7 +25,7 @@ Begin VB.Form frmMain
       Caption         =   "热力学计算"
       Height          =   615
       Left            =   720
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   3720
       Width           =   1455
    End
@@ -34,23 +34,14 @@ Begin VB.Form frmMain
       Caption         =   "酸碱计算"
       Height          =   615
       Left            =   5040
-      TabIndex        =   7
-      Top             =   2880
-      Width           =   1455
-   End
-   Begin VB.CommandButton cmdNewPassword 
-      Caption         =   "修改密码"
-      Enabled         =   0   'False
-      Height          =   615
-      Left            =   720
       TabIndex        =   6
-      Top             =   4560
+      Top             =   2880
       Width           =   1455
    End
    Begin VB.CommandButton cmdSignOut 
       Caption         =   "切换用户"
       Height          =   615
-      Left            =   2880
+      Left            =   1680
       TabIndex        =   5
       Top             =   4560
       Width           =   1455
@@ -58,7 +49,7 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdfrmAbout 
       Caption         =   "关于"
       Height          =   615
-      Left            =   5040
+      Left            =   4080
       TabIndex        =   4
       Top             =   4560
       Width           =   1455

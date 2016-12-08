@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmExam 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "元素记忆测试 Designed by 团队一号"
+   Caption         =   "元素记忆测试"
    ClientHeight    =   5970
    ClientLeft      =   0
    ClientTop       =   0

@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmThermodynamics 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "热力学计算器 Designed by 团队一号"
+   Caption         =   "热力学计算器"
    ClientHeight    =   6465
    ClientLeft      =   0
    ClientTop       =   0
@@ -192,7 +192,7 @@ Begin VB.Form frmThermodynamics
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   7920
-      Picture         =   "frmThermodynamics.frx":1B6C1
+      Picture         =   "frmThermodynamics.frx":1B6AB
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -201,7 +201,7 @@ Begin VB.Form frmThermodynamics
       Appearance      =   0  'Flat
       Height          =   2385
       Left            =   -360
-      Picture         =   "frmThermodynamics.frx":1CFB9
+      Picture         =   "frmThermodynamics.frx":1CFA3
       Stretch         =   -1  'True
       Top             =   -120
       Width           =   9735

@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmMass 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "质量计算器 Designed by 团队一号"
+   Caption         =   "质量计算器"
    ClientHeight    =   6240
    ClientLeft      =   0
    ClientTop       =   0
@@ -69,7 +69,7 @@ Begin VB.Form frmMass
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   7320
-      Picture         =   "frmMass.frx":1B6BF
+      Picture         =   "frmMass.frx":1B6A9
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -78,7 +78,7 @@ Begin VB.Form frmMass
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "frmMass.frx":1CFB7
+      Picture         =   "frmMass.frx":1CFA1
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7815

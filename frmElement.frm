@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmElement 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
-   Caption         =   "元素查询器 Designed by 团队一号"
+   Caption         =   "元素查询器"
    ClientHeight    =   5610
    ClientLeft      =   0
    ClientTop       =   0
@@ -68,7 +68,7 @@ Begin VB.Form frmElement
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5280
-      Picture         =   "frmElement.frx":1B6BF
+      Picture         =   "frmElement.frx":1B6A9
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -77,7 +77,7 @@ Begin VB.Form frmElement
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmElement.frx":1CFB7
+      Picture         =   "frmElement.frx":1CFA1
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
