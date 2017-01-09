@@ -188,6 +188,7 @@ Private Sub cmdLogin_Click()
         End If
     Else
         MsgBox "用户名或密码错误！", vbOKOnly, "登陆失败"
+        Me.Show
     End If
     texUsername.Visible = True
     texPassword.Visible = True

@@ -192,7 +192,7 @@ End Function
 Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As Boolean
     dataLogin = False
     json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
-    If JSONParse("errorcode", json) = "0" Then
+    If JSONParse("sessionToken", json) <> "0" Then
         token = JSONParse("token", json)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User]"
@@ -300,11 +300,11 @@ Public Function dataSignUp(Username As String, Password As String) As Boolean
         xmlhttp.Open "GET", strUrl, False
         xmlhttp.send
         If xmlhttp.ReadyState = 4 Then
-            strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
+            StrData = StrConv(xmlhttp.ResponseBody, vbUnicode)
         Else
-            strData = "{'errorcode':'-1'}"
+            StrData = "{'errorcode':'-1'}"
         End If
-        json = strData
+        json = StrData
     End If
     If JSONParse("errorcode", json) = "0" Then
         dataSignUp = True
@@ -394,17 +394,26 @@ Public Function dataHtmlLogin(Username As String, Password As String, SavingPass
         dataHtmlLogin = "{'errorcode':'0'}"
         dataRenew
     Else
+        Dim strUrl
         Randomize
-        strUrl = "http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
-        Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
-        xmlhttp.Open "GET", strUrl, False
-        xmlhttp.send
-        If xmlhttp.ReadyState = 4 Then
-            strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
-            dataHtmlLogin = strData
-        Else
-            dataHtmlLogin = "{'errorcode':'-1'}"
-        End If
+        'strUrl = "http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
+        strUrl = "https://api.leancloud.cn/1.1/login"
+        Set xmlhttp = CreateObject("WinHttp.WinHttpRequest.5.1")
+        xmlhttp.Open "POST", strUrl, True
+        xmlhttp.Option(WinHttpRequestOption_SslErrorIgnoreFlags) = &H3300
+        xmlhttp.SetRequestHeader "Content-Type", "application/json"
+        xmlhttp.SetRequestHeader "X-LC-Id", "wUzGKF5dp34OqCeaI0VwVG8E-gzGzoHsz"
+        xmlhttp.SetRequestHeader "X-LC-Key", "QiyXtJjBHFJCIVYQRbrKFiB7"
+        xmlhttp.send "{""username"":""" & Username & """,""password"":""" & Password & """}"
+        xmlhttp.WaitForResponse
+        'If xmlhttp.ReadyState = 4 Then
+            'strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
+            StrData = xmlhttp.ResponseText
+            dataHtmlLogin = StrData
+        'Else
+        '   dataHtmlLogin = "{'errorcode':'-1'}"
+        'End If
+        'MsgBox StrData
     End If
 End Function
 Public Function JSONParse(ByVal JSONPath As String, ByVal JSONString As String) As Variant
