@@ -67,7 +67,7 @@ Begin VB.Form frmMain
       Caption         =   "ÔªËØ²éÑ¯"
       Height          =   615
       Left            =   720
-      Picture         =   "main.frx":048A
+      Picture         =   "main.frx":1084A
       TabIndex        =   1
       Top             =   2880
       Width           =   1455
@@ -101,7 +101,7 @@ Begin VB.Form frmMain
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   6960
-      Picture         =   "main.frx":1BB1C
+      Picture         =   "main.frx":2BEDC
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -110,7 +110,7 @@ Begin VB.Form frmMain
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   0
-      Picture         =   "main.frx":1D414
+      Picture         =   "main.frx":2D7D4
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7575

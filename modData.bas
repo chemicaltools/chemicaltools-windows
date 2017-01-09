@@ -38,6 +38,8 @@ Public ElementMass(118) As Double
 Public xmlhttp As Object
 Public htmlStr As String
 
+Private Declare Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As Long, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As Long, ByVal lpfnCB As Long) As Long
+
 Public Function dataOpen(x As Integer)
     Dim path As String
     Set DataAdodbConn = New ADODB.Connection
@@ -63,7 +65,7 @@ Public Function dataBasePath(x As Integer) As String
     Else
         spath = App.path + "\mdb\"
     End If
-    If x = 1 Then dataBasePath = spath + "Data.mdb" Else dataBasePath = spath + "User.mdb"
+    If x = 0 Then dataBasePath = spath Else If x = 1 Then dataBasePath = spath + "Data.mdb" Else dataBasePath = spath + "User.mdb"
 End Function
 
 Public Function dataSettingPath() As String
@@ -132,9 +134,31 @@ Public Function dataDir(x As String) As Boolean
 End Function
 
 Public Function dataBaseDir()
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Dim spath As String
+    If Right$(App.path, 1) = "\" Then
+        spath = App.path + "mdb"
+    Else
+        spath = App.path + "\mdb"
+    End If
+    If Not dataDir(spath) Then fso.CreateFolder (spath)
     If dataDir(dataBasePath(1)) = False Or dataDir(dataBasePath(2)) = False Then
-        MsgBox "数据库文件缺失，请联系团队一号！"
-        End
+        If dataDir(dataBasePath(1)) = False Then
+            ret = URLDownloadToFile(0, "http://test-10061032.cos.myqcloud.com/Data.mdb", dataBasePath(1), 0, 0)
+            'MsgBox ret
+            If ret <> 0 Then
+                MsgBox "数据库文件缺失，请连接网络，程序将自动下载！"
+                End
+            End If
+        End If
+        If dataDir(dataBasePath(2)) = False Then
+            ret = URLDownloadToFile(0, "http://test-10061032.cos.myqcloud.com/User.mdb", dataBasePath(2), 0, 0)
+            'MsgBox ret
+            If ret <> 0 Then
+                MsgBox "数据库文件缺失，请连接网络，程序将自动下载！"
+                End
+            End If
+        End If
     End If
 End Function
 
@@ -193,7 +217,7 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
     dataLogin = False
     json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
     If JSONParse("sessionToken", json) <> "0" Then
-        token = JSONParse("token", json)
+        token = JSONParse("sessionToken", json)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User]"
         While Not DataAdodbRs.EOF And dataLogin = False
