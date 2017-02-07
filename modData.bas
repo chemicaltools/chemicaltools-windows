@@ -14,6 +14,7 @@ Public LoginUsername As String
 Public LoginPassword As String
 Public LoginSavingPassword As Integer
 Public LoginAutoLogin As Integer
+Public objectID As String
 '≈‰÷√
 Public ExamTimeMax As Integer
 Public ExamNumberMax As Integer
@@ -34,11 +35,15 @@ Public Hisc As String
 Public HispKa As String
 Public HispKw As String
 Public HisAB As Boolean
+Public HisElementOutput As String
+Public HisMassOutput As String
+Public HisAcidOutput As String
 '‘™Àÿ
 Public ElementName(118) As String
 Public ElementAbbr(118) As String
 Public ElementMass(118) As Double
-
+Public ElementIUPAC(118) As String
+Public ElementOrigin(118) As String
 Public xmlhttp As Object
 Public htmlStr As String
 
@@ -93,6 +98,8 @@ Public Function dataElement()
         If Not IsNull(DataAdodbRs!ElementName) Then ElementName(n) = CStr(DataAdodbRs!ElementName)
         If Not IsNull(DataAdodbRs!ElementAbbr) Then ElementAbbr(n) = CStr(DataAdodbRs!ElementAbbr)
         If Not IsNull(DataAdodbRs!ElementMass) Then ElementMass(n) = CStr(DataAdodbRs!ElementMass)
+        If Not IsNull(DataAdodbRs!Origin) Then ElementOrigin(n) = CStr(DataAdodbRs!Origin)
+        If Not IsNull(DataAdodbRs!iupac) Then ElementIUPAC(n) = CStr(DataAdodbRs!iupac)
         DataAdodbRs.MoveNext
         Wend
     Call dataClose
@@ -222,6 +229,7 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
     'json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
     If JSONParse("sessionToken", json) <> "0" Then
         token = JSONParse("sessionToken", json)
+        objectID = JSONParse("objectId", json)
         Call dataOpen(2)
         DataAdodbRs.Open "select * from [User]"
         While Not DataAdodbRs.EOF And dataLogin = False
@@ -258,7 +266,7 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
             DataAdodbRs("NumberMax") = Val(JSONParse("elementnumber_limit", json))
         End If
         If Not (JSONParse("historyElement", json) = "") Then
-            DataAdodbRs("Element") = Val(JSONParse("historyElement", json))
+            DataAdodbRs("Element") = Val(JSONParse("historyElementNumber", json))
         End If
         If Not ((JSONParse("historyMass", json) = "")) Then
             DataAdodbRs("Mass") = JSONParse("historyMass", json)
@@ -274,6 +282,15 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
         End If
         If Not ((JSONParse("examIncorrectnumber", json) = "")) Then
             DataAdodbRs("Incorrectnumber") = Val(JSONParse("examIncorrectnumber", json))
+        End If
+        If Not ((JSONParse("historyElementOutput", json) = "")) Then
+            DataAdodbRs("ElementOutput") = CutHtml(JSONParse("historyElementOutput", json))
+        End If
+        If Not ((JSONParse("historyMassOutput", json) = "")) Then
+            DataAdodbRs("MassOutput") = CutHtml(JSONParse("historyMassOutput", json))
+        End If
+        If Not ((JSONParse("historyAcidOutput", json) = "")) Then
+            DataAdodbRs("AcidOutput") = CutHtml(JSONParse("historyAcidOutput", json))
         End If
         DataUseNumber = CStr(DataAdodbRs!UseNumber)
         DataUseNumber = DataUseNumber + 1
@@ -311,6 +328,9 @@ Public Function dataLogin(Username As String, Password As String, SavingPassword
         HispKw = CStr(DataAdodbRs!pKw)
         HispKa = CStr(DataAdodbRs!pKa)
         DataQQname = CStr(DataAdodbRs!qqname)
+        HisElementOutput = CStr(DataAdodbRs!ElementOutput)
+        HisMassOutput = CStr(DataAdodbRs!massoutput)
+        HisAcidOutput = CStr(DataAdodbRs!AcidOutput)
         If CStr(DataAdodbRs!AB) = "A" Then HisAB = True Else HisAB = False
         If CStr(DataAdodbRs!TimeIf) = "True" Then ExamTimeIf = True Else ExamTimeIf = False
         Call dataClose
@@ -452,10 +472,31 @@ End Function
 
 Public Function dataHtmlChange(Name As String, Value As String)
     Randomize
-    strUrl = "https://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value & "&t=" & Rnd
-    Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
+    Value = Replace(Value, Chr(10), "\n")
+    'strUrl = "https://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value & "&t=" & Rnd
+    'Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
  'If JSONParse("errorcode", strData) = "0" Then dataHtmlChange = True Else dataHtmlChange = False
-    xmlhttp.Open "GET", strUrl, True
-    xmlhttp.send
+    strUrl = "https://api.leancloud.cn/1.1/users/" & objectID & "?t=" & Rnd
+    Set xmlhttp = CreateObject("WinHttp.WinHttpRequest.5.1")
+    xmlhttp.Open "PUT", strUrl, True
+    xmlhttp.Option(WinHttpRequestOption_SslErrorIgnoreFlags) = &H3300
+    xmlhttp.SetRequestHeader "X-LC-Id", "wUzGKF5dp34OqCeaI0VwVG8E-gzGzoHsz"
+    xmlhttp.SetRequestHeader "X-LC-Key", "QiyXtJjBHFJCIVYQRbrKFiB7"
+    xmlhttp.SetRequestHeader "X-LC-Session", token
+    xmlhttp.SetRequestHeader "Content-Type", "application/json"
+    xmlhttp.send "{""" & Name & """:""" & Value & """}"
+    xmlhttp.waitforresponse
 End Function
 
+Public Function CutHtml(all As String) As String
+    ok = ""
+     S1 = InStr(1, all, "<")
+    While S1 > 0 And S2 < Len(all)
+        ok = ok & Mid(all, S2 + 1, S1 - S2 - 1)
+        S2 = InStr(S1 + 1, all, ">")
+        S1 = InStr(S2 + 1, all, "<")
+    Wend
+    ok = ok & Mid(all, S2 + 1, Len(all) - S2)
+    ok = Replace(ok, Chr(10), Chr(13) & Chr(10))
+    CutHtml = ok
+End Function

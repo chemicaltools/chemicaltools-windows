@@ -86,7 +86,7 @@ Begin VB.Form frmAbout
    End
    Begin VB.Label lblTitle 
       BackStyle       =   0  'Transparent
-      Caption         =   "Chemical Tools"
+      Caption         =   "»¯Ñ§e+"
       BeginProperty Font 
          Name            =   "Î¢ÈíÑÅºÚ"
          Size            =   14.25

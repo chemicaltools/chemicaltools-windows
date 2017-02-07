@@ -205,19 +205,23 @@ Private Sub cmdCopy_Click()
 End Sub
 
 Private Sub cmdpH_Click()
-    Dim AorB As Boolean
+    Dim AorB As Boolean, pHOutHtml As String
     If comboAB = "Ëá" Then AorB = True Else AorB = False
-    texpHOut = calpHOut(texpKa, texc, texpKw, AorB)
+    pHOutHtml = calpHOut(texpKa, texc, texpKw, AorB)
+    texpHOut = CutHtml(pHOutHtml)
     Hisc = texc
     HispKa = texpKa
     HispKw = texpKw
     HisAB = AorB
+    HisAcidOutput = CStr(texpHOut)
     Call dataBaseWrite(DataUsername, "c", Hisc)
     Call dataBaseWrite(DataUsername, "pKa", HispKa)
     Call dataBaseWrite(DataUsername, "pKw", HispKw)
+    Call dataBaseWrite(DataUsername, "AcidOutput", texpHOut)
     If HisAB Then Call dataBaseWrite(DataUsername, "AB", "A") Else Call dataBaseWrite(DataUsername, "AB", "B")
     If Not DataUsername = "·Ã¿Í" Then
         Call dataHtmlChange("pKw", CStr(HispKw))
+        Call dataHtmlChange("historyAcidOutput", CStr(pHOutHtml))
     End If
 End Sub
 
@@ -240,8 +244,9 @@ Private Sub Form_Load()
     texpKa.texT = InTip
     texc.texT = InTipb
     comboAB.ListIndex = 0
-    If Hisc <> "" And HispKa <> "" Then
-        texpHOut = calpHOut(HispKa, Hisc, HispKw, HisAB)
+    texpKw = HispKw
+    If HisAcidOutput <> "" Then
+        texpHOut = HisAcidOutput
     End If
 End Sub
 

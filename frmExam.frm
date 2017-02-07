@@ -308,8 +308,6 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
 
-
-
 Private Sub texExam_Click()
     If texExam.texT = InTip Then
         texExam.texT = ""

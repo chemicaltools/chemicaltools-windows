@@ -34,6 +34,7 @@ Begin VB.Form frmElement
       Left            =   2400
       Locked          =   -1  'True
       MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
       TabIndex        =   6
       Text            =   "frmElement.frx":1B692
       Top             =   2880
@@ -178,7 +179,7 @@ Private Sub cmdCopy_Click()
 End Sub
 
 Private Sub cmdElement_Click()
-    Dim n As Integer
+    Dim n As Integer, ElementOutput As String, ElementOutputHtml As String
     n = calElementChoose(texElementIn.texT)
     If n > 0 Then
         lblElementNumber = n
@@ -188,9 +189,18 @@ Private Sub cmdElement_Click()
         HisElement = texElementIn.texT
         Call dataBaseWrite(DataUsername, "Element", HisElement)
     End If
-    texElementOut.texT = calElementStr(n)
-    If Not DataUsername = "访客" Then
-        Call dataHtmlChange("historyElement", CStr(HisElement))
+    ElementOutput = calElementStr(n)
+    texElementOut = CutHtml(ElementOutput)
+    If n > 0 Then
+        ElementOutputHtml = ElementOutput & Chr(10) & "<a href='https://en.wikipedia.org/wiki/" & ElementIUPAC(n) & "'>访问维基百科</a>"
+        HisElementOutput = texElementOut
+        Call dataBaseWrite(DataUsername, "ElementOutput", HisElementOutput)
+        If Not DataUsername = "访客" And n > 0 Then
+            Call dataHtmlChange("historyElementOutputHtml", CStr(ElementOutputHtml))
+            Call dataHtmlChange("historyElementOutput", CStr(ElementOutput))
+            Call dataHtmlChange("historyElementNumber", CStr(n))
+            Call dataHtmlChange("historyElement", CStr(HisElement))
+        End If
     End If
 End Sub
 
@@ -204,7 +214,9 @@ Private Sub Form_Load()
         lblElementName = ElementName(n)
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
-        texElementOut.texT = calElementStr(n)
+    End If
+    If HisElementOutput <> "" Then
+        texElementOut = HisElementOutput
     End If
 End Sub
 
@@ -235,3 +247,4 @@ Private Sub texElementIn_KeyPress(KeyAscii As Integer)
         texElementIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
+

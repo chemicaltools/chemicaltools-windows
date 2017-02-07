@@ -96,10 +96,15 @@ Private Sub cmdCopy_Click()
 End Sub
 
 Private Sub cmdMass_Click()
-    texMassOut = calMassPerStr(texMassIn.texT)
+    Dim MassOutHtml As String
+    MassOutHtml = calMassPerStr(texMassIn.texT)
+    texMassOut = CutHtml(MassOutHtml)
     HisMass = texMassIn.texT
+    HisMassOutput = texMassOut
     Call dataBaseWrite(DataUsername, "Mass", HisMass)
+    Call dataBaseWrite(DataUsername, "MassOutput", HisMassOutput)
     If Not DataUsername = "访客" Then
+        Call dataHtmlChange("historyMassOutput", CStr(MassOutHtml))
         Call dataHtmlChange("historyMass", CStr(HisMass))
     End If
 End Sub
@@ -107,7 +112,8 @@ End Sub
 Private Sub Form_Load()
     InTip = "请在此处输入物质化学式，例如：K4[Fe(CN)6]"
     texMassIn.texT = InTip
-    If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
+    'If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
+    If HisMassOutput <> "" Then texMassOut = HisMassOutput
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
@@ -123,7 +129,6 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
     ReleaseCapture
     SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&
 End Sub
-
 
 Private Sub texMassIn_Click()
     If texMassIn.texT = InTip Then

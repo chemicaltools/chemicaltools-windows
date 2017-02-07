@@ -317,6 +317,9 @@ Private Function WriteOptions() As Boolean
         ExamTimeMax = TimeMax
         If chkTimeIf.Value = 1 Then ExamTimeIf = True Else ExamTimeIf = False
         Call dataSettingSave(DataUsername)
+        If Not DataUsername = "·Ã¿Í" Then
+            Call dataHtmlChange("elementnumber_limit", CStr(ExamNumberMax))
+        End If
     Else
         MsgBox ErrorInfo
     End If
