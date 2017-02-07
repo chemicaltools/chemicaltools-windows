@@ -13,6 +13,14 @@ Begin VB.Form frmMain
    ScaleHeight     =   5535
    ScaleWidth      =   7425
    StartUpPosition =   1  '所有者中心
+   Begin VB.Timer tmrFangke 
+      Left            =   6480
+      Top             =   5040
+   End
+   Begin VB.Timer tmrLogin 
+      Left            =   6960
+      Top             =   5040
+   End
    Begin VB.CommandButton cmdGas 
       Caption         =   "气体计算"
       Height          =   615
@@ -147,14 +155,6 @@ Private Sub cmdGas_Click()
     frmGas.Show
 End Sub
 
-Private Sub cmdNewPassword_Click()
-    If DataUsername = "访客" Then
-        MsgBox "访客禁止修改密码！", vbOKOnly, "错误"
-    Else
-        FrmChangePassword.Show 1
-    End If
-End Sub
-
 Private Sub cmdpH_Click()
     Load frmpH
     frmpH.Show
@@ -174,8 +174,11 @@ End Sub
 
 Private Sub Form_Load()
     lblWelcome = "欢迎" & getNickname() & "第" & str(DataUseNumber) & "次使用化学e+！"
-    If DataUsername = "访客" Then cmdSignOut.Caption = "登陆"
-    '托盘
+    If DataUsername = "访客" Or DataUsername = "" Then
+        cmdSignOut.Caption = "登陆"
+    Else
+        cmdSignOut.Caption = "切换用户"
+    End If
     'Call UIAddIcon
 End Sub
 
@@ -204,15 +207,39 @@ Private Function SaveToCloud()
     For Each frm In Forms
         frm.Hide
     Next
-
-    'If Not DataUsername = "访客" Then
-    '    Call dataHtmlChange("examIncorrectnumber", CStr(examIncorrectNumber))
-    '    Call dataHtmlChange("examCorrectNumber", CStr(examCorrectNumber))
-    '    Call dataHtmlChange("elementnumber_limit", CStr(ExamNumberMax))
-    '    Call dataHtmlChange("pKw", CStr(HispKw))
-    '    Call dataHtmlChange("historyElement", CStr(HisElement))
-    '    Call dataHtmlChange("historyMass", CStr(HisMass))
-    'End If
-    
 End Function
 
+Private Sub tmrFangke_Timer()
+    Form_Load
+    tmrFangke.Interval = 0
+End Sub
+
+Private Sub tmrLogin_Timer()
+    xmlhttp.WaitForResponse
+    If xmlhttp.Status = 200 Then
+        Dim json As String
+        json = xmlhttp.ResponseText
+        tmrLogin.Interval = 0
+        If dataLogin(LoginUsername, LoginPassword, LoginSavingPassword, LoginAutoLogin, json) Then
+            Form_Load
+            If First Then
+                Fangke = False
+                First = False
+            Else
+                Dim frm As Form
+                For Each frm In Forms
+                    If Not frm Is frmLogin And Not frm Is frmMain Then
+                        Unload frm
+                        Load frm
+                        frm.Show
+                    End If
+                Next
+            End If
+          End If
+    ElseIf xmlhttp.Status = 400 Then
+        tmrLogin.Interval = 0
+        frmLogin.Show
+        MsgBox "用户名或密码错误！", vbOKOnly, "登陆失败"
+        Form_Load
+    End If
+End Sub

@@ -10,6 +10,10 @@ Public DataUsername As String
 Public DataUseNumber As Integer
 Public DataQQname As String
 Public token As String
+Public LoginUsername As String
+Public LoginPassword As String
+Public LoginSavingPassword As Integer
+Public LoginAutoLogin As Integer
 'ÅäÖÃ
 Public ExamTimeMax As Integer
 Public ExamNumberMax As Integer
@@ -213,9 +217,9 @@ Public Function dataHistoryRead()
     End If
 End Function
 
-Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As Boolean
+Public Function dataLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer, json As String) As Boolean
     dataLogin = False
-    json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
+    'json = dataHtmlLogin(Username, Password, SavingPassword, AutoLogin)
     If JSONParse("sessionToken", json) <> "0" Then
         token = JSONParse("sessionToken", json)
         Call dataOpen(2)
@@ -319,7 +323,7 @@ Public Function dataSignUp(Username As String, Password As String) As Boolean
         json = "{'errorcode':'0'}"
     Else
         Randomize
-        strUrl = "http://chemapp.njzjz.win/winsignup.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
+        strUrl = "https://chemapp.njzjz.win/winsignup.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
         Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
         xmlhttp.Open "GET", strUrl, False
         xmlhttp.send
@@ -406,22 +410,18 @@ Public Function dataRenew() As Boolean
     Call dataClose
 End Function
 
-'Public Function getHtmlStr(strUrl As String) As String
-   ' Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
-   ' xmlhttp.Open "GET", strUrl, False
-   ' xmlhttp.send
-    
-'End Function
-
 Public Function dataHtmlLogin(Username As String, Password As String, SavingPassword As Integer, AutoLogin As Integer) As String
+    frmMain.lblWelcome = "µÇÂ½ÖÐ£¬ÇëÉÔºó¡­¡­"
     If Username = "·Ã¿Í" Then
-        dataHtmlLogin = "{'errorcode':'0'}"
+        Dim json As String
+        json = "{'errorcode':'0'}"
         dataRenew
+        Call dataLogin(Username, Password, SavingPassword, AutoLogin, json)
+        frmMain.tmrFangke.Interval = 1
     Else
         Dim strUrl
         Randomize
-        'strUrl = "http://chemapp.njzjz.win/winlogin.php?username=" & Username & "&password=" & Password & "&t=" & Rnd
-        strUrl = "https://api.leancloud.cn/1.1/login"
+        strUrl = "https://api.leancloud.cn/1.1/login" & "?t=" & Rnd
         Set xmlhttp = CreateObject("WinHttp.WinHttpRequest.5.1")
         xmlhttp.Open "POST", strUrl, True
         xmlhttp.Option(WinHttpRequestOption_SslErrorIgnoreFlags) = &H3300
@@ -429,15 +429,7 @@ Public Function dataHtmlLogin(Username As String, Password As String, SavingPass
         xmlhttp.SetRequestHeader "X-LC-Id", "wUzGKF5dp34OqCeaI0VwVG8E-gzGzoHsz"
         xmlhttp.SetRequestHeader "X-LC-Key", "QiyXtJjBHFJCIVYQRbrKFiB7"
         xmlhttp.send "{""username"":""" & Username & """,""password"":""" & Password & """}"
-        xmlhttp.WaitForResponse
-        'If xmlhttp.ReadyState = 4 Then
-            'strData = StrConv(xmlhttp.ResponseBody, vbUnicode)
-            StrData = xmlhttp.ResponseText
-            dataHtmlLogin = StrData
-        'Else
-        '   dataHtmlLogin = "{'errorcode':'-1'}"
-        'End If
-        'MsgBox StrData
+        frmMain.tmrLogin.Interval = 1
     End If
 End Function
 Public Function JSONParse(ByVal JSONPath As String, ByVal JSONString As String) As Variant
@@ -449,7 +441,7 @@ Public Function JSONParse(ByVal JSONPath As String, ByVal JSONString As String) 
 End Function
 
 Public Function getNickname() As String
-    If DataUsername = "·Ã¿Í" Then
+    If DataUsername = "·Ã¿Í" Or DataUsername = "" Then
         getNickname = "·Ã¿Í"
     ElseIf DataQQname <> "" Then
         getNickname = CStr(DataQQname)
@@ -460,7 +452,7 @@ End Function
 
 Public Function dataHtmlChange(Name As String, Value As String)
     Randomize
-    strUrl = "http://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value & "&t=" & Rnd
+    strUrl = "https://chemapp.njzjz.win/winchange.php?token=" & token & "&name=" & Name & "&value=" & Value & "&t=" & Rnd
     Set xmlhttp = CreateObject("Microsoft.XMLHTTP")
  'If JSONParse("errorcode", strData) = "0" Then dataHtmlChange = True Else dataHtmlChange = False
     xmlhttp.Open "GET", strUrl, True
