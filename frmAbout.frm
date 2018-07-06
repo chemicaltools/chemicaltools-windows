@@ -19,15 +19,15 @@ Begin VB.Form frmAbout
    Begin VB.PictureBox picIcon 
       AutoSize        =   -1  'True
       ClipControls    =   0   'False
-      Height          =   780
+      Height          =   540
       Left            =   240
       Picture         =   "frmAbout.frx":1B692
-      ScaleHeight     =   505.68
+      ScaleHeight     =   337.12
       ScaleMode       =   0  'User
-      ScaleWidth      =   505.68
+      ScaleWidth      =   337.12
       TabIndex        =   1
       Top             =   2400
-      Width           =   780
+      Width           =   540
    End
    Begin VB.CommandButton cmdOK 
       Cancel          =   -1  'True
@@ -67,7 +67,7 @@ Begin VB.Form frmAbout
    End
    Begin VB.Label lblDescription 
       BackStyle       =   0  'Transparent
-      Caption         =   $"frmAbout.frx":3C151
+      Caption         =   $"frmAbout.frx":3AD44
       BeginProperty Font 
          Name            =   "Î¢ÈíÑÅºÚ"
          Size            =   9
@@ -86,7 +86,7 @@ Begin VB.Form frmAbout
    End
    Begin VB.Label lblTitle 
       BackStyle       =   0  'Transparent
-      Caption         =   "»¯Ñ§e+"
+      Caption         =   "»¯Ñ§e+Ñ§Ï°Èí¼þ"
       BeginProperty Font 
          Name            =   "Î¢ÈíÑÅºÚ"
          Size            =   14.25

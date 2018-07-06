@@ -261,7 +261,7 @@ Private Sub cmdSignOut_Click()
 End Sub
 
 Private Sub Form_Load()
-    lblWelcome = "欢迎" & getNickname() & "第" & str(DataUseNumber) & "次使用化学e+！"
+    lblWelcome = "欢迎" & getNickname() & "第" & str(DataUseNumber) & "次使用" + App.Title + "！"
     If DataUsername = "访客" Or DataUsername = "" Then
         cmdfrmOpen(6).Caption = "登陆"
     Else

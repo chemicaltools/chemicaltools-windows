@@ -285,9 +285,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Private Function ReadOptions()
-    cboNumber.texT = Trim(str(ExamNumberMax))
-    texNo.texT = Trim(str(ExamNoMax))
-    texTime.texT = Trim(str(ExamTimeMax))
+    cboNumber.Text = Trim(str(ExamNumberMax))
+    texNo.Text = Trim(str(ExamNoMax))
+    texTime.Text = Trim(str(ExamTimeMax))
     If ExamTimeIf = True Then chkTimeIf.Value = 1 Else chkTimeIf.Value = 0
     CheckTimeIf
     cmdApply.Enabled = False
@@ -296,9 +296,9 @@ End Function
 Private Function WriteOptions() As Boolean
     Dim NumMax As Integer, NoMax As Integer, TimeMax As Integer, ErrorInfo As String
     WriteOptions = False
-    NumMax = Int(Val(cboNumber.texT))
-    NoMax = Int(Val(texNo.texT))
-    TimeMax = Int(Val(texTime.texT))
+    NumMax = Int(Val(cboNumber.Text))
+    NoMax = Int(Val(texNo.Text))
+    TimeMax = Int(Val(texTime.Text))
     If Not (NumMax < 119 And NumMax > 0) Then
         WriteOptions = True
         ErrorInfo = "‘™Àÿ∑∂Œß ‰»Î¥ÌŒÛ£°"

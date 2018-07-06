@@ -200,7 +200,7 @@ End Function
 Function ExamStart()
     ExamIf = True
     texExam.SetFocus
-    texExam.texT = InTip
+    texExam.Text = InTip
     texExam.ForeColor = RGB(128, 128, 128)
     lblScore.Caption = "当前分数为：" & Int(ExamScore)
     If ExamTimeIf = True Then
@@ -245,7 +245,7 @@ End Sub
 
 Private Sub cmdExam_Click()
     If ExamIf Then ExamNo = ExamNo + 1
-    If ExamAbbr(ExamElementNumber, texExam.texT) Then
+    If ExamAbbr(ExamElementNumber, texExam.Text) Then
         lblCorrect.Caption = "恭喜你，答对了！" & Chr(13) & Chr(10) & ElementName(ExamElementNumber) & "的符号为：" & ElementAbbr(ExamElementNumber)
         examCorrectNumber = examCorrectNumber + 1
         If Not DataUsername = "访客" Then
@@ -264,7 +264,7 @@ Private Sub cmdExam_Click()
     End If
     lblScoreAll = "总战绩：" & examCorrectNumber & "对" & examIncorrectNumber & "错"
     texExam.SetFocus
-    texExam.texT = InTip
+    texExam.Text = InTip
     texExam.ForeColor = RGB(128, 128, 128)
     If ExamNo >= ExamNoMax Then ExamEnd
     Call ExamNew
@@ -284,7 +284,7 @@ End Sub
 
 Private Sub Form_Load()
     InTip = "请输入所给元素的符号～"
-    texExam.texT = InTip
+    texExam.Text = InTip
     lblScoreAll = "总战绩：" & examCorrectNumber & "对" & examIncorrectNumber & "错"
     lblScore.Caption = "练习模式中"
     lblTime.Caption = ""
@@ -309,15 +309,15 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texExam_Click()
-    If texExam.texT = InTip Then
-        texExam.texT = ""
+    If texExam.Text = InTip Then
+        texExam.Text = ""
         texExam.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texExam_KeyPress(KeyAscii As Integer)
-    If texExam.texT = InTip Then
-        texExam.texT = ""
+    If texExam.Text = InTip Then
+        texExam.Text = ""
         texExam.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

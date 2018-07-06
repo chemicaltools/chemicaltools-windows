@@ -92,14 +92,14 @@ Attribute VB_Exposed = False
 Private InTip As String
 
 Private Sub cmdCopy_Click()
-    UICopy (texMassOut.texT)
+    UICopy (texMassOut.Text)
 End Sub
 
 Private Sub cmdMass_Click()
     Dim MassOutHtml As String
-    MassOutHtml = calMassPerStr(texMassIn.texT)
+    MassOutHtml = calMassPerStr(texMassIn.Text)
     texMassOut = CutHtml(MassOutHtml)
-    HisMass = texMassIn.texT
+    HisMass = texMassIn.Text
     HisMassOutput = texMassOut
     Call dataBaseWrite(DataUsername, "Mass", HisMass)
     Call dataBaseWrite(DataUsername, "MassOutput", HisMassOutput)
@@ -111,7 +111,7 @@ End Sub
 
 Private Sub Form_Load()
     InTip = "请在此处输入物质化学式，例如：K4[Fe(CN)6]"
-    texMassIn.texT = InTip
+    texMassIn.Text = InTip
     'If HisMass <> "" Then texMassOut = calMassPerStr(HisMass)
     If HisMassOutput <> "" Then texMassOut = HisMassOutput
 End Sub
@@ -131,15 +131,15 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texMassIn_Click()
-    If texMassIn.texT = InTip Then
-        texMassIn.texT = ""
+    If texMassIn.Text = InTip Then
+        texMassIn.Text = ""
         texMassIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texMassIn_KeyPress(KeyAscii As Integer)
-    If texMassIn.texT = InTip Then
-        texMassIn.texT = ""
+    If texMassIn.Text = InTip Then
+        texMassIn.Text = ""
         texMassIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub

@@ -226,7 +226,7 @@ Private Sub cmdpH_Click()
     p = Val(texp)
     v = Val(texV)
     n = Val(texn)
-    T = Val(texT)
+    T = Val(Text)
     If opnp Then
         texp = calGasp(v, n, T)
     ElseIf opnV Then
@@ -234,7 +234,7 @@ Private Sub cmdpH_Click()
     ElseIf opnn Then
         texn = calGasn(p, v, T)
     Else
-        texT = calGasT(p, v, n)
+        Text = calGasT(p, v, n)
     End If
 End Sub
 

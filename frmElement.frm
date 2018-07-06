@@ -36,7 +36,7 @@ Begin VB.Form frmElement
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   6
-      Text            =   "frmElement.frx":1B692
+      Text            =   "frmElement.frx":1DDBA
       Top             =   2880
       Width           =   3015
    End
@@ -69,7 +69,7 @@ Begin VB.Form frmElement
    Begin VB.Image imgClose 
       Height          =   450
       Left            =   5280
-      Picture         =   "frmElement.frx":1B6A9
+      Picture         =   "frmElement.frx":1DDD1
       Stretch         =   -1  'True
       Top             =   0
       Width           =   450
@@ -78,7 +78,7 @@ Begin VB.Form frmElement
       Appearance      =   0  'Flat
       Height          =   2145
       Left            =   -600
-      Picture         =   "frmElement.frx":1CFA1
+      Picture         =   "frmElement.frx":1F6C9
       Stretch         =   -1  'True
       Top             =   0
       Width           =   7335
@@ -180,13 +180,13 @@ End Sub
 
 Private Sub cmdElement_Click()
     Dim n As Integer, ElementOutput As String, ElementOutputHtml As String
-    n = calElementChoose(texElementIn.texT)
+    n = calElementChoose(texElementIn.Text)
     If n > 0 Then
         lblElementNumber = n
         lblElementName = ElementName(n)
         lblElementAbbr = ElementAbbr(n)
         lblElementMass = ElementMass(n)
-        HisElement = texElementIn.texT
+        HisElement = texElementIn.Text
         Call dataBaseWrite(DataUsername, "Element", HisElement)
     End If
     ElementOutput = calElementStr(n)
@@ -207,7 +207,7 @@ End Sub
 Private Sub Form_Load()
     Dim n As Integer
     InTip = "请在此处输入元素序号/名称/符号"
-    texElementIn.texT = InTip
+    texElementIn.Text = InTip
     If HisElement <> "" Then
         n = calElementChoose(HisElement)
         lblElementNumber = n
@@ -235,15 +235,15 @@ Private Sub imgTitle_MouseDown(Button As Integer, Shift As Integer, x As Single,
 End Sub
 
 Private Sub texElementIn_Click()
-    If texElementIn.texT = InTip Then
-        texElementIn.texT = ""
+    If texElementIn.Text = InTip Then
+        texElementIn.Text = ""
         texElementIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
 
 Private Sub texElementIn_KeyPress(KeyAscii As Integer)
-    If texElementIn.texT = InTip Then
-        texElementIn.texT = ""
+    If texElementIn.Text = InTip Then
+        texElementIn.Text = ""
         texElementIn.ForeColor = RGB(0, 0, 0)
     End If
 End Sub
